@@ -1,0 +1,6 @@
+# IDE conf
+/.idea
+.buildpath
+.project
+.settings/
+/nbproject
