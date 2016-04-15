@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <title>Michael COULLERET</title>
+    <title>Michael COULLERET Blog</title>
     <subtitle></subtitle>
     <link href="https://20uf.github.io/feed/index.atom" rel="self" />
     <link href="https://20uf.github.io/" />
@@ -11,7 +11,7 @@
                 <id>https://20uf.github.io/2015/12/12/developer-tools.html</id>
                 <updated>2015-12-12T00:00:00+01:00</updated>
         <author>
-            <name>Michael COULLERET</name>
+            <name>20uf</name>
             <email>michael@coulleret.pro</email>
         </author>
         <link rel="alternate" type="text/html" href="https://20uf.github.io/2015/12/12/developer-tools.html"/>
@@ -43,16 +43,5 @@
 <ul><li>[Symfony] (<a href="https://symfony.com/">https://symfony.com/</a>) est un ensemble de composant formant un framework PHP</li>
 <li>[Yeoman] (<a href="http://yeoman.io/">http://yeoman.io/</a>) est un composant qui va exécuter des générateurs</li>
 </ul>]]></content>
-    </entry>
-        <entry>
-        <title>Your title</title>
-                <id>https://20uf.github.io/2013/09/14/your-title.html</id>
-                <updated>2013-09-14T00:00:00+02:00</updated>
-        <author>
-            <name>Michael COULLERET</name>
-            <email>michael@coulleret.pro</email>
-        </author>
-        <link rel="alternate" type="text/html" href="https://20uf.github.io/2013/09/14/your-title.html"/>
-        <content type="html" xml:lang="en"><![CDATA[]]></content>
     </entry>
     </feed>

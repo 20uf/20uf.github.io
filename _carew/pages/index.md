@@ -1,5 +1,5 @@
 ---
-title: Michael COULLERET
+title: Blog
 subtitle: The world is open source !
 navigations: main
 ---
