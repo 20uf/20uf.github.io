@@ -1,16 +1,9 @@
 ---
-title: Welcome
-subtitle: to your new blog
+title: Michael COULLERET
+subtitle: The world is open source !
 navigations: main
 ---
 
-## Posts
+## Tous les billets
 
 {{ render_documents(paginate(carew.posts|reverse)) }}
-
-## Pages
-
-{{ render_documents(paginate(carew.pages)) }}
-
-
-Or you can {{ link('tags', 'browse all tags') }}.
