@@ -10,6 +10,6 @@ Je m'appelle Michael COULLERET, je suis Développeur Web et PHP ZCPE, je pratiqu
 
 Le code propre qui respecte les bests pratices est mon idéal, je pense qu'avant toute chose il est important que son code soit lisible et compréhensible par n'importe qui, tout comme l'ouverture aux critiques constructives et l'écoute est une étape primordiale pour une évolution quotidienne.
 
-* Mon site professionnel [my slideshare account](http://www.slideshare.net/jpauli/).
+* Mon site professionnel [my slideshare account](http://www.coulleret.pro).
 * Vous pouvez me joindre sur twitter [@Mike20uf](https://twitter.com/Mike20uf)
 * Pour github, visitez [https://github.com/20uf](https://github.com/20uf)
