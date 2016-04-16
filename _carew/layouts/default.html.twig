@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="{% block description carew.document.metadatas.description|default(carew.site.description|default('')) %}">
+        <meta name="author" content="{{ carew.document.author_name|default(carew.site.author_name|default('')) }}">
+
+        <title>{% block title carew.document.title|default(carew.site.title|default('')) %}</title>
+
+        <link href="{{ carew.relativeRoot }}/css/bootstrap2.min.css" rel="stylesheet">
+        <link href="{{ carew.relativeRoot }}/css/theme.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link href="https://file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
+        <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+    {% block content %}
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#page-top">Michael COULLERET</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="https://www.coulleret.pro">Qui suis-je ?</a>
+                        </li>
+                        {% block content_header %}
+                            {% if carew.navigations.main is defined %}
+                                {% for document in carew.navigations.main %}
+                                    <li{% if document.path == carew.currentPath %} class="active"{% endif %}>
+                                        <a href="{{ render_document_path(document) }}">
+                                            {{ render_document_title(document) }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endblock %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        {% block content_container %}
+        <section class="content">
+                <div class="container">
+            {% block content_title %}
+                {% if carew.document.title is defined and carew.document.title %}
+                    <h1>
+                        {%- if carew.document.metadatas.subtitle is defined %}
+                            <small>{{ carew.document.metadatas.subtitle }}</small>
+                        {% endif -%}
+                    </h1>
+                {% endif %}
+            {% endblock %}
+
+            {% block content_main carew.document.body|default('')|raw %}
+        </section>
+        {% endblock %}
+
+
+        {% block content_footer %}
+        <footer>
+            <p class="text-center">
+                &copy;
+                {% if carew.site.author_name %}
+                    <a href="{{ carew.site.author_url|default('')}}">
+                        {{ carew.site.author_name }}
+                    </a>
+                {% endif %}
+                {{ "now"|date("Y") }}
+                <small>
+                    - Propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a>
+                </small>
+            </p>
+        </footer>
+        {% endblock %}
+
+
+    {% endblock %}
+    </body>
+</html>

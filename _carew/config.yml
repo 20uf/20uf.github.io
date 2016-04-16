@@ -1,11 +1,11 @@
 site:
     title:        Michael COULLERET Blog
     description:
-    author_name:  20uf
+    author_name:  Michael COULLERET aka 20uf
     author_email: michael@coulleret.pro
     author_url:   https://www.coulleret.pro
     url_absolute: https://20uf.github.io
 
 engine:
     themes:
-        - %dir%/vendor/carew/theme-bootstrap
+        - '%dir%/vendor/carew/theme-bootstrap'
