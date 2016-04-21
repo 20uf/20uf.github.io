@@ -40,11 +40,11 @@ Allez dans File > Settings > Languages & Frameworks > PHP > Code Sniffer
 
 Indiquez dans l'executable phpcs puis validez !
 
-![CodeSniffer](./img/1_phpstorm_codesniffer.png)
+![CodeSniffer](/img/1_phpstorm_codesniffer.png)
 
 Dernier point à finaliser, l'inspection:
 File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer validation
   
 Activez le et mettez la sévérité forte.
 
-![Inspection](./img/2_phpstorm_setting_inspections.png)
+![Inspection](/img/2_phpstorm_setting_inspections.png)
