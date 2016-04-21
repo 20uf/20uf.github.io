@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Michael COULLERET Blog</title>
+    <subtitle></subtitle>
+    <link href="https://20uf.github.io/feed/index.atom" rel="self" />
+    <link href="https://20uf.github.io/" />
+        <id>https://20uf.github.io/</id>
+            <updated>2016-04-21T00:00:00+02:00</updated>
+            <entry>
+        <title>Le coding standard Symfony2 avec CodeSniffer et PHPStorm</title>
+                <id>https://20uf.github.io/2016/04/21/Coding-standard-phpstorm.html</id>
+                <updated>2016-04-21T00:00:00+02:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/04/21/Coding-standard-phpstorm.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="un-point-important-concernant-la-qualite-de-code">Un point important concernant la qualité de code<a href="#un-point-important-concernant-la-qualite-de-code" class="anchor">#</a></h2>
+<p>Pour s'assurer de la normalisation des projets, l'installation d'outil comme PHP <a href="http://pear.php.net/package/PHP_CodeSniffer">PHP_CodeSniffer</a> facilite le respect des conventions de codage.</p>
+<pre><code>pear install PHP_CodeSniffer</code></pre>
+<p>CodeSniffer inclut 8 standards par defaut: PSR2, Squiz, Zend, MySource, PHPCS, PSR1 and PEAR.
+Nous allons ajouter le standard de Symfony2.</p>
+<p>Le standart doit maintenant exister dans la liste:</p>
+<pre><code>phpcs -i</code></pre>
+<p>Nous pouvons en définir un par défaut:</p>
+<pre><code>phpcs --config-set default_standard Symfony2</code></pre>
+<p>Pour l'utiliser il suffit à de se rendre dans un de nos projets Symfony2 et de taper la commande suivante :</p>
+<pre><code>phpcs src/</code></pre>
+<h2 id="configuration-dans-phpstorm">Configuration dans PHPStorm<a href="#configuration-dans-phpstorm" class="anchor">#</a></h2>
+<p>Allez dans File > Settings > Languages & Frameworks > PHP > Code Sniffer  </p>
+<p>Indiquez dans l'executable phpcs puis validez !</p>
+<p><img src="./img/1_phpstorm_codesniffer.png" alt="CodeSniffer"></p>
+<p>Dernier point à finaliser, l'inspection:
+File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer validation</p>
+<p>Activez le et mettez la sévérité forte.</p>
+<p><img src="./img/2_phpstorm_setting_inspections.png" alt="Inspection"></p>]]></content>
+    </entry>
+        <entry>
+        <title>Les outils indispensables d&#039;un développeur</title>
+                <id>https://20uf.github.io/2015/12/12/developer-tools.html</id>
+                <updated>2015-12-12T00:00:00+01:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2015/12/12/developer-tools.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="quels-sont-les-outils-indispensables-d-un-developpeur">Quels sont les outils indispensables d'un développeur<a href="#quels-sont-les-outils-indispensables-d-un-developpeur" class="anchor">#</a></h2>
+<p>En tant que développeur, on doit s'assurer de disposer sur son poste de travail des outils suivants :</p>
+<ul><li>
+<p>PHP</p>
+<ul><li><a href="https://getcomposer.org/">Composer</a> pour gérer les dépendances</li>
+<li><a href="http://www.phpunit.de">PHPUnit</a> pour écrire mes tests unitaires</li>
+<li><a href="http://www.behat.org">Behat</a> pour écrire mes tests fonctionnels</li>
+<li><a href="http://www.phpmetrics.org">PhpMetrics</a> pour vérifier la qualité de mon code</li>
+<li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP Code Sniffer</a> pour regarder si je respecte bien les conventions de code</li>
+</ul></li>
+<li>
+<p>JavaScript</p>
+<ul><li><a href="http://jasmine.github.io">Jasmine</a></li>
+<li><a href="http://jasmine.github.io">Jasmine Species</a> et <a href="http://www.behat.org">Behat</a> pour écrire mes tests fonctionnels</li>
+<li><a href="https://github.com/es-analysis/plato">Plato</a> pour vérifier la qualité de mon code</li>
+<li><a href="http://www.jslint.com/">JSLint</a> pour regarder si je respecte bien les conventions de code</li>
+<li><a href="https://nodejs.org/">NodeJs</a> est une plateforme de développement Javascript</li>
+<li><a href="http://bower.io/">Bower</a> pour gérer les librairies</li>
+<li><a href="http://gruntjs.com/">GruntJs</a> est un gestionnaire de tâches (automatisation)</li>
+</ul></li>
+<li>Css
+<ul><li><a href="http://sass-lang.com/">Sass</a> est un préprocesseur css</li>
+<li><a href="http://compass-style.org/">Compass</a> est un framework css</li>
+</ul></li>
+</ul><p>Les projects incontournables:</p>
+<ul><li><a href="https://symfony.com/">Symfony</a> est un ensemble de composant formant un framework PHP</li>
+<li><a href="http://yeoman.io/">Yeoman</a> est un composant qui va exécuter des générateurs</li>
+</ul>]]></content>
+    </entry>
+    </feed>
