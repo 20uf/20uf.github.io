@@ -17,13 +17,15 @@
         <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/04/21/Coding-standard-phpstorm.html"/>
         <content type="html" xml:lang="en"><![CDATA[<h2 id="un-point-important-concernant-la-qualite-de-code">Un point important concernant la qualité de code<a href="#un-point-important-concernant-la-qualite-de-code" class="anchor">#</a></h2>
 <p>Pour s'assurer de la normalisation des projets, l'installation d'outil comme PHP <a href="http://pear.php.net/package/PHP_CodeSniffer">PHP_CodeSniffer</a> facilite le respect des conventions de codage.</p>
-<pre><code>pear install PHP_CodeSniffer</code></pre>
+<pre><code>sudo pear install PHP_CodeSniffer</code></pre>
 <p>CodeSniffer inclut 8 standards par defaut: PSR2, Squiz, Zend, MySource, PHPCS, PSR1 and PEAR.
 Nous allons ajouter le standard de Symfony2.</p>
+<pre><code>git clone git://github.com/escapestudios/Symfony2-coding-standard.git /tmp/Symfony2-coding-standard
+sudo cp -r /tmp/Symfony2-coding-standard/Symfony2 /usr/share/php/PHP/CodeSniffer/Standards/</code></pre>
 <p>Le standart doit maintenant exister dans la liste:</p>
 <pre><code>phpcs -i</code></pre>
 <p>Nous pouvons en définir un par défaut:</p>
-<pre><code>phpcs --config-set default_standard Symfony2</code></pre>
+<pre><code>sudo phpcs --config-set default_standard Symfony2</code></pre>
 <p>Pour l'utiliser il suffit à de se rendre dans un de nos projets Symfony2 et de taper la commande suivante :</p>
 <pre><code>phpcs src/</code></pre>
 <h2 id="configuration-dans-phpstorm">Configuration dans PHPStorm<a href="#configuration-dans-phpstorm" class="anchor">#</a></h2>
