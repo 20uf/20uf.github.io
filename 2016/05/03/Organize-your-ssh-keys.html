@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="Michael COULLERET aka 20uf">
 
-        <title>Tags</title>
+        <title>Se simplifier la vie avec vos clefs ssh</title>
 
         <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
         <link href="/css/theme.css" rel="stylesheet">
@@ -38,7 +38,7 @@
                             <a href="https://www.coulleret.pro">Qui suis-je ?</a>
                         </li>
                                                                                                                         <li>
-                                        <a href="../index.html">
+                                        <a href="../../../index.html">
                                             Blog
                                         </a>
                                     </li>
@@ -51,24 +51,71 @@
                 <div class="container">
                                                 <h1></h1>
                             
-            <p><ul class="unstyled" style="padding-left:30px"><li class=""><h5><a href="../tags/outils.html"><i class="icon-book"></i>
-                                Tag #outils
-                                                                        </a></h5></li><li class=""><h5><a href="../tags/developpeur.html"><i class="icon-book"></i>
-                                Tag #développeur
-                                                                        </a></h5></li><li class=""><h5><a href="../tags/symfony2.html"><i class="icon-book"></i>
-                                Tag #symfony2
-                                                                        </a></h5></li><li class=""><h5><a href="../tags/coding-standard.html"><i class="icon-book"></i>
-                                Tag #coding standard
-                                                                        </a></h5></li><li class=""><h5><a href="../tags/codesniffer.html"><i class="icon-book"></i>
-                                Tag #codesniffer
-                                                                        </a></h5></li><li class=""><h5><a href="../tags/ssh.html"><i class="icon-book"></i>
-                                Tag #ssh
-                                                                        </a></h5></li><li class=""><h5><a href="../tags/debian.html"><i class="icon-book"></i>
-                                Tag #debian
-                                                                        </a></h5></li></ul></p>        </section>
+              <article>
+    <p class="text-muted">
+      <span class="glyphicon glyphicon-calendar"></span>
+      May 3rd, 2016
+    </p>
+
+    <div class="body">
+      <h2 id="organisez-vos-clefs-ssh">Organisez vos clefs ssh<a href="#organisez-vos-clefs-ssh" class="anchor">#</a></h2>
+<p>Une astuce pour se simplifier la vie avec vos clefs ssh, creez un fichier dans la dossier .ssh :</p>
+<pre><code>vim ~/.ssh/config</code></pre>
+<p>Créez une configuration differentes pour chaque serveurs ssh:</p>
+<pre><code>Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa
+
+Host gitlab.domain.fr
+    HostName gitlab.domain.fr
+    User git
+    IdentityFile ~/.ssh/id_other_rsa</code></pre>
+<p>Et le tour est joué !</p>
+<h4 id="quelques-options">Quelques options:<a href="#quelques-options" class="anchor">#</a></h4>
+<table><thead><tr><th>commande</th>
+<th style="text-align: center;">paramètre</th>
+<th style="text-align: left;">description</th>
+</tr></thead><tbody><tr><td>hote</td>
+<td style="text-align: center;">hostname/ip</td>
+<td style="text-align: left;">adresse de la machine</td>
+</tr><tr><td>RSAAuthentication</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">authentification RSA, clé publique/privé généré avec "ssh-keygen"</td>
+</tr><tr><td>PubKeyAuthentication</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">s'authentifier avec une clé public</td>
+</tr><tr><td>PasswordAuthentication</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">autorise l'authentification de base avec mot de passe (a pas confondre avec passphrase)</td>
+</tr><tr><td>CheckHostIP</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">Verifie l'IP host n'est pas une usurpation DNS</td>
+</tr><tr><td>IdentityFile</td>
+<td style="text-align: center;">~/.ssh/id_dsa</td>
+<td style="text-align: left;">défini la clé privé a utiliser pour s'authentifier</td>
+</tr><tr><td>User</td>
+<td style="text-align: center;">user</td>
+<td style="text-align: left;">compte à utiliser pour l'identification</td>
+</tr><tr><td>Port</td>
+<td style="text-align: center;">port</td>
+<td style="text-align: left;">numéro de port à utiliser</td>
+</tr><tr><td>HashKnownHosts</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">Permet d'avoir un fichier known_hosts plus lisible</td>
+</tr></tbody></table>
+    </div>
+
+          <hr>
+      <h4><span class="glyphicon glyphicon-tags"></span>&nbsp;
+                    <a href="../../../tags/ssh.html"><span class="label label-primary">Ssh</span></a>
+                    <a href="../../../tags/debian.html"><span class="label label-primary">Debian</span></a>
+              </h4>
+      </article>
+        </section>
         
 
-                <footer>
+                        <footer>
             <p class="text-center">
                 &copy;
                                     <a href="https://www.coulleret.pro">
@@ -81,6 +128,7 @@
             </p>
         </footer>
         
+
 
         </body>
 </html>

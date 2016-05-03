@@ -1,52 +1,42 @@
 ---
-title:  Le coding standard Symfony2 avec CodeSniffer et PHPStorm
+title:  Se simplifier la vie avec vos clefs ssh
 layout: post
 tags:
-    - outils
-    - développeur
-    - Symfony2
-    - Coding standard
-    - CodeSniffer
+    - ssh
+    - debian
 ---
 
-Un point important concernant la qualité de code
-------------------------------------------------
+Organisez vos clefs ssh
+-----------------------
 
-Pour s'assurer de la normalisation des projets, l'installation d'outil comme PHP [PHP_CodeSniffer](http://pear.php.net/package/PHP_CodeSniffer) facilite le respect des conventions de codage.
+Une astuce pour se simplifier la vie avec vos clefs ssh, creez un fichier dans la dossier .ssh :
 
-    sudo pear install PHP_CodeSniffer
+    vim ~/.ssh/config
 
-CodeSniffer inclut 8 standards par defaut: PSR2, Squiz, Zend, MySource, PHPCS, PSR1 and PEAR.
-Nous allons ajouter le standard de Symfony2.
+Créez une configuration differentes pour chaque serveurs ssh:
 
-    git clone git://github.com/escapestudios/Symfony2-coding-standard.git /tmp/Symfony2-coding-standard
-    sudo cp -r /tmp/Symfony2-coding-standard/Symfony2 /usr/share/php/PHP/CodeSniffer/Standards/
+    Host github.com
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/id_rsa
 
-Le standart doit maintenant exister dans la liste:
+    Host gitlab.domain.fr
+        HostName gitlab.domain.fr
+        User git
+        IdentityFile ~/.ssh/id_other_rsa
 
-    phpcs -i
+Et le tour est joué !
 
-Nous pouvons en définir un par défaut:
-
-    sudo phpcs --config-set default_standard Symfony2
-
-Pour l'utiliser il suffit à de se rendre dans un de nos projets Symfony2 et de taper la commande suivante :
-
-    phpcs src/
-
-
-Configuration dans PHPStorm
----------------------------
-
-Allez dans File > Settings > Languages & Frameworks > PHP > Code Sniffer  
-
-Indiquez dans l'executable phpcs puis validez !
-
-![CodeSniffer](/img/1_phpstorm_codesniffer.png)
-
-Dernier point à finaliser, l'inspection:
-File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer validation
-  
-Activez le et mettez la sévérité forte.
-
-![Inspection](/img/2_phpstorm_setting_inspections.png)
+#### Quelques options:
+   
+| commande   |      paramètre      | description |
+|----------|:-------------:|:------|
+| hote |  hostname/ip | adresse de la machine |
+| RSAAuthentication  | yes/no | authentification RSA, clé publique/privé généré avec "ssh-keygen"
+| PubKeyAuthentication | yes/no | s'authentifier avec une clé public |
+| PasswordAuthentication | yes/no | autorise l'authentification de base avec mot de passe (a pas confondre avec passphrase) |
+| CheckHostIP | yes/no | Verifie l'IP host n'est pas une usurpation DNS |
+| IdentityFile | ~/.ssh/id_dsa | défini la clé privé a utiliser pour s'authentifier |
+| User | user | compte à utiliser pour l'identification |
+| Port | port | numéro de port à utiliser |
+| HashKnownHosts | yes/no | Permet d'avoir un fichier known_hosts plus lisible |

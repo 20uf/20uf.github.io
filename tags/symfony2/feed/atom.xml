@@ -5,8 +5,64 @@
     <link href="https://20uf.github.io/feed/index.atom" rel="self" />
     <link href="https://20uf.github.io/" />
         <id>https://20uf.github.io/</id>
-            <updated>2016-04-21T00:00:00+02:00</updated>
+            <updated>2016-05-03T00:00:00+02:00</updated>
             <entry>
+        <title>Se simplifier la vie avec vos clefs ssh</title>
+                <id>https://20uf.github.io/2016/05/03/Organize-your-ssh-keys.html</id>
+                <updated>2016-05-03T00:00:00+02:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/05/03/Organize-your-ssh-keys.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="organisez-vos-clefs-ssh">Organisez vos clefs ssh<a href="#organisez-vos-clefs-ssh" class="anchor">#</a></h2>
+<p>Une astuce pour se simplifier la vie avec vos clefs ssh, creez un fichier dans la dossier .ssh :</p>
+<pre><code>vim ~/.ssh/config</code></pre>
+<p>Créez une configuration differentes pour chaque serveurs ssh:</p>
+<pre><code>Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa
+
+Host gitlab.domain.fr
+    HostName gitlab.domain.fr
+    User git
+    IdentityFile ~/.ssh/id_other_rsa</code></pre>
+<p>Et le tour est joué !</p>
+<h4 id="quelques-options">Quelques options:<a href="#quelques-options" class="anchor">#</a></h4>
+<table><thead><tr><th>commande</th>
+<th style="text-align: center;">paramètre</th>
+<th style="text-align: left;">description</th>
+</tr></thead><tbody><tr><td>hote</td>
+<td style="text-align: center;">hostname/ip</td>
+<td style="text-align: left;">adresse de la machine</td>
+</tr><tr><td>RSAAuthentication</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">authentification RSA, clé publique/privé généré avec "ssh-keygen"</td>
+</tr><tr><td>PubKeyAuthentication</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">s'authentifier avec une clé public</td>
+</tr><tr><td>PasswordAuthentication</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">autorise l'authentification de base avec mot de passe (a pas confondre avec passphrase)</td>
+</tr><tr><td>CheckHostIP</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">Verifie l'IP host n'est pas une usurpation DNS</td>
+</tr><tr><td>IdentityFile</td>
+<td style="text-align: center;">~/.ssh/id_dsa</td>
+<td style="text-align: left;">défini la clé privé a utiliser pour s'authentifier</td>
+</tr><tr><td>User</td>
+<td style="text-align: center;">user</td>
+<td style="text-align: left;">compte à utiliser pour l'identification</td>
+</tr><tr><td>Port</td>
+<td style="text-align: center;">port</td>
+<td style="text-align: left;">numéro de port à utiliser</td>
+</tr><tr><td>HashKnownHosts</td>
+<td style="text-align: center;">yes/no</td>
+<td style="text-align: left;">Permet d'avoir un fichier known_hosts plus lisible</td>
+</tr></tbody></table>]]></content>
+    </entry>
+        <entry>
         <title>Le coding standard Symfony2 avec CodeSniffer et PHPStorm</title>
                 <id>https://20uf.github.io/2016/04/21/Coding-standard-phpstorm.html</id>
                 <updated>2016-04-21T00:00:00+02:00</updated>
