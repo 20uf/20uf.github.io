@@ -30,9 +30,9 @@ Host gitlab.domain.fr
     IdentityFile ~/.ssh/id_other_rsa</code></pre>
 <p>Et le tour est joué !</p>
 <h4 id="quelques-options">Quelques options:<a href="#quelques-options" class="anchor">#</a></h4>
-<table><thead><tr><th style="text-align: left;">commande</th>
-<th style="text-align: center;">paramètre</th>
-<th style="text-align: right;">description</th>
+<table><thead><tr><th style="text-align: left;">Commande</th>
+<th style="text-align: center;">Paramètre</th>
+<th style="text-align: right;">Description</th>
 </tr></thead><tbody><tr><td style="text-align: left;"><code>hote</code></td>
 <td style="text-align: center;">hostname/ip</td>
 <td style="text-align: right;">adresse de la machine</td>
@@ -44,7 +44,7 @@ Host gitlab.domain.fr
 <td style="text-align: right;">s'authentifier avec une clé public</td>
 </tr><tr><td style="text-align: left;"><code>PasswordAuthentication</code></td>
 <td style="text-align: center;">yes/no</td>
-<td style="text-align: right;">autorise l'authentification de base avec mot de passe (a pas confondre avec passphrase)</td>
+<td style="text-align: right;">authentification avec mot de passe (a pas confondre avec passphrase)</td>
 </tr><tr><td style="text-align: left;"><code>CheckHostIP</code></td>
 <td style="text-align: center;">yes/no</td>
 <td style="text-align: right;">Verifie l'IP host n'est pas une usurpation DNS</td>
