@@ -16,6 +16,38 @@
         </author>
         <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/05/03/Organize-your-ssh-keys.html"/>
         <content type="html" xml:lang="en"><![CDATA[<h2 id="organisez-vos-clefs-ssh">Organisez vos clefs ssh<a href="#organisez-vos-clefs-ssh" class="anchor">#</a></h2>
+<h4 id="generer-une-cle-privee-et-une-cle-publique">Générer une clé privée et une clé publique<a href="#generer-une-cle-privee-et-une-cle-publique" class="anchor">#</a></h4>
+<p>Une clé SSH vous permet d'établir une connexion sécurisée entre votre ordinateur et un serveur.</p>
+<p>Pour générer une nouvelle clé SSH, utilisez la commande suivante:</p>
+<pre><code>ssh-keygen -t rsa -C "votre@email.com"</code></pre>
+<p>Cette commande vous demandera un emplacement et un nom pour stocker la paire de clés et un mot de passe.
+Je conseille d'utiliser l'emplacement par defaut correspondant et de nommer votre clé selon son utilité, par exemple pour github </p>
+<pre><code>~/.ssh/id_github</code></pre>
+<p>Une seconde question vous demande un passphrase, il est fortement recommandé d'en utiliser un</p>
+<pre><code>Enter passphrase (empty for no passphrase): **************</code></pre>
+<p>Vous devriez avoir un retour de ce type:</p>
+<pre><code>Your identification has been saved in /home/demo/.ssh/id_rsa.
+Your public key has been saved in /home/demo/.ssh/id_rsa.pub.
+The key fingerprint is:
+4a:dd:0a:c6:35:4e:3f:ed:27:38:8c:74:44:4d:93:67 demo@a
+The key's randomart image is:
++--[ RSA 2048]----+
+|          .oo.   |
+|         .  o.E  |
+|        + .  o   |
+|     . = = .     |
+|      = S = .    |
+|     o + = +     |
+|      . o + o .  |
+|           . o   |
+|                 |
++-----------------+</code></pre>
+<p>Votre clé est maintenant générée et prête à defaut utilisée.</p>
+<p>Si vous souhaitez copier votre clé sur un serveur distant, vous pouvez procéder ainsi:</p>
+<pre><code>cat ~/.ssh/id_rsa.pub | ssh user@host "mkdir -p ~/.ssh && cat >>  ~/.ssh/authorized_keys"</code></pre>
+<p>Une fois que vous avez copié vos clés SSH vers votre serveur, vérifier que vous pouvez vous connecter avec les clés SSH:</p>
+<pre><code>ssh user@host</code></pre>
+<h4 id="configurer-ses-cles">Configurer ses clés<a href="#configurer-ses-cles" class="anchor">#</a></h4>
 <p>Une astuce pour se simplifier la vie avec vos clefs ssh, creez un fichier dans la dossier .ssh :</p>
 <pre><code>vim ~/.ssh/config</code></pre>
 <p>Créez une configuration differentes pour chaque serveurs ssh:</p>
@@ -60,7 +92,15 @@ Host gitlab.domain.fr
 </tr><tr><td style="text-align: left;"><code>HashKnownHosts</code></td>
 <td style="text-align: center;">yes/no</td>
 <td style="text-align: right;">Permet d'avoir un fichier known_hosts plus lisible</td>
-</tr></tbody></table>]]></content>
+</tr></tbody></table><h4 id="securite-sur-votre-serveur-ssh">Sécurité sur votre serveur SSH<a href="#securite-sur-votre-serveur-ssh" class="anchor">#</a></h4>
+<p>Le login root ne doit pas être autorisée par l'intermédiaire des clés SSH.</p>
+<p>Pour ce faire, ouvrez le fichier SSH config sur votre serveur distant:</p>
+<pre><code>vim /etc/ssh/sshd_config</code></pre>
+<p>Dans ce fichier, trouvez la ligne qui comprend PermitRootLogin et modifiez le pour garantir que seuls les utilisateurs peuvent se connecter avec leur clé SSH:
+PermitRootLogin sans mot de passe</p>
+<pre><code>PermitRootLogin without-password</code></pre>
+<p>Mettez les changements en vigueur:</p>
+<pre><code>reload ssh</code></pre>]]></content>
     </entry>
         <entry>
         <title>Le coding standard Symfony2 avec CodeSniffer et PHPStorm</title>
