@@ -31,6 +31,44 @@ Le principe YAGNI est de développer uniquement la fonctionnalité demandée san
 Ce principe est très proche de celui de YAGNI, une fonctionnalité ne nécessite pas forcement une complexité élevée, si par exemple l'utilisation d'un design pattern n'est pas requis pour le besoin, le principe KISS incite à écrire un code simple et stupide.</p>]]></content>
     </entry>
         <entry>
+        <title>Optimisez votre front avec Symfony</title>
+                <id>https://20uf.github.io/2016/05/09/Optimize-front-withSymfony.html</id>
+                <updated>2016-05-09T00:00:00+02:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/05/09/Optimize-front-withSymfony.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="optimisez-votre-front-avec-symfony">Optimisez votre front avec Symfony<a href="#optimisez-votre-front-avec-symfony" class="anchor">#</a></h2>
+<p>Il faut installer uglify-js</p>
+<pre><code>npm install uglify-js -g</code></pre>
+<p>Ainsi que uglifycss:</p>
+<pre><code>npm install uglifycss -g</code></pre>
+<p>Dans votre fichier de configuration config.yml</p>
+<pre><code>assetic:
+    debug:          "%kernel.debug%"
+    use_controller: '%kernel.debug%'
+    bundles:        [ AppBundle ]
+    ruby: /usr/local/bin/ruby
+    filters:
+        cssrewrite: ~
+        sass:
+            bin: /usr/local/bin/sass
+        compass:
+            bin: /usr/local/bin/compass
+            cache_location: '%kernel.cache_dir%'
+        uglifyjs:
+            bin: /usr/bin/uglifyjs
+        uglifycss:
+            bin: /usr/bin/uglifycss</code></pre>
+<ul><li>Documentations:
+<ul><li><a href="http://symfony.com/doc/current/best_practices/web-assets.html">http://symfony.com/doc/current/best_practices/web-assets.html</a></li>
+<li><a href="http://symfony.com/doc/current/cookbook/assetic/uglifyjs.html">http://symfony.com/doc/current/cookbook/assetic/uglifyjs.html</a></li>
+<li><a href="http://symfony.com/doc/current/cookbook/assetic/uglifyjs.html">http://symfony.com/doc/current/cookbook/assetic/uglifyjs.html</a></li>
+</ul></li>
+</ul>]]></content>
+    </entry>
+        <entry>
         <title>Se simplifier la vie avec vos clefs ssh</title>
                 <id>https://20uf.github.io/2016/05/03/Organize-your-ssh-keys.html</id>
                 <updated>2016-05-03T00:00:00+02:00</updated>
@@ -194,5 +232,58 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <ul><li><a href="https://symfony.com/">Symfony</a> est un ensemble de composant formant un framework PHP</li>
 <li><a href="http://yeoman.io/">Yeoman</a> est un composant qui va exécuter des générateurs</li>
 </ul>]]></content>
+    </entry>
+        <entry>
+        <title>installer PHP 7 pour apache avec les dépôts dotdeb</title>
+                <id>https://20uf.github.io/2015/06/20/debian-install-PHP7.html</id>
+                <updated>2015-06-20T00:00:00+02:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2015/06/20/debian-install-PHP7.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="installer-php-7-pour-apache-avec-les-depots-dotdeb">installer PHP 7 pour apache avec les dépôts dotdeb <a href="#installer-php-7-pour-apache-avec-les-depots-dotdeb" class="anchor">#</a></h2>
+<p>Ajouter les dépots dotdeb:</p>
+<pre><code> echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
+ wget https://www.dotdeb.org/dotdeb.gpg && apt-key add dotdeb.gpg</code></pre>
+<p>Mettre à jour les dépots</p>
+<pre><code> apt-get update && apt-get upgrade</code></pre>
+<p>Vérification de la présence de php7: </p>
+<pre><code>apt-cache policy php7.0</code></pre>
+<p>Si vous migrez à partir de php5, nettoyez les paquets:</p>
+<pre><code>apt-get --purge remove php5* && apt-get autoremove</code></pre>
+<p>On installe PHP7 & FPM</p>
+<pre><code>apt install php7.0 php7.0-fpm</code></pre>
+<p>On contrôle la version:</p>
+<pre><code>php -v
+
+> PHP 7.0.7-4+deb.sury.org~trusty+1 (cli) ( NTS )
+> Copyright (c) 1997-2016 The PHP Group
+> Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
+> with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies</code></pre>
+<p>Configuration</p>
+<h5 id=""><a href="#" class="anchor">#</a></h5>
+<p>On modifie le php.ini:</p>
+<pre><code>vim /etc/php/7.0/fpm/php.ini</code></pre>
+<p>Ligne 768:</p>
+<pre><code>cgi.fix_pathinfo=0</code></pre>
+<p>Ligne 798:</p>
+<pre><code>upload_max_filesize = 32M</code></pre>
+<p>Ligne 656:</p>
+<pre><code>post_max_size = 32M</code></pre>
+<p>Ligne 912:</p>
+<pre><code>date.timezone = Europe/Paris</code></pre>
+<p>Ligne 1306:</p>
+<pre><code>session.save_path = "/tmp"</code></pre>
+<p>On modifie www.conf</p>
+<pre><code>vim /etc/php/7.0/fpm/pool.d/www.conf</code></pre>
+<p>Ligne 37</p>
+<pre><code>listen = /run/php/php7.0-fpm.sock</code></pre>
+<p>par:</p>
+<pre><code>listen = 127.0.0.1:9000</code></pre>
+<p>On installe les modules supplémentaire:</p>
+<pre><code>apt-get install php7.0-gd php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring</code></pre>
+<p>On relance les services:</p>
+<pre><code>service apache2 restart && service php7.0-fpm restart</code></pre>]]></content>
     </entry>
     </feed>
