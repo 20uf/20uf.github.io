@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Michael COULLERET aka 20uf">
+
+        <title>installer PHP 7 pour apache avec les dépôts dotdeb</title>
+
+        <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
+        <link href="/css/theme.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link href="https://file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
+        <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+    
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#page-top">Michael COULLERET aka 20uf</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="https://www.coulleret.pro">Qui suis-je ?</a>
+                        </li>
+                                                                                                                        <li>
+                                        <a href="../../../index.html">
+                                            Blog
+                                        </a>
+                                    </li>
+                                                                                                        </ul>
+                </div>
+            </div>
+        </nav>
+
+                <section class="content">
+                <div class="container">
+                                                <h1></h1>
+                            
+              <article>
+    <p class="text-muted">
+      <span class="glyphicon glyphicon-calendar"></span>
+      Jun 20th, 2015
+    </p>
+
+    <div class="body">
+      <h2 id="installer-php-7-pour-apache-avec-les-depots-dotdeb">installer PHP 7 pour apache avec les dépôts dotdeb <a href="#installer-php-7-pour-apache-avec-les-depots-dotdeb" class="anchor">#</a></h2>
+<p>Ajouter les dépots dotdeb:</p>
+<pre><code> echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
+ wget https://www.dotdeb.org/dotdeb.gpg && apt-key add dotdeb.gpg</code></pre>
+<p>Mettre à jour les dépots</p>
+<pre><code> apt-get update && apt-get upgrade</code></pre>
+<p>Vérification de la présence de php7: </p>
+<pre><code>apt-cache policy php7.0</code></pre>
+<p>Si vous migrez à partir de php5, nettoyez les paquets:</p>
+<pre><code>apt-get --purge remove php5* && apt-get autoremove</code></pre>
+<p>On installe PHP7 & FPM</p>
+<pre><code>apt install php7.0 php7.0-fpm</code></pre>
+<p>On contrôle la version:</p>
+<pre><code>php -v
+
+> PHP 7.0.7-4+deb.sury.org~trusty+1 (cli) ( NTS )
+> Copyright (c) 1997-2016 The PHP Group
+> Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
+> with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies</code></pre>
+<p>Configuration</p>
+<h5 id=""><a href="#" class="anchor">#</a></h5>
+<p>On modifie le php.ini:</p>
+<pre><code>vim /etc/php/7.0/fpm/php.ini</code></pre>
+<p>Ligne 768:</p>
+<pre><code>cgi.fix_pathinfo=0</code></pre>
+<p>Ligne 798:</p>
+<pre><code>upload_max_filesize = 32M</code></pre>
+<p>Ligne 656:</p>
+<pre><code>post_max_size = 32M</code></pre>
+<p>Ligne 912:</p>
+<pre><code>date.timezone = Europe/Paris</code></pre>
+<p>Ligne 1306:</p>
+<pre><code>session.save_path = "/tmp"</code></pre>
+<p>On modifie www.conf</p>
+<pre><code>vim /etc/php/7.0/fpm/pool.d/www.conf</code></pre>
+<p>Ligne 37</p>
+<pre><code>listen = /run/php/php7.0-fpm.sock</code></pre>
+<p>par:</p>
+<pre><code>listen = 127.0.0.1:9000</code></pre>
+<p>On installe les modules supplémentaire:</p>
+<pre><code>apt-get install php7.0-gd php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring</code></pre>
+<p>On relance les services:</p>
+<pre><code>service apache2 restart && service php7.0-fpm restart</code></pre>
+    </div>
+
+          <hr>
+      <h4><span class="glyphicon glyphicon-tags"></span>&nbsp;
+                    <a href="../../../tags/jessie.html"><span class="label label-primary">Jessie</span></a>
+                    <a href="../../../tags/dotdeb.html"><span class="label label-primary">Dotdeb</span></a>
+                    <a href="../../../tags/php7.html"><span class="label label-primary">Php7</span></a>
+              </h4>
+      </article>
+        </section>
+        
+
+                        <footer>
+            <p class="text-center">
+                &copy;
+                                    <a href="https://www.coulleret.pro">
+                        Michael COULLERET aka 20uf
+                    </a>
+                                2016
+                <small>
+                    - Propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a>
+                </small>
+            </p>
+        </footer>
+        
+
+
+        </body>
+</html>
