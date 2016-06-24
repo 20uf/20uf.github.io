@@ -32,13 +32,13 @@ Ce principe est très proche de celui de YAGNI, une fonctionnalité ne nécessit
     </entry>
         <entry>
         <title>Optimisez votre front avec Symfony</title>
-                <id>https://20uf.github.io/2016/05/09/Optimize-front-withSymfony.html</id>
+                <id>https://20uf.github.io/2016/05/09/optimize-front-with-symfony-(in-progress).html</id>
                 <updated>2016-05-09T00:00:00+02:00</updated>
         <author>
             <name>Michael COULLERET aka 20uf</name>
             <email>michael@coulleret.pro</email>
         </author>
-        <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/05/09/Optimize-front-withSymfony.html"/>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/05/09/optimize-front-with-symfony-(in-progress).html"/>
         <content type="html" xml:lang="en"><![CDATA[<h2 id="optimisez-votre-front-avec-symfony">Optimisez votre front avec Symfony<a href="#optimisez-votre-front-avec-symfony" class="anchor">#</a></h2>
 <p>Il faut installer uglify-js</p>
 <pre><code>npm install uglify-js -g</code></pre>
@@ -283,6 +283,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <pre><code>listen = 127.0.0.1:9000</code></pre>
 <p>On installe les modules supplémentaire:</p>
 <pre><code>apt-get install php7.0-gd php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring</code></pre>
+<p>apt-get install libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-common php7.0-curl php7.0-dev php7.0-fpm php7.0-gd php7.0-intl php7.0-json php7.0-mcrypt php7.0-memcache php7.0-memcached php7.0-mysql php7.0-readline php7.0-tidy</p>
 <p>On relance les services:</p>
 <pre><code>service apache2 restart && service php7.0-fpm restart</code></pre>]]></content>
     </entry>
