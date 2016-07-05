@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="Michael COULLERET aka 20uf">
 
-        <title>Tag #développeur</title>
+        <title>Git configuration et les alias</title>
 
         <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
         <link href="/css/theme.css" rel="stylesheet">
@@ -38,7 +38,7 @@
                             <a href="https://www.coulleret.pro">Qui suis-je ?</a>
                         </li>
                                                                                                                         <li>
-                                        <a href="../index.html">
+                                        <a href="../../../index.html">
                                             Blog
                                         </a>
                                     </li>
@@ -77,17 +77,68 @@
                 <section class="container content">
                                                 <h1></h1>
                             
-            <p><ul class="unstyled" style="padding-left:30px"><li class=""><h5><a href="../2015/12/12/developer-tools.html"><i class="icon-book"></i>
-                                Les outils indispensables d&#039;un développeur
-                                <small>(2015-12-12)</small></a></h5></li><li class=""><h5><a href="../2016/04/21/Coding-standard-phpstorm.html"><i class="icon-book"></i>
-                                Le coding standard symfony2 avec codesniffer et phpstorm
-                                <small>(2016-04-21)</small></a></h5></li><li class=""><h5><a href="../2016/06/11/design-principles.html"><i class="icon-book"></i>
-                                Les simplicités de conception
-                                <small>(2016-06-11)</small></a></h5></li><li class=""><h5><a href="../2016/07/05/git-alias.html"><i class="icon-book"></i>
-                                Git configuration et les alias
-                                <small>(2016-07-05)</small></a></h5></li></ul></p>        </section>
+              <article>
+    <p class="text-muted">
+      <span class="glyphicon glyphicon-calendar"></span>
+      Jul 5th, 2016
+    </p>
+
+    <div class="body">
+      <h2 id="git-configuration-et-les-alias">Git configuration et les alias<a href="#git-configuration-et-les-alias" class="anchor">#</a></h2>
+<h4 id="configuration-requise">Configuration requise<a href="#configuration-requise" class="anchor">#</a></h4>
+<p>Il existe deux paramètres de configuration qui sont nécessaires avant toute utilisation de Git.</p>
+<p>Configurer le nom de l’utilisateur</p>
+<pre><code>git config --global user.name "Michael COULLERET"</code></pre>
+<p>Configurer l’e­mail de l’utilisateur</p>
+<pre><code>git config --global user.email michael@coulleret.pro</code></pre>
+<h4 id="les-parametres-configurables">Les paramètres configurables<a href="#les-parametres-configurables" class="anchor">#</a></h4>
+<p>Définir un éditeur de texte par défaut, par exemple vim</p>
+<pre><code>git config --global core.editor vim</code></pre>
+<h4 id="modele-de-commit">Modèle de commit<a href="#modele-de-commit" class="anchor">#</a></h4>
+<p>Ce paramètre permet de définir un fichier texte comme étant le modèle de vos commits. Ce texte sera
+alors prérempli dans l’éditeur de texte lorsque Git demandera le message de commit. Par exemple, cidessous
+le contenu du fichier ~/gitRessources/templateCommit.txt :</p>
+<pre><code>[#FEATURE_ID] Titre du commit (49 caractères max)
+#Explications complémentaires</code></pre>
+<p>Il faut ensuite ajouter le fichier dans la configuration (global dans cet exemple) :</p>
+<pre><code>git config --global commit.template ~/gitRessources/templateCommit.txt</code></pre>
+<p>Les lignes débutant par un dièse sont des commentaires, nous voila avec une bonne base commune à plusieurs développeurs.</p>
+<h4 id="hashs-abreges">Hashs abrégés<a href="#hashs-abreges" class="anchor">#</a></h4>
+<p>Chaque donnée utilisée par Git est identifiée par une chaîne hexadécimale de 40 caractères.
+Il est possible d’indiquer à Git de n’afficher que les sept premiers caractères de ces identifiants pour augmenter la lisibilité.</p>
+<pre><code>git config --global log.abbrevCommit true</code></pre>
+<h4 id="les-alias">Les alias<a href="#les-alias" class="anchor">#</a></h4>
+<pre><code>git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+git config --global alias.unstage 'reset HEAD --'</code></pre>
+<h4 id="ignore-global">Ignore global<a href="#ignore-global" class="anchor">#</a></h4>
+<p>L’option de configuration core.excludesfile permet de définir un fichier qui contiendra une liste des
+fichiers à ignorer.</p>
+<pre><code>git config --global core.excludesfile ~/.gitignore_global</code></pre>
+<p>Un exemple pragmatique pour exclure les dossiers générés par les IDE:</p>
+<pre><code>/.idea
+.buildpath
+.project
+.settings/
+/nbproject</code></pre>
+<p>Vous trouverez des scripts et exemples sur le dépôt suivant :</p>
+<blockquote>
+<p><a href="https://github.com/20uf/Tools-sh">https://github.com/20uf/Tools-sh</a></p>
+</blockquote>
+    </div>
+
+          <hr>
+      <h4><span class="glyphicon glyphicon-tags"></span>&nbsp;
+                    <a href="../../../tags/git.html"><span class="label label-primary">Git</span></a>
+                    <a href="../../../tags/outils.html"><span class="label label-primary">Outils</span></a>
+                    <a href="../../../tags/developpeur.html"><span class="label label-primary">Développeur</span></a>
+              </h4>
+      </article>
+        </section>
         
-                    <footer class="container row footer-above text-center">
+                            <footer class="container row footer-above text-center">
                 <div class="row footer-below">
                     <div class="col-lg-12">
                         Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
@@ -95,6 +146,7 @@
                 </div>
             </footer>
         
+
         <script src="https://use.fontawesome.com/1cb4261d3b.js"></script>
     </body>
 </html>

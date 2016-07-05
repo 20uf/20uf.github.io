@@ -5,11 +5,64 @@
     <link href="https://20uf.github.io/feed/index.atom" rel="self" />
     <link href="https://20uf.github.io/" />
         <id>https://20uf.github.io/</id>
-            <updated>2016-06-11T00:00:00+02:00</updated>
+            <updated>2016-07-05T00:00:00+00:00</updated>
             <entry>
+        <title>Git configuration et les alias</title>
+                <id>https://20uf.github.io/2016/07/05/git-alias.html</id>
+                <updated>2016-07-05T00:00:00+00:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/07/05/git-alias.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="git-configuration-et-les-alias">Git configuration et les alias<a href="#git-configuration-et-les-alias" class="anchor">#</a></h2>
+<h4 id="configuration-requise">Configuration requise<a href="#configuration-requise" class="anchor">#</a></h4>
+<p>Il existe deux paramètres de configuration qui sont nécessaires avant toute utilisation de Git.</p>
+<p>Configurer le nom de l’utilisateur</p>
+<pre><code>git config --global user.name "Michael COULLERET"</code></pre>
+<p>Configurer l’e­mail de l’utilisateur</p>
+<pre><code>git config --global user.email michael@coulleret.pro</code></pre>
+<h4 id="les-parametres-configurables">Les paramètres configurables<a href="#les-parametres-configurables" class="anchor">#</a></h4>
+<p>Définir un éditeur de texte par défaut, par exemple vim</p>
+<pre><code>git config --global core.editor vim</code></pre>
+<h4 id="modele-de-commit">Modèle de commit<a href="#modele-de-commit" class="anchor">#</a></h4>
+<p>Ce paramètre permet de définir un fichier texte comme étant le modèle de vos commits. Ce texte sera
+alors prérempli dans l’éditeur de texte lorsque Git demandera le message de commit. Par exemple, cidessous
+le contenu du fichier ~/gitRessources/templateCommit.txt :</p>
+<pre><code>[#FEATURE_ID] Titre du commit (49 caractères max)
+#Explications complémentaires</code></pre>
+<p>Il faut ensuite ajouter le fichier dans la configuration (global dans cet exemple) :</p>
+<pre><code>git config --global commit.template ~/gitRessources/templateCommit.txt</code></pre>
+<p>Les lignes débutant par un dièse sont des commentaires, nous voila avec une bonne base commune à plusieurs développeurs.</p>
+<h4 id="hashs-abreges">Hashs abrégés<a href="#hashs-abreges" class="anchor">#</a></h4>
+<p>Chaque donnée utilisée par Git est identifiée par une chaîne hexadécimale de 40 caractères.
+Il est possible d’indiquer à Git de n’afficher que les sept premiers caractères de ces identifiants pour augmenter la lisibilité.</p>
+<pre><code>git config --global log.abbrevCommit true</code></pre>
+<h4 id="les-alias">Les alias<a href="#les-alias" class="anchor">#</a></h4>
+<pre><code>git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+git config --global alias.unstage 'reset HEAD --'</code></pre>
+<h4 id="ignore-global">Ignore global<a href="#ignore-global" class="anchor">#</a></h4>
+<p>L’option de configuration core.excludesfile permet de définir un fichier qui contiendra une liste des
+fichiers à ignorer.</p>
+<pre><code>git config --global core.excludesfile ~/.gitignore_global</code></pre>
+<p>Un exemple pragmatique pour exclure les dossiers générés par les IDE:</p>
+<pre><code>/.idea
+.buildpath
+.project
+.settings/
+/nbproject</code></pre>
+<p>Vous trouverez des scripts et exemples sur le dépôt suivant :</p>
+<blockquote>
+<p><a href="https://github.com/20uf/Tools-sh">https://github.com/20uf/Tools-sh</a></p>
+</blockquote>]]></content>
+    </entry>
+        <entry>
         <title>Les simplicités de conception</title>
                 <id>https://20uf.github.io/2016/06/11/design-principles.html</id>
-                <updated>2016-06-11T00:00:00+02:00</updated>
+                <updated>2016-06-11T00:00:00+00:00</updated>
         <author>
             <name>Michael COULLERET aka 20uf</name>
             <email>michael@coulleret.pro</email>
@@ -33,7 +86,7 @@ Ce principe est très proche de celui de YAGNI, une fonctionnalité ne nécessit
         <entry>
         <title>Optimisez votre front avec Symfony</title>
                 <id>https://20uf.github.io/2016/05/09/optimize-front-with-symfony-(in-progress).html</id>
-                <updated>2016-05-09T00:00:00+02:00</updated>
+                <updated>2016-05-09T00:00:00+00:00</updated>
         <author>
             <name>Michael COULLERET aka 20uf</name>
             <email>michael@coulleret.pro</email>
@@ -71,7 +124,7 @@ Ce principe est très proche de celui de YAGNI, une fonctionnalité ne nécessit
         <entry>
         <title>Se simplifier la vie avec vos clefs ssh</title>
                 <id>https://20uf.github.io/2016/05/03/Organize-your-ssh-keys.html</id>
-                <updated>2016-05-03T00:00:00+02:00</updated>
+                <updated>2016-05-03T00:00:00+00:00</updated>
         <author>
             <name>Michael COULLERET aka 20uf</name>
             <email>michael@coulleret.pro</email>
@@ -167,7 +220,7 @@ PermitRootLogin sans mot de passe</p>
         <entry>
         <title>Le coding standard Symfony2 avec CodeSniffer et PHPStorm</title>
                 <id>https://20uf.github.io/2016/04/21/Coding-standard-phpstorm.html</id>
-                <updated>2016-04-21T00:00:00+02:00</updated>
+                <updated>2016-04-21T00:00:00+00:00</updated>
         <author>
             <name>Michael COULLERET aka 20uf</name>
             <email>michael@coulleret.pro</email>
@@ -198,7 +251,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
         <entry>
         <title>Les outils indispensables d&#039;un développeur</title>
                 <id>https://20uf.github.io/2015/12/12/developer-tools.html</id>
-                <updated>2015-12-12T00:00:00+01:00</updated>
+                <updated>2015-12-12T00:00:00+00:00</updated>
         <author>
             <name>Michael COULLERET aka 20uf</name>
             <email>michael@coulleret.pro</email>
@@ -236,7 +289,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
         <entry>
         <title>installer PHP 7 pour apache avec les dépôts dotdeb</title>
                 <id>https://20uf.github.io/2015/06/20/debian-install-PHP7.html</id>
-                <updated>2015-06-20T00:00:00+02:00</updated>
+                <updated>2015-06-20T00:00:00+00:00</updated>
         <author>
             <name>Michael COULLERET aka 20uf</name>
             <email>michael@coulleret.pro</email>
@@ -282,8 +335,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <p>par:</p>
 <pre><code>listen = 127.0.0.1:9000</code></pre>
 <p>On installe les modules supplémentaire:</p>
-<pre><code>apt-get install php7.0-gd php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring</code></pre>
-<p>apt-get install libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-common php7.0-curl php7.0-dev php7.0-fpm php7.0-gd php7.0-intl php7.0-json php7.0-mcrypt php7.0-memcache php7.0-memcached php7.0-mysql php7.0-readline php7.0-tidy</p>
+<pre><code>apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-memcached php7.0-readline php7.0-tidy</code></pre>
 <p>On relance les services:</p>
 <pre><code>service apache2 restart && service php7.0-fpm restart</code></pre>]]></content>
     </entry>
