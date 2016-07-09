@@ -1,0 +1,48 @@
+{% extends "default.html.twig" %}
+
+{% block content_main %}
+  <article>
+    <p class="text-muted">
+      <span class="glyphicon glyphicon-calendar"></span>
+      {{ carew.document.metadatas.date|date('d m Y') }}
+    </p>
+
+    <div class="body">
+      {{ carew.document.body|raw }}
+    </div>
+
+    {% if carew.document.tags|length > 0 %}
+      <hr>
+      <h4><span class="glyphicon glyphicon-tags"></span>&nbsp;
+        {% for tag in carew.document.tags %}
+            <a href="{{ path('tags/'~tag) }}"><span class="label label-primary">{{ tag|title }}</span></a>
+        {% endfor %}
+      </h4>
+    {% endif %}
+  </article>
+{% endblock %}
+
+{% block content_footer %}
+    {% if carew.site.disqus_shortname is defined %}
+      <div class="row comments">
+          <div class="span10 offset1 content">
+              <div id="disqus_thread"></div>
+          </div>
+      </div>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if carew.site.disqus_shortname is defined %}
+        <script type="text/javascript">
+            var disqus_shortname = '{{ carew.site.disqus_shortname }}';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+    {% endif %}
+{% endblock %}
