@@ -20,8 +20,6 @@
 <p>Il est possible depuis la version 6 de mocker les réponses, prenons pour contexte un client facebook.</p>
 <p>J'utilise le framework <a href="http://phake.readthedocs.io/en/2.1/">Phake</a> en complément de <a href="https://phpunit.de/">PHPUnit</a>.</p>
 <pre><code class="language-php">
-    <?php
-
     // App/Client/FacebookClient.php
     namespace App\Client;
 
@@ -67,8 +65,6 @@
 </code></pre>
 <p>L'objectif est de simuler les appels dans une file d'attente:</p>
 <pre><code class="language-php">
-    <?php
-
     // tests/App/Client/FacebookClient.php
     namespace Tests\Client;
 
