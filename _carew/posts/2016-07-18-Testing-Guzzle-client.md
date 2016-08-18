@@ -19,8 +19,6 @@ J'utilise le framework [Phake](http://phake.readthedocs.io/en/2.1/) en compléme
 
 ```php
 
-    <?php
-
     // App/Client/FacebookClient.php
     namespace App\Client;
 
@@ -70,8 +68,6 @@ L'objectif est de simuler les appels dans une file d'attente:
 
 ```php
 
-    <?php
-    
     // tests/App/Client/FacebookClient.php
     namespace Tests\Client;
 
