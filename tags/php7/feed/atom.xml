@@ -367,17 +367,17 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <ul><li>
 <p>PHP</p>
 <ul><li><a href="https://getcomposer.org/">Composer</a> pour gérer les dépendances</li>
-<li><a href="http://www.phpunit.de">PHPUnit</a> pour écrire mes tests unitaires</li>
-<li><a href="http://www.behat.org">Behat</a> pour écrire mes tests fonctionnels</li>
-<li><a href="http://www.phpmetrics.org">PhpMetrics</a> pour vérifier la qualité de mon code</li>
-<li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP Code Sniffer</a> pour regarder si je respecte bien les conventions de code</li>
+<li><a href="http://www.phpunit.de">PHPUnit</a> pour écrire des tests unitaires</li>
+<li><a href="http://phake.readthedocs.io/en/latest/">Phake</a> un framework complémentaire pour mocker simplement et facilement</li>
+<li><a href="http://www.behat.org">Behat</a> pour écrire des tests fonctionnels</li>
+<li><a href="http://www.phpmetrics.org">PhpMetrics</a> pour vérifier la qualité du code</li>
+<li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP Code Sniffer</a> pour regarder le respect des conventions de code</li>
 </ul></li>
 <li>
 <p>JavaScript</p>
-<ul><li><a href="http://jasmine.github.io">Jasmine</a></li>
-<li><a href="http://jasmine.github.io">Jasmine Species</a> et <a href="http://www.behat.org">Behat</a> pour écrire mes tests fonctionnels</li>
-<li><a href="https://github.com/es-analysis/plato">Plato</a> pour vérifier la qualité de mon code</li>
-<li><a href="http://www.jslint.com/">JSLint</a> pour regarder si je respecte bien les conventions de code</li>
+<ul><li><a href="http://jasmine.github.io">Jasmine</a> pour écrire mes tests fonctionnels en JS</li>
+<li><a href="https://github.com/es-analysis/plato">Plato</a> pour vérifier la qualité du code</li>
+<li><a href="http://www.jslint.com/">JSLint</a> pour regarder le respect des conventions de code</li>
 <li><a href="https://nodejs.org/">NodeJs</a> est une plateforme de développement Javascript</li>
 <li><a href="http://bower.io/">Bower</a> pour gérer les librairies</li>
 <li><a href="http://gruntjs.com/">GruntJs</a> est un gestionnaire de tâches (automatisation)</li>
@@ -386,7 +386,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <ul><li><a href="http://sass-lang.com/">Sass</a> est un préprocesseur css</li>
 <li><a href="http://compass-style.org/">Compass</a> est un framework css</li>
 </ul></li>
-</ul><p>Les projects incontournables:</p>
+</ul><p>Les incontournables:</p>
 <ul><li><a href="https://symfony.com/">Symfony</a> est un ensemble de composant formant un framework PHP</li>
 <li><a href="http://yeoman.io/">Yeoman</a> est un composant qui va exécuter des générateurs</li>
 </ul>]]></content>
@@ -404,6 +404,8 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <p>Ajouter les dépots dotdeb:</p>
 <pre><code> echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
  wget https://www.dotdeb.org/dotdeb.gpg && apt-key add dotdeb.gpg</code></pre>
+<p>Ou </p>
+<pre><code>apt-get install python-software-properties && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php</code></pre>
 <p>Mettre à jour les dépots</p>
 <pre><code> apt-get update && apt-get upgrade</code></pre>
 <p>Vérification de la présence de php7: </p>
@@ -440,7 +442,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <p>par:</p>
 <pre><code>listen = 127.0.0.1:9000</code></pre>
 <p>On installe les modules supplémentaire:</p>
-<pre><code>apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-memcached php7.0-readline php7.0-tidy</code></pre>
+<pre><code>apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-readline php7.0-tidy</code></pre>
 <p>On relance les services:</p>
 <pre><code>service apache2 restart && service php7.0-fpm restart</code></pre>]]></content>
     </entry>
