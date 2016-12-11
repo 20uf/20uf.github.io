@@ -8,7 +8,7 @@
         <meta name="author" content="Michael COULLERET aka 20uf">
         <meta name="robots" content="noindex">
 
-        <title>Michael COULLERET aka 20uf installer PHP 7 pour apache avec les dépôts dotdeb</title>
+        <title>Michael COULLERET aka 20uf Tag #Capifony</title>
 
         <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
         <link href="/css/theme.css" rel="stylesheet">
@@ -39,7 +39,7 @@
                             <a href="https://www.coulleret.pro">Qui suis-je ?</a>
                         </li>
                                                                                                                         <li>
-                                        <a href="../../../index.html">
+                                        <a href="../index.html">
                                             Blog
                                         </a>
                                     </li>
@@ -78,70 +78,11 @@
                 <section class="container content">
                                                 <h1></h1>
                             
-              <article>
-    <p class="text-muted">
-      <span class="glyphicon glyphicon-calendar"></span>
-      20 Jun 2015
-    </p>
-
-    <div class="body">
-      <h2 id="installer-php-7-pour-apache-avec-les-depots-dotdeb">installer PHP 7 pour apache avec les dépôts dotdeb <a href="#installer-php-7-pour-apache-avec-les-depots-dotdeb" class="anchor">#</a></h2>
-<p>Ajouter les dépots dotdeb:</p>
-<pre><code> echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
- wget https://www.dotdeb.org/dotdeb.gpg && apt-key add dotdeb.gpg</code></pre>
-<p>Ou </p>
-<pre><code>apt-get install python-software-properties && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php</code></pre>
-<p>Mettre à jour les dépots</p>
-<pre><code> apt-get update && apt-get upgrade</code></pre>
-<p>Vérification de la présence de php7: </p>
-<pre><code>apt-cache policy php7.0</code></pre>
-<p>Si vous migrez à partir de php5, nettoyez les paquets:</p>
-<pre><code>apt-get --purge remove php5* && apt-get autoremove</code></pre>
-<p>On installe PHP7 & FPM</p>
-<pre><code>apt install php7.0 php7.0-fpm</code></pre>
-<p>On contrôle la version:</p>
-<pre><code>php -v
-
-> PHP 7.0.7-4+deb.sury.org~trusty+1 (cli) ( NTS )
-> Copyright (c) 1997-2016 The PHP Group
-> Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
-> with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies</code></pre>
-<p>Configuration</p>
-<h5 id=""><a href="#" class="anchor">#</a></h5>
-<p>On modifie le php.ini:</p>
-<pre><code>vim /etc/php/7.0/fpm/php.ini</code></pre>
-<p>Ligne 768:</p>
-<pre><code>cgi.fix_pathinfo=0</code></pre>
-<p>Ligne 798:</p>
-<pre><code>upload_max_filesize = 32M</code></pre>
-<p>Ligne 656:</p>
-<pre><code>post_max_size = 32M</code></pre>
-<p>Ligne 912:</p>
-<pre><code>date.timezone = Europe/Paris</code></pre>
-<p>Ligne 1306:</p>
-<pre><code>session.save_path = "/tmp"</code></pre>
-<p>On modifie www.conf</p>
-<pre><code>vim /etc/php/7.0/fpm/pool.d/www.conf</code></pre>
-<p>Ligne 37</p>
-<pre><code>listen = /run/php/php7.0-fpm.sock</code></pre>
-<p>par:</p>
-<pre><code>listen = 127.0.0.1:9000</code></pre>
-<p>On installe les modules supplémentaire:</p>
-<pre><code>apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-readline php7.0-tidy</code></pre>
-<p>On relance les services:</p>
-<pre><code>service apache2 restart && service php7.0-fpm restart</code></pre>
-    </div>
-
-          <hr>
-      <h4><span class="glyphicon glyphicon-tags"></span>&nbsp;
-                    <a href="../../../tags/jessie.html"><span class="label label-primary">Jessie</span></a>
-                    <a href="../../../tags/dotdeb.html"><span class="label label-primary">Dotdeb</span></a>
-                    <a href="../../../tags/php7.html"><span class="label label-primary">Php7</span></a>
-              </h4>
-      </article>
-        </section>
+            <p><ul class="unstyled" style="padding-left:30px"><li class=""><h5><a href="../2016/08/25/Deploiement-with-jenkins-and-capistrano.html"><i class="icon-book"></i>
+                                Déployer symfony avec jenkins et capifony 2
+                                <small>(2016-08-25)</small></a></h5></li></ul></p>        </section>
         
-                            <footer class="container row footer-above text-center">
+                    <footer class="container row footer-above text-center">
                 <div class="row footer-below">
                     <div class="col-lg-12">
                         Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
@@ -149,7 +90,6 @@
                 </div>
             </footer>
         
-
         <script src="https://use.fontawesome.com/1cb4261d3b.js"></script>
     </body>
 </html>

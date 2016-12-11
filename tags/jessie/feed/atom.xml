@@ -5,8 +5,166 @@
     <link href="https://20uf.github.io/feed/index.atom" rel="self" />
     <link href="https://20uf.github.io/" />
         <id>https://20uf.github.io/</id>
-            <updated>2016-07-18T00:00:00+02:00</updated>
+            <updated>2016-08-25T00:00:00+02:00</updated>
             <entry>
+        <title>Déployer Symfony avec jenkins et capifony 2</title>
+                <id>https://20uf.github.io/2016/08/25/Deploiement-with-jenkins-and-capistrano.html</id>
+                <updated>2016-08-25T00:00:00+02:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/08/25/Deploiement-with-jenkins-and-capistrano.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="deployer-symfony-avec-jenkins-et-capifony-2">Déployer Symfony avec jenkins et capifony 2<a href="#deployer-symfony-avec-jenkins-et-capifony-2" class="anchor">#</a></h2>
+<blockquote>
+<p>Ce guide n'explique pas comment installer Jenkins, vous devez disposer d'un serveur déjà installé et configuré.</p>
+</blockquote>
+<h2 id="installer-capifony">Installer Capifony<a href="#installer-capifony" class="anchor">#</a></h2>
+<p>Connectez-vous en SSH sur votre serveur Jenkins et installez les dépendances suivantes:</p>
+<blockquote>
+<p>Installons aussi sur notre machine afin de déboguer et tester nos scripts.</p>
+</blockquote>
+<p>Ruby 2:</p>
+<pre><code>sudo apt-add-repository ppa:brightbox/ruby-ng
+sudo apt-get update
+sudo apt-get install ruby2.2 ruby2.2-dev</code></pre>
+<p>Capifony</p>
+<pre><code>gem install capifony
+gem install capistrano-ext</code></pre>
+<p>Il peut être nécessaire d'effectuer des tâches sur le serveur Jenkins, comme par exemple les dépendances bowers.</p>
+<p>Pour cela j'utilise une dépendance capistrano pour effectuer des tâches avant la compression <a href="https://github.com/facile-it/capistrano-strategy-copy-with-triggers">Copy with triggers</a></p>
+<pre><code>gem install 'capistrano-strategy-copy-with-triggers'</code></pre>
+<h2 id="script-de-deploiement">Script de déploiement<a href="#script-de-deploiement" class="anchor">#</a></h2>
+<blockquote>
+<p>La bonne pratique est de créer un dépôt spécifique qui contient vos scripts.</p>
+</blockquote>
+<p>Nous allons ici nous concentrer sur l'environnement de production, vous pourrez reproduire la même procédure pour les autres stagings.
+Créons notre fichier Capfile où nous allons déclarer:</p>
+<ul><li>Le niveau de trace</li>
+<li>Le chemin binaire PHP</li>
+<li>nos différents environnements "staging"</li>
+</ul><p>[Fichier Capfile][3]</p>
+<pre><code class="language-python">    load 'deploy' if respond_to?(:namespace)
+
+    require 'capifony_symfony2'
+    require 'capistrano-strategy-copy-with-triggers'
+
+    logger.level = Logger::MAX_LEVEL
+
+    # PHP binary path
+    set :php_bin, "/usr/local/php5.6/bin/php"
+
+    # Staging
+    set :stages, %w(production staging testing)
+    set :default_stage, "testing"
+    set :stage_dir, "capifony/stages"
+    require 'capistrano/ext/multistage'</code></pre>
+<p>Créons maintenant notre premier stage pour la production dans le dossier stages/
+Je ne vais pas ici vous détailler les configurations, je vous invite à consulter [le site officiel][2].</p>
+<p>Fichier production.rb</p>
+<pre><code class="language-python">    set :deploy_to, "/path/project/"
+
+    set :branch, "master"
+    set :symfony_env_prod, "prod"
+
+    set :application, "demo-20uf"
+    set :domain, "ssh.cluster.production.tld"
+    set :user, "user-auth"
+
+    set :use_sudo, false
+    set :keep_releases, 2
+
+    role :web, domain
+    role :app, domain, :primary => true
+
+    # Repository
+    set :repository, "ssh://git@your.gitlab.tdl/project/demo.git"
+    set :scm, :git
+    set :deploy_via, :copy_with_triggers
+
+    ## Symfony3 structure
+    set :symfony_console, "bin/console"
+    set :controllers_to_clear, ["app_*.php"]
+    set :shared_files, ["app/config/parameters.yml"]
+    set :use_composer, true
+    set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autoloader'
+    set :composer_dump_autoload_flags, '--optimize'
+    set :update_vendors, false
+    set :copy_vendors, false
+    set :writable_dirs, ["var/cache", "var/logs"]
+    set :webserver_user, "www-data"
+    set :use_set_permissions, true
+    set :dump_assetic_assets, false
+    set :model_manager, "doctrine" # ORM</code></pre>
+<p>Il faut initialiser la structure/ l'arborescence côté serveur, pour cela à partir de la racine où se trouve le capfile:</p>
+<pre><code>cap deploy:setup</code></pre>
+<p>Ajoutons maintenant le fichier de paramètre symfony sur le serveur:</p>
+<pre><code>ssh your_deploy_server
+mkdir -p /path/project/shared/app/config
+vim /path/project/shared/app/config/parameters.yml</code></pre>
+<p>Parfait, vous pouvez maintenant tester en exécutant le déploiement avec la commande:</p>
+<pre><code>cap production deploy</code></pre>
+<p>Ajoutez ces scripts dans un dépôt git, celui-ci sera utilisé dans la prochaine étape.</p>
+<h2 id="tache-jenkins">Tâche Jenkins<a href="#tache-jenkins" class="anchor">#</a></h2>
+<blockquote>
+<p>Les plugins Git plugin ou GitLab Plugin, Branch API Plugin, Git Parameter Plug-In, Active Choices Plug-in est requis sur votre serveur Jenkins.</p>
+</blockquote>
+<p>Nous avons mis en place les scripts, testé en local, tout ça c'est bien, mais allons plus loin en permettant à d'autre de déployer.</p>
+<p>Créons un nouveau Job jenkins free-style.</p>
+<p>Cochez "Ce build a des parametres"
+Ajouter pour nom "stage" et comme description "Staging"
+Cochez "Types de paramètres de base" puis configurez en simple select avec un seul élément visible.
+Mettez comme valeur dans "Choisissez la source pour la valeur" vos environnement séparé d'une virgule, par exemple: testing,staging,production
+Mettez comme valeur dans "Choisissez Source pour la valeur par défaut" l'environnement par défaut, par exemple production.</p>
+<p><img src="https://raw.githubusercontent.com/20uf/deployment-with-capifony/master/assets/build_parameters.png" alt="paramètres"></p>
+<p>Dans la gestion de code source, sélectionnez Git et ajouter le dépôt contenant les scripts précédemment créer.
+Précisez la branche par défaut.</p>
+<p><img src="https://raw.githubusercontent.com/20uf/deployment-with-capifony/master/assets/build_gitlab.png" alt="paramètres"></p>
+<p>Il reste à ajouter le script shell qui va exécuter capifony, selon le paramètre qui sera sélectionné par l'utilisateur.</p>
+<p>[Build jenkins][6]
+```{r, engine='bash', count_lines}</p>
+<h1 id="bin-bash">!/bin/bash<a href="#bin-bash" class="anchor">#</a></h1>
+<pre><code># Shell de deploiement
+
+# Close STDERR FD
+exec 2<&-
+# Redirect STDERR to STDOUT
+exec 2>&1
+
+MAGENTA="\033[0;35m"
+COLOREND="\e[0m"
+BLUE="\e[34m"
+GREEN="\e[32m"
+
+echo "-------------------------------------------------------------------------------------------------------------------------------------------"
+echo -e "$BLUE" ">>> Task execution ${JOB_NAME} stage: ${stage}" "$COLOREND"
+echo "-------------------------------------------------------------------------------------------------------------------------------------------"
+
+cap ${stage} deploy
+
+echo "-------------------------------------------------------------------------------------------------------------------------------------------"
+echo -e "$BLUE" "End of deployment ${JOB_NAME} `date`" "$COLOREND"
+echo "-------------------------------------------------------------------------------------------------------------------------------------------"</code></pre>
+<pre><code>
+
+Sauvegardez et le tour est joué !
+
+## Tâches utiles
+
+#### Liens externes:
+
+[Capifony][2]
+[Scripts exemples][1]
+[Jenkins][5]
+
+[1]: https://github.com/20uf/deployment-with-capifony
+[2]: http://capifony.org/
+[3]: https://github.com/20uf/deployment-with-capifony/blob/master/Capfile
+[4]: https://github.com/20uf/deployment-with-capifony/blob/master/stages/production.rb
+[5]: https://jenkins.io/
+[6]: https://github.com/20uf/deployment-with-capifony/blob/master/jenkins_build.sh</code></pre>]]></content>
+    </entry>
+        <entry>
         <title>Tester le client Guzzle dans les tests unitaires</title>
                 <id>https://20uf.github.io/2016/07/18/Testing-Guzzle-client.html</id>
                 <updated>2016-07-18T00:00:00+02:00</updated>
@@ -367,17 +525,17 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <ul><li>
 <p>PHP</p>
 <ul><li><a href="https://getcomposer.org/">Composer</a> pour gérer les dépendances</li>
-<li><a href="http://www.phpunit.de">PHPUnit</a> pour écrire mes tests unitaires</li>
-<li><a href="http://www.behat.org">Behat</a> pour écrire mes tests fonctionnels</li>
-<li><a href="http://www.phpmetrics.org">PhpMetrics</a> pour vérifier la qualité de mon code</li>
-<li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP Code Sniffer</a> pour regarder si je respecte bien les conventions de code</li>
+<li><a href="http://www.phpunit.de">PHPUnit</a> pour écrire des tests unitaires</li>
+<li><a href="http://phake.readthedocs.io/en/latest/">Phake</a> un framework complémentaire pour mocker simplement et facilement</li>
+<li><a href="http://www.behat.org">Behat</a> pour écrire des tests fonctionnels</li>
+<li><a href="http://www.phpmetrics.org">PhpMetrics</a> pour vérifier la qualité du code</li>
+<li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP Code Sniffer</a> pour regarder le respect des conventions de code</li>
 </ul></li>
 <li>
 <p>JavaScript</p>
-<ul><li><a href="http://jasmine.github.io">Jasmine</a></li>
-<li><a href="http://jasmine.github.io">Jasmine Species</a> et <a href="http://www.behat.org">Behat</a> pour écrire mes tests fonctionnels</li>
-<li><a href="https://github.com/es-analysis/plato">Plato</a> pour vérifier la qualité de mon code</li>
-<li><a href="http://www.jslint.com/">JSLint</a> pour regarder si je respecte bien les conventions de code</li>
+<ul><li><a href="http://jasmine.github.io">Jasmine</a> pour écrire mes tests fonctionnels en JS</li>
+<li><a href="https://github.com/es-analysis/plato">Plato</a> pour vérifier la qualité du code</li>
+<li><a href="http://www.jslint.com/">JSLint</a> pour regarder le respect des conventions de code</li>
 <li><a href="https://nodejs.org/">NodeJs</a> est une plateforme de développement Javascript</li>
 <li><a href="http://bower.io/">Bower</a> pour gérer les librairies</li>
 <li><a href="http://gruntjs.com/">GruntJs</a> est un gestionnaire de tâches (automatisation)</li>
@@ -386,7 +544,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <ul><li><a href="http://sass-lang.com/">Sass</a> est un préprocesseur css</li>
 <li><a href="http://compass-style.org/">Compass</a> est un framework css</li>
 </ul></li>
-</ul><p>Les projects incontournables:</p>
+</ul><p>Les incontournables:</p>
 <ul><li><a href="https://symfony.com/">Symfony</a> est un ensemble de composant formant un framework PHP</li>
 <li><a href="http://yeoman.io/">Yeoman</a> est un composant qui va exécuter des générateurs</li>
 </ul>]]></content>
@@ -404,6 +562,8 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <p>Ajouter les dépots dotdeb:</p>
 <pre><code> echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
  wget https://www.dotdeb.org/dotdeb.gpg && apt-key add dotdeb.gpg</code></pre>
+<p>Ou </p>
+<pre><code>apt-get install python-software-properties && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php</code></pre>
 <p>Mettre à jour les dépots</p>
 <pre><code> apt-get update && apt-get upgrade</code></pre>
 <p>Vérification de la présence de php7: </p>
@@ -440,7 +600,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <p>par:</p>
 <pre><code>listen = 127.0.0.1:9000</code></pre>
 <p>On installe les modules supplémentaire:</p>
-<pre><code>apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-memcached php7.0-readline php7.0-tidy</code></pre>
+<pre><code>apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-readline php7.0-tidy</code></pre>
 <p>On relance les services:</p>
 <pre><code>service apache2 restart && service php7.0-fpm restart</code></pre>]]></content>
     </entry>
