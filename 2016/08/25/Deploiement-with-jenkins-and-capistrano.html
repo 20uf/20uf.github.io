@@ -89,7 +89,7 @@
 <blockquote>
 <p>Ce guide n'explique pas comment installer Jenkins, vous devez disposer d'un serveur déjà installé et configuré.</p>
 </blockquote>
-<h2 id="installer-capifony">Installer Capifony<a href="#installer-capifony" class="anchor">#</a></h2>
+<h4 id="installer-capifony">Installer Capifony<a href="#installer-capifony" class="anchor">#</a></h4>
 <p>Connectez-vous en SSH sur votre serveur Jenkins et installez les dépendances suivantes:</p>
 <blockquote>
 <p>Installons aussi sur notre machine afin de déboguer et tester nos scripts.</p>
@@ -104,7 +104,7 @@ gem install capistrano-ext</code></pre>
 <p>Il peut être nécessaire d'effectuer des tâches sur le serveur Jenkins, comme par exemple les dépendances bowers.</p>
 <p>Pour cela j'utilise une dépendance capistrano pour effectuer des tâches avant la compression <a href="https://github.com/facile-it/capistrano-strategy-copy-with-triggers">Copy with triggers</a></p>
 <pre><code>gem install 'capistrano-strategy-copy-with-triggers'</code></pre>
-<h2 id="script-de-deploiement">Script de déploiement<a href="#script-de-deploiement" class="anchor">#</a></h2>
+<h4 id="script-de-deploiement">Script de déploiement<a href="#script-de-deploiement" class="anchor">#</a></h4>
 <blockquote>
 <p>La bonne pratique est de créer un dépôt spécifique qui contient vos scripts.</p>
 </blockquote>
@@ -113,7 +113,7 @@ Créons notre fichier Capfile où nous allons déclarer:</p>
 <ul><li>Le niveau de trace</li>
 <li>Le chemin binaire PHP</li>
 <li>nos différents environnements "staging"</li>
-</ul><p>[Fichier Capfile][3]</p>
+</ul><p><a href="https://github.com/20uf/deployment-with-capifony/blob/master/Capfile">Fichier Capfile</a></p>
 <pre><code class="language-python">    load 'deploy' if respond_to?(:namespace)
 
     require 'capifony_symfony2'
@@ -130,8 +130,8 @@ Créons notre fichier Capfile où nous allons déclarer:</p>
     set :stage_dir, "capifony/stages"
     require 'capistrano/ext/multistage'</code></pre>
 <p>Créons maintenant notre premier stage pour la production dans le dossier stages/
-Je ne vais pas ici vous détailler les configurations, je vous invite à consulter [le site officiel][2].</p>
-<p>Fichier production.rb</p>
+Je ne vais pas ici vous détailler les configurations, je vous invite à consulter <a href="http://capifony.org/">le site officiel</a>.</p>
+<p><a href="https://github.com/20uf/deployment-with-capifony/blob/master/stages/production.rb">Fichier production.rb</a></p>
 <pre><code class="language-python">    set :deploy_to, "/path/project/"
 
     set :branch, "master"
@@ -175,7 +175,7 @@ vim /path/project/shared/app/config/parameters.yml</code></pre>
 <p>Parfait, vous pouvez maintenant tester en exécutant le déploiement avec la commande:</p>
 <pre><code>cap production deploy</code></pre>
 <p>Ajoutez ces scripts dans un dépôt git, celui-ci sera utilisé dans la prochaine étape.</p>
-<h2 id="tache-jenkins">Tâche Jenkins<a href="#tache-jenkins" class="anchor">#</a></h2>
+<h4 id="tache-jenkins">Tâche Jenkins<a href="#tache-jenkins" class="anchor">#</a></h4>
 <blockquote>
 <p>Les plugins Git plugin ou GitLab Plugin, Branch API Plugin, Git Parameter Plug-In, Active Choices Plug-in est requis sur votre serveur Jenkins.</p>
 </blockquote>
@@ -191,48 +191,35 @@ Mettez comme valeur dans "Choisissez Source pour la valeur par défaut" l'enviro
 Précisez la branche par défaut.</p>
 <p><img src="https://raw.githubusercontent.com/20uf/deployment-with-capifony/master/assets/build_gitlab.png" alt="paramètres"></p>
 <p>Il reste à ajouter le script shell qui va exécuter capifony, selon le paramètre qui sera sélectionné par l'utilisateur.</p>
-<p>[Build jenkins][6]
-```{r, engine='bash', count_lines}</p>
-<h1 id="bin-bash">!/bin/bash<a href="#bin-bash" class="anchor">#</a></h1>
-<pre><code># Shell de deploiement
+<p><a href="https://github.com/20uf/deployment-with-capifony/blob/master/jenkins_build.sh">Build jenkins</a></p>
+<pre><code>    #!/bin/bash
+    # Shell de deploiement
 
-# Close STDERR FD
-exec 2<&-
-# Redirect STDERR to STDOUT
-exec 2>&1
+    # Close STDERR FD
+    exec 2<&-
+    # Redirect STDERR to STDOUT
+    exec 2>&1
 
-MAGENTA="\033[0;35m"
-COLOREND="\e[0m"
-BLUE="\e[34m"
-GREEN="\e[32m"
+    MAGENTA="\033[0;35m"
+    COLOREND="\e[0m"
+    BLUE="\e[34m"
+    GREEN="\e[32m"
 
-echo "-------------------------------------------------------------------------------------------------------------------------------------------"
-echo -e "$BLUE" ">>> Task execution ${JOB_NAME} stage: ${stage}" "$COLOREND"
-echo "-------------------------------------------------------------------------------------------------------------------------------------------"
+    echo "-------------------------------------------------------------------------------------------------------------------------------------------"
+    echo -e "$BLUE" ">>> Task execution ${JOB_NAME} stage: ${stage}" "$COLOREND"
+    echo "-------------------------------------------------------------------------------------------------------------------------------------------"
 
-cap ${stage} deploy
+    cap ${stage} deploy
 
-echo "-------------------------------------------------------------------------------------------------------------------------------------------"
-echo -e "$BLUE" "End of deployment ${JOB_NAME} `date`" "$COLOREND"
-echo "-------------------------------------------------------------------------------------------------------------------------------------------"</code></pre>
-<pre><code>
-
-Sauvegardez et le tour est joué !
-
-## Tâches utiles
-
-#### Liens externes:
-
-[Capifony][2]
-[Scripts exemples][1]
-[Jenkins][5]
-
-[1]: https://github.com/20uf/deployment-with-capifony
-[2]: http://capifony.org/
-[3]: https://github.com/20uf/deployment-with-capifony/blob/master/Capfile
-[4]: https://github.com/20uf/deployment-with-capifony/blob/master/stages/production.rb
-[5]: https://jenkins.io/
-[6]: https://github.com/20uf/deployment-with-capifony/blob/master/jenkins_build.sh</code></pre>
+    echo "-------------------------------------------------------------------------------------------------------------------------------------------"
+    echo -e "$BLUE" "End of deployment ${JOB_NAME} `date`" "$COLOREND"
+    echo "-------------------------------------------------------------------------------------------------------------------------------------------"</code></pre>
+<p>Sauvegardez et le tour est joué !</p>
+<h4 id="taches-utiles">Tâches utiles<a href="#taches-utiles" class="anchor">#</a></h4>
+<h4 id="liens-externes">Liens externes:<a href="#liens-externes" class="anchor">#</a></h4>
+<p><a href="http://capifony.org/">Capifony</a>
+<a href="https://github.com/20uf/deployment-with-capifony">Scripts exemples</a>
+<a href="https://jenkins.io/">Jenkins</a></p>
     </div>
 
           <hr>
