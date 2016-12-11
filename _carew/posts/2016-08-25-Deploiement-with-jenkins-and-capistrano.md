@@ -12,7 +12,7 @@ Déployer Symfony avec jenkins et capifony 2
 
 > Ce guide n'explique pas comment installer Jenkins, vous devez disposer d'un serveur déjà installé et configuré.
 
-## Installer Capifony
+#### Installer Capifony
 
 Connectez-vous en SSH sur votre serveur Jenkins et installez les dépendances suivantes:
 > Installons aussi sur notre machine afin de déboguer et tester nos scripts.
@@ -34,7 +34,7 @@ Pour cela j'utilise une dépendance capistrano pour effectuer des tâches avant 
 
     gem install 'capistrano-strategy-copy-with-triggers'
 
-## Script de déploiement
+#### Script de déploiement
 
 > La bonne pratique est de créer un dépôt spécifique qui contient vos scripts.
 
@@ -44,7 +44,7 @@ Créons notre fichier Capfile où nous allons déclarer:
 - Le chemin binaire PHP
 - nos différents environnements "staging"
 
-[Fichier Capfile][3]
+[Fichier Capfile](https://github.com/20uf/deployment-with-capifony/blob/master/Capfile)
 ```python
     load 'deploy' if respond_to?(:namespace)
     
@@ -64,9 +64,9 @@ Créons notre fichier Capfile où nous allons déclarer:
 ```
 
 Créons maintenant notre premier stage pour la production dans le dossier stages/
-Je ne vais pas ici vous détailler les configurations, je vous invite à consulter [le site officiel][2].
+Je ne vais pas ici vous détailler les configurations, je vous invite à consulter [le site officiel](http://capifony.org/).
 
-Fichier production.rb
+[Fichier production.rb](https://github.com/20uf/deployment-with-capifony/blob/master/stages/production.rb)
 ```python
     set :deploy_to, "/path/project/"
     
@@ -120,7 +120,7 @@ Parfait, vous pouvez maintenant tester en exécutant le déploiement avec la com
 
 Ajoutez ces scripts dans un dépôt git, celui-ci sera utilisé dans la prochaine étape.
 
-## Tâche Jenkins
+#### Tâche Jenkins
 
 > Les plugins Git plugin ou GitLab Plugin, Branch API Plugin, Git Parameter Plug-In, Active Choices Plug-in est requis sur votre serveur Jenkins.
 
@@ -143,8 +143,8 @@ Précisez la branche par défaut.
 
 Il reste à ajouter le script shell qui va exécuter capifony, selon le paramètre qui sera sélectionné par l'utilisateur.
 
-[Build jenkins][6]
-```{r, engine='bash', count_lines}
+[Build jenkins](https://github.com/20uf/deployment-with-capifony/blob/master/jenkins_build.sh)
+```
     #!/bin/bash
     # Shell de deploiement
     
@@ -171,19 +171,12 @@ Il reste à ajouter le script shell qui va exécuter capifony, selon le paramèt
 
 Sauvegardez et le tour est joué !
 
-## Tâches utiles
+#### Tâches utiles
 
 
 
 #### Liens externes:
 
-[Capifony][2]
-[Scripts exemples][1]
-[Jenkins][5]
-
-[1]: https://github.com/20uf/deployment-with-capifony
-[2]: http://capifony.org/
-[3]: https://github.com/20uf/deployment-with-capifony/blob/master/Capfile
-[4]: https://github.com/20uf/deployment-with-capifony/blob/master/stages/production.rb
-[5]: https://jenkins.io/
-[6]: https://github.com/20uf/deployment-with-capifony/blob/master/jenkins_build.sh
+[Capifony](http://capifony.org/)
+[Scripts exemples](https://github.com/20uf/deployment-with-capifony)
+[Jenkins](https://jenkins.io/)
