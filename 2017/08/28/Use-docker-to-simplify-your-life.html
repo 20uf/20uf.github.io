@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Michael COULLERET aka 20uf">
+        <meta name="robots" content="noindex">
+
+        <title>Michael COULLERET aka 20uf Utilisez docker pour simplifier votre vie!</title>
+
+        <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
+        <link href="/css/theme.css" rel="stylesheet">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link href="//file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+    
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="https://www.coulleret.pro">Michael COULLERET aka 20uf</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="https://www.coulleret.pro">Qui suis-je ?</a>
+                        </li>
+                                                                                                                        <li>
+                                        <a href="../../../index.html">
+                                            Blog
+                                        </a>
+                                    </li>
+                                                                                                        </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header>
+            <div class="container">
+                <div class="row">
+                    <img class="img-responsive img-circle photo col-lg-2" src="https://20uf.github.io/img/mc.png" alt="">
+                    <div class="col-lg-10 intro-text">
+                        <p class="skills">Architecte PHP</p>
+                        <p>Symfony confirmé et Zend Certified PHP Engineer</p>
+                        <ul class="list-inline">
+                            <li>
+                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://fr.linkedin.com/in/michael-coulleret-250668b5" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/Mike20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-github-alt" aria-hidden="true"></i></a>
+                            </li>
+                        </ul>
+                        <hr class="star-light">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+                <section class="container content">
+                                                <h1></h1>
+                            
+              <article>
+    <p class="text-muted">
+      <span class="glyphicon glyphicon-calendar"></span>
+      28 Aug 2017
+    </p>
+
+    <div class="body">
+      <h2 id="utilisez-docker-pour-simplifier-votre-vie">Utilisez docker pour simplifier votre vie!<a href="#utilisez-docker-pour-simplifier-votre-vie" class="anchor">#</a></h2>
+<h4 id="pourquoi-s-orienter-sur-du-docker">Pourquoi s'orienter sur du docker.<a href="#pourquoi-s-orienter-sur-du-docker" class="anchor">#</a></h4>
+<p>Dans le cadre de mes projets j'ai été confronté à ce que chacun de mes développeurs se retrouve avec des configurations différentes sur leur poste de travail. </p>
+<p>Selon les projets cette pratique peut être problématique, dans mon cas j'ai une application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du <a href="https://fr.wikipedia.org/wiki/Authentification_unique">SSO</a>.
+La contrainte principale est le partage de session, les vhosts doivent être <strong>identiques</strong>.</p>
+<p>Je peux aussi citer d'autres arguments:</p>
+<ul><li>L'installation d'un ou plusieurs projets prennent plus d'une journée pour chaque nouveau arrivants, seulement quelques minutes avec Docker.</li>
+<li>Les configurations entre chaque développeurs ne sont pas ISO, avec Docker les ressources sont partagées.</li>
+</ul><p>La stack Docker peut être pénalisante sur des systemes autres que Linux, comme par exemple l'utilisation d'une VM les performances sont réduites.
+C'est le cas avec Mac OS. Windows Pro propose maintenant <a href="https://fr.wikipedia.org/wiki/Hyper-V">Hyper V</a>, n'utilisant aucun des deux il m'est difficile de vous donner des conseils.</p>
+<h4 id="quelle-approche-aborder">Quelle approche aborder ?<a href="#quelle-approche-aborder" class="anchor">#</a></h4>
+<p>La philosophie de <a href="https://www.docker.com/">Docker</a> est de lancer un processus par conteneur.
+En tant que développeur je préfère avoir une approche différente, par services.</p>
+<p>Je connais mon silo, à savoir:</p>
+<ul><li>Un clusteur Apache / Nginx et PHP-x installé dessus</li>
+<li>Un clusteur Mysql / MariaDb / MongoDb..</li>
+<li>Un clusteur Memcache / Redis..</li>
+</ul><p>Mon objectif est de s'approcher au maximum de cet environnement.</p>
+<p><img src="/img/1_silo_docker.png" alt="Silo"></p>
+<p>Pour cela je vais utiliser <a href="https://docs.docker.com/compose/">Docker-compose</a> et <a href="https://www.gnu.org/software/make/">Make</a> pour simplifier la gestion:</p>
+<ul><li>Installer le projet</li>
+<li>Lancer les containers</li>
+<li>Arrêter les containers</li>
+<li>Manipuler un container (lancer des tâches par exemple)</li>
+</ul><p>Ma pratique est d'avoir un package <code>Docker</code> à la racine de mes projets, on peut y placer des <code>Dockerfile</code> qui peuvent être construites à la demande.
+Cependant je préfère construire mes images en amont afin d'économiser le temps de construction à chaque installation. </p>
+<p>Nous avons (mon équipe) créé un dépôt <a href="https://github.com/php-docker/nginx">PHPDocker</a> qui contient une série d'images, cela nous permet de pouvoir switcher facilement et simplement sur l'une d'elle.
+Ces images représentes la partie serveur web avec son langage (PHP) et des configurations adaptées à nos besoins.</p>
+<h4 id="mise-en-place-du-silo">Mise en place du Silo<a href="#mise-en-place-du-silo" class="anchor">#</a></h4>
+<p>Nos produits sont développés sous Symfony, nos exemples sont donc basés dessus, vous pouvez bien évidemment reproduire pour tout autre type de Framework ou pas.</p>
+<p>Notre fichier docker <code>docker-compose.yml</code> se trouvant à la racine du projet.
+Je vous invite à consulter la <a href="https://docs.docker.com/compose/compose-file/">documentation officielle</a> concernant l'utilisation et les références.</p>
+<pre><code class="language-yaml">version: "2"
+
+services:
+    app:
+        image: dockerphp/nginx:7.1-stretch
+        depends_on:
+            - db
+            - memcached_1
+            - memcached_2
+        volumes:
+            - .:/app
+        ports:
+            - "8080:443"
+        extra_hosts:
+         - "sso.domain-dev.fr:172.17.0.1" # L'ip du docker engine
+
+    db:
+        image: mariadb:10.3
+        environment:
+            v: root
+        ports:
+            - "3301:3306"
+
+    memcached_1:
+        image: memcached:latest
+        ports:
+          - "11210:11211"
+        mem_limit: 1g
+
+    memcached_2:
+        image: memcached:latest
+        ports:
+          - "11211:11211"
+        mem_limit: 1g
+
+    pma:
+        image: phpmyadmin/phpmyadmin
+        depends_on:
+            - db
+        environment:
+            PMA_HOST: db
+            PMA_USER: root
+            PMA_PASSWORD: root
+        ports:
+            - "127.0.0.1:8081:80"</code></pre>
+<p>Détaillons un peu cette configuration:</p>
+<p><code>app</code>: </p>
+<ul><li>Nous chargeons l'image avec Nginx et PHP 7.1.</li>
+<li>Nous avons trois liens, un sur la base de données et deux sur memcached.</li>
+<li>le port 80 du container sera accessible sur le port 8080. (<a href="https://localhost:8080">https://localhost:8080</a>)</li>
+<li>Nous ajoutons dans le <code>/etc/hosts</code> le domaine <code>sso.domain-dev.fr</code> sur l'ip du docker engine.</li>
+</ul><p><code>db</code>: </p>
+<ul><li>Nous chargeons l'image officielle de mariadb sur la version 10.3.
+_ On déclare avec la variable d'environnement <code>MYSQL_ROOT_PASSWORD</code> le mot de passe <code>root</code>.</li>
+<li>le port 3306 du container sera accessible sur le port 3301.</li>
+</ul><p><code>memcached_1</code> et <code>memcached_2</code>: </p>
+<ul><li>Nous chargeons l'image officielle de memcached sur sa dernière version.</li>
+<li>On assigne 1g de mémoire à memcached .</li>
+<li>le port 11211 du container sera accessible sur le port 11210 et 11211.</li>
+</ul><p><code>pma</code>: </p>
+<ul><li>Nous chargeons l'image officielle de phpmyadmin sur sa dernière version.</li>
+<li>Nous avons un lien avec la base de données.</li>
+<li>On déclare avec les variables d'environnements pour que phpmyadmin se connecte à la base de données.</li>
+<li>le port 80 du container sera accessible sur le port 8081. (<a href="http://localhost:8081">http://localhost:8081</a>)</li>
+</ul><p>Nous allons maintenant créer un fichier <code>Makefile</code> à la racine du projet, celui-ci va nous simplifier la vie pour manipuler les containers.</p>
+<pre><code class="language-bash"># Do not change
+FIG=docker-compose
+RUN=$(FIG) run --rm app
+EXEC=$(FIG) exec app
+CONSOLE=bin/console
+
+.DEFAULT_GOAL := help
+.PHONY: help start stop restart clear cc bash host deps
+
+help:
+    @echo ''
+    @fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+    @echo ''
+
+## Setup
+##---------------------------------------------------------------------------
+install:        ## Install and start the project
+install: up vendor app/config/parameters.yml yarn info
+
+host:           ## Add the application host to your configuration
+    @echo 'Adding the local domain to /etc/hosts'
+    sudo sh -c  'echo "127.0.0.1       my-app.domain-dev.fr" >> /etc/hosts'
+
+##
+## Provisioning
+##---------------------------------------------------------------------------
+start:          ## start the project
+start: up info
+
+stop:           ## Stop docker containers
+    $(FIG) kill
+
+restart:        ## Restart the whole project
+restart: stop start warmup
+
+bash:           ## Switch to the bash container of the application
+    @$(RUN) bash
+
+##
+## Symfony
+##---------------------------------------------------------------------------
+clear:          ## Remove all the cache, the logs, the sessions and the built assets
+clear: warmup
+
+cc:             ## Clear the cache in dev env
+cc:
+    $(RUN) $(CONSOLE) cache:clear --no-warmup
+
+clean:          ## Clean package nodejs
+clean: clean_project
+
+console:        ## Launch Console
+    $(CONSOLE) $(filter-out $@,$(MAKECMDGOALS))
+
+composer:       ## Launch Composer
+    $(APP) composer $(filter-out $@,$(MAKECMDGOALS))
+
+##
+## Dependencies
+##---------------------------------------------------------------------------
+
+deps:           ## Install the project PHP and JS dependencies
+deps: vendor
+
+# Internal rules
+
+up:
+    $(FIG) up -d --remove-orphans
+
+warmup:
+    -$(EXEC) rm -rf var/cache/*
+    -$(EXEC) rm -rf var/sessions/*
+    -$(EXEC) rm -rf var/logs/*
+
+vendor: composer.lock
+    @$(RUN) composer install
+
+composer.lock: composer.json
+    @echo compose.lock is not up to date.
+
+app/config/parameters.yml: app/config/parameters.yml.dist
+    @$(RUN) composer run-script post-install-cmd --no-interaction
+
+node_modules: yarn.lock
+    @$(RUN) yarn run assets
+
+yarn:
+    -$(EXEC) npm run yarn:assets
+
+yarn.lock: package.json
+    @echo yarn.lock is not up to date.
+
+%:
+@:</code></pre>
+<p>Vous remarquez qu'il est assez simple d'ajouter de nouvelles tâches.
+Vous pouvez maintenant consulter les tâches disponibles avec la commande:</p>
+<pre><code>$ make</code></pre>
+<p>Vous aurez pour résultat:</p>
+<pre><code class="language-bash"> Setup
+---------------------------------------------------------------------------
+install:         Install and start the project
+host:            Add the application host to your configuration
+
+ Provisioning
+---------------------------------------------------------------------------
+start:           start the project
+stop:            Stop docker containers
+restart:         Restart the whole project
+bash:            Switch to the bash App container of the application
+
+ Cache
+---------------------------------------------------------------------------
+clear:           Remove all the cache, the logs, the sessions and the built assets
+cc:              Clear the cache in dev env
+clean:           Clean package nodejs
+
+ Dependencies
+---------------------------------------------------------------------------
+deps:            Install the project PHP and JS dependencies</code></pre>
+<p>Vous l'aurez compris, maintenant l'installation d'un projet semble simple et rapide, voici en quelques lignes ce que représentent l'installation d'un projet:</p>
+<pre><code>$ git clone git@gitlab.entreprise.com:namespace/project_name.git
+Cloning into 'project_name'...
+remote: Counting objects: 22512, done.
+....
+$ make install
+cd social_live/ && make install
+docker-compose up -d --remove-orphans
+Creating network "project_name_default" with the default driver
+Pulling memcached (memcached:latest)...
+latest: Pulling from library/memcached
+94ed0c431eb5: Pull complete
+...
+7.1-stretch: Pulling from dockerphp/nginx
+...</code></pre>
+<p>Une fois terminée l'application est disponible sur https::/my-app.domain-dev.fr:8080
+PhpMyAdmin sur <a href="http://my-app.domain-dev.fr:8081">http://my-app.domain-dev.fr:8081</a>
+Mysql tourne sur le port 3301 si vous utilisez MysqlWorkbench.</p>
+<p>Vous en pensez quoi ? Pas mal hein ? :)</p>
+    </div>
+
+          <hr>
+      <h4><span class="glyphicon glyphicon-tags"></span>&nbsp;
+                    <a href="../../../tags/docker.html"><span class="label label-primary">Docker</span></a>
+                    <a href="../../../tags/docker-compose.html"><span class="label label-primary">Docker-Compose</span></a>
+                    <a href="../../../tags/sandbox.html"><span class="label label-primary">Sandbox</span></a>
+              </h4>
+      </article>
+        </section>
+        
+                            <footer class="container row footer-above text-center">
+                <div class="row footer-below">
+                    <div class="col-lg-12">
+                        Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
+                    </div>
+                </div>
+            </footer>
+        
+
+        <script src="https://use.fontawesome.com/1cb4261d3b.js"></script>
+    </body>
+</html>
