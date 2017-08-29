@@ -12,21 +12,25 @@ Utilisez docker pour simplifier votre vie!
 
 #### Pourquoi s'orienter sur du docker.
 
-Dans le cadre de mes projets j'ai été confronté à ce que chacun de mes développeurs se retrouve avec des configurations différentes sur leur poste de travail. 
+Dans le cadre de mes projets j'ai été confronté à ce que chacun de mes développeurs se retrouvent avec des configurations différentes sur leur poste de travail. 
 
-Selon les projets cette pratique peut être problématique, dans mon cas j'ai une application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du [SSO]. 
-La contrainte principale est le partage de session, les vhosts doivent être **identiques**.
+Selon les projets cette pratique peut être problématique, pour exemple nous avons application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du [SSO].
+La contrainte principale est le partage de session, les vhosts doivent être identiques ainsi qu'une configuration applicative.
 
-Je peux aussi citer d'autres arguments:
-* L'installation d'un ou plusieurs projets prennent plus d'une journée pour chaque nouveau arrivants, seulement quelques minutes avec Docker.
-* Les configurations entre chaque développeurs ne sont pas ISO, avec Docker les ressources sont partagées.
+A mon sens ça rend le projet complexe, il faut comprendre comment fonctionne le produit et les techniques utilisées, il faut appréhender et cela prend du temps.
 
-La stack Docker peut être pénalisante sur des systemes autres que Linux, comme par exemple l'utilisation d'une VM les performances sont réduites.
-C'est le cas avec Mac OS. Windows Pro propose maintenant [Hyper V], n'utilisant aucun des deux il m'est difficile de vous donner des conseils.
+La mise en oeuvre de docker nous apporte les points suivants:
+* L'installation d'un ou plusieurs projets prennent seulement quelques minutes avec Docker, pret au developpement.
+* La stack entre chaque développeurs sont ISO
+
+L'utilisation de Docker peut être pénalisant sur des systèmes autres que Linux, sur Mac Os une VM est utilisée ce qui réduit les performances.
+
+Windows Pro propose maintenant [Hyper V] qui semble avoir de bons retours.
 
 #### Quelle approche aborder ?
 
 La philosophie de [Docker] est de lancer un processus par conteneur. 
+
 En tant que développeur je préfère avoir une approche différente, par services.
 
 Je connais mon silo, à savoir:
@@ -44,17 +48,32 @@ Pour cela je vais utiliser [Docker-compose] et [Make] pour simplifier la gestion
 - Arrêter les containers
 - Manipuler un container (lancer des tâches par exemple)
 
-Ma pratique est d'avoir un package `Docker` à la racine de mes projets, on peut y placer des `Dockerfile` qui peuvent être construites à la demande. 
+Ma pratique est d'avoir un package `Docker` à la racine de mes projets, on peut y placer des `Dockerfile` qui peuvent être construites à la demande.
+ 
 Cependant je préfère construire mes images en amont afin d'économiser le temps de construction à chaque installation. 
 
 Nous avons (mon équipe) créé un dépôt [PHPDocker] qui contient une série d'images, cela nous permet de pouvoir switcher facilement et simplement sur l'une d'elle.
 Ces images représentes la partie serveur web avec son langage (PHP) et des configurations adaptées à nos besoins.
+
+Voici la liste des images actuellement disponibles (Des Alpines seront prochainement ajoutées) :
+
+# Supported tags
+| Os                 | PHP | Image                       |
+|--------------------|-----|-----------------------------|
+| Debian 9 (Stretch) | 7.2 | dockerphp/nginx:7.0-stretch |
+| Debian 8 (Jessie)  | 7.2 | dockerphp/nginx:7.0-jessie  |
+| Debian 9 (Stretch) | 7.1 | dockerphp/nginx:7.2-stretch |
+| Debian 8 (Jessie)  | 7.1 | dockerphp/nginx:7.1-jessie  |
+| Debian 9 (Stretch) | 7.0 | dockerphp/nginx:7.0-stretch |
+| Debian 8 (Jessie)  | 7.0 | dockerphp/nginx:7.0-jessie  |
+| Debian 8 (Jessie)  | 5.6 | dockerphp/nginx:5.6-jessie  |
 
 #### Mise en place du Silo
 
 Nos produits sont développés sous Symfony, nos exemples sont donc basés dessus, vous pouvez bien évidemment reproduire pour tout autre type de Framework ou pas.
 
 Notre fichier docker `docker-compose.yml` se trouvant à la racine du projet.
+
 Je vous invite à consulter la [documentation officielle][docker-compose-refs] concernant l'utilisation et les références.
 
 ```yaml
@@ -62,7 +81,7 @@ version: "2"
 
 services:
     app:
-        image: dockerphp/nginx:7.1-stretch
+        image: dockerphp/nginx:7.2-stretch
         depends_on:
             - db
             - memcached_1
@@ -83,14 +102,10 @@ services:
 
     memcached_1:
         image: memcached:latest
-        ports:
-          - "11210:11211"
         mem_limit: 1g
 
     memcached_2:
         image: memcached:latest
-        ports:
-          - "11211:11211"
         mem_limit: 1g
 
     pma:
@@ -133,9 +148,9 @@ Nous allons maintenant créer un fichier `Makefile` à la racine du projet, celu
 
 ```bash
 # Do not change
-FIG=docker-compose
-RUN=$(FIG) run --rm app
-EXEC=$(FIG) exec app
+DC=docker-compose
+RUN=$(DC) run --rm app
+EXEC=$(DC) exec app
 CONSOLE=bin/console
 
 .DEFAULT_GOAL := help
@@ -162,7 +177,7 @@ start:          ## start the project
 start: up info
 
 stop:           ## Stop docker containers
-	$(FIG) kill
+	$(DC) kill
 
 restart:        ## Restart the whole project
 restart: stop start warmup
@@ -199,7 +214,7 @@ deps: vendor
 # Internal rules
 
 up:
-	$(FIG) up -d --remove-orphans
+	$(DC) up -d --remove-orphans
 
 warmup:
 	-$(EXEC) rm -rf var/cache/*
@@ -229,6 +244,7 @@ yarn.lock: package.json
 ```
 
 Vous remarquez qu'il est assez simple d'ajouter de nouvelles tâches.
+
 Vous pouvez maintenant consulter les tâches disponibles avec la commande:
 
     $ make
@@ -259,26 +275,29 @@ clean:           Clean package nodejs
 deps:            Install the project PHP and JS dependencies
 ```
 
+
 Vous l'aurez compris, maintenant l'installation d'un projet semble simple et rapide, voici en quelques lignes ce que représentent l'installation d'un projet:
+
 
     $ git clone git@gitlab.entreprise.com:namespace/project_name.git
     Cloning into 'project_name'...
     remote: Counting objects: 22512, done.
     ....
     $ make install
-    cd social_live/ && make install
+    cd project_name/ && make install
     docker-compose up -d --remove-orphans
     Creating network "project_name_default" with the default driver
     Pulling memcached (memcached:latest)...
     latest: Pulling from library/memcached
     94ed0c431eb5: Pull complete
     ...
-    7.1-stretch: Pulling from dockerphp/nginx
+    7.2-stretch: Pulling from dockerphp/nginx
     ...
 
-Une fois terminée l'application est disponible sur https::/my-app.domain-dev.fr:8080
-PhpMyAdmin sur http://my-app.domain-dev.fr:8081
-Mysql tourne sur le port 3301 si vous utilisez MysqlWorkbench.
+Une fois terminée vous pouvez acceder:
+* A votre application sur https://my-app.domain-dev.fr:8080
+* PhpMyAdmin sur http://my-app.domain-dev.fr:8081
+* Mysql sur le port 3301 si vous utilisez MysqlWorkbench.
 
 Vous en pensez quoi ? Pas mal hein ? :)
 

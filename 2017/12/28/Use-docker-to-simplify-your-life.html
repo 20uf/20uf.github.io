@@ -81,23 +81,24 @@
               <article>
     <p class="text-muted">
       <span class="glyphicon glyphicon-calendar"></span>
-      28 Aug 2017
+      28 Dec 2017
     </p>
 
     <div class="body">
       <h2 id="utilisez-docker-pour-simplifier-votre-vie">Utilisez docker pour simplifier votre vie!<a href="#utilisez-docker-pour-simplifier-votre-vie" class="anchor">#</a></h2>
 <h4 id="pourquoi-s-orienter-sur-du-docker">Pourquoi s'orienter sur du docker.<a href="#pourquoi-s-orienter-sur-du-docker" class="anchor">#</a></h4>
-<p>Dans le cadre de mes projets j'ai été confronté à ce que chacun de mes développeurs se retrouve avec des configurations différentes sur leur poste de travail. </p>
-<p>Selon les projets cette pratique peut être problématique, dans mon cas j'ai une application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du <a href="https://fr.wikipedia.org/wiki/Authentification_unique">SSO</a>.
-La contrainte principale est le partage de session, les vhosts doivent être <strong>identiques</strong>.</p>
-<p>Je peux aussi citer d'autres arguments:</p>
-<ul><li>L'installation d'un ou plusieurs projets prennent plus d'une journée pour chaque nouveau arrivants, seulement quelques minutes avec Docker.</li>
-<li>Les configurations entre chaque développeurs ne sont pas ISO, avec Docker les ressources sont partagées.</li>
-</ul><p>La stack Docker peut être pénalisante sur des systemes autres que Linux, comme par exemple l'utilisation d'une VM les performances sont réduites.
-C'est le cas avec Mac OS. Windows Pro propose maintenant <a href="https://fr.wikipedia.org/wiki/Hyper-V">Hyper V</a>, n'utilisant aucun des deux il m'est difficile de vous donner des conseils.</p>
+<p>Dans le cadre de mes projets j'ai été confronté à ce que chacun de mes développeurs se retrouvent avec des configurations différentes sur leur poste de travail. </p>
+<p>Selon les projets cette pratique peut être problématique, pour exemple nous avons application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du <a href="https://fr.wikipedia.org/wiki/Authentification_unique">SSO</a>.
+La contrainte principale est le partage de session, les vhosts doivent être identiques ainsi qu'une configuration applicative.</p>
+<p>A mon sens ça rend le projet complexe, il faut comprendre comment fonctionne le produit et les techniques utilisées, il faut appréhender et cela prend du temps.</p>
+<p>La mise en oeuvre de docker nous apporte les points suivants:</p>
+<ul><li>L'installation d'un ou plusieurs projets prennent seulement quelques minutes avec Docker, pret au developpement.</li>
+<li>La stack entre chaque développeurs sont ISO</li>
+</ul><p>L'utilisation de Docker peut être pénalisant sur des systèmes autres que Linux, sur Mac Os une VM est utilisée ce qui réduit les performances.</p>
+<p>Windows Pro propose maintenant <a href="https://fr.wikipedia.org/wiki/Hyper-V">Hyper V</a> qui semble avoir de bons retours.</p>
 <h4 id="quelle-approche-aborder">Quelle approche aborder ?<a href="#quelle-approche-aborder" class="anchor">#</a></h4>
-<p>La philosophie de <a href="https://www.docker.com/">Docker</a> est de lancer un processus par conteneur.
-En tant que développeur je préfère avoir une approche différente, par services.</p>
+<p>La philosophie de <a href="https://www.docker.com/">Docker</a> est de lancer un processus par conteneur. </p>
+<p>En tant que développeur je préfère avoir une approche différente, par services.</p>
 <p>Je connais mon silo, à savoir:</p>
 <ul><li>Un clusteur Apache / Nginx et PHP-x installé dessus</li>
 <li>Un clusteur Mysql / MariaDb / MongoDb..</li>
@@ -109,19 +110,45 @@ En tant que développeur je préfère avoir une approche différente, par servic
 <li>Lancer les containers</li>
 <li>Arrêter les containers</li>
 <li>Manipuler un container (lancer des tâches par exemple)</li>
-</ul><p>Ma pratique est d'avoir un package <code>Docker</code> à la racine de mes projets, on peut y placer des <code>Dockerfile</code> qui peuvent être construites à la demande.
-Cependant je préfère construire mes images en amont afin d'économiser le temps de construction à chaque installation. </p>
+</ul><p>Ma pratique est d'avoir un package <code>Docker</code> à la racine de mes projets, on peut y placer des <code>Dockerfile</code> qui peuvent être construites à la demande.</p>
+<p>Cependant je préfère construire mes images en amont afin d'économiser le temps de construction à chaque installation. </p>
 <p>Nous avons (mon équipe) créé un dépôt <a href="https://github.com/php-docker/nginx">PHPDocker</a> qui contient une série d'images, cela nous permet de pouvoir switcher facilement et simplement sur l'une d'elle.
 Ces images représentes la partie serveur web avec son langage (PHP) et des configurations adaptées à nos besoins.</p>
-<h4 id="mise-en-place-du-silo">Mise en place du Silo<a href="#mise-en-place-du-silo" class="anchor">#</a></h4>
+<p>Voici la liste des images actuellement disponibles (Des Alpines seront prochainement ajoutées) :</p>
+<h1 id="supported-tags">Supported tags<a href="#supported-tags" class="anchor">#</a></h1>
+<table><thead><tr><th>Os</th>
+<th>PHP</th>
+<th>Image</th>
+</tr></thead><tbody><tr><td>Debian 9 (Stretch)</td>
+<td>7.2</td>
+<td>dockerphp/nginx:7.0-stretch</td>
+</tr><tr><td>Debian 8 (Jessie)</td>
+<td>7.2</td>
+<td>dockerphp/nginx:7.0-jessie</td>
+</tr><tr><td>Debian 9 (Stretch)</td>
+<td>7.1</td>
+<td>dockerphp/nginx:7.2-stretch</td>
+</tr><tr><td>Debian 8 (Jessie)</td>
+<td>7.1</td>
+<td>dockerphp/nginx:7.1-jessie</td>
+</tr><tr><td>Debian 9 (Stretch)</td>
+<td>7.0</td>
+<td>dockerphp/nginx:7.0-stretch</td>
+</tr><tr><td>Debian 8 (Jessie)</td>
+<td>7.0</td>
+<td>dockerphp/nginx:7.0-jessie</td>
+</tr><tr><td>Debian 8 (Jessie)</td>
+<td>5.6</td>
+<td>dockerphp/nginx:5.6-jessie</td>
+</tr></tbody></table><h4 id="mise-en-place-du-silo">Mise en place du Silo<a href="#mise-en-place-du-silo" class="anchor">#</a></h4>
 <p>Nos produits sont développés sous Symfony, nos exemples sont donc basés dessus, vous pouvez bien évidemment reproduire pour tout autre type de Framework ou pas.</p>
-<p>Notre fichier docker <code>docker-compose.yml</code> se trouvant à la racine du projet.
-Je vous invite à consulter la <a href="https://docs.docker.com/compose/compose-file/">documentation officielle</a> concernant l'utilisation et les références.</p>
+<p>Notre fichier docker <code>docker-compose.yml</code> se trouvant à la racine du projet.</p>
+<p>Je vous invite à consulter la <a href="https://docs.docker.com/compose/compose-file/">documentation officielle</a> concernant l'utilisation et les références.</p>
 <pre><code class="language-yaml">version: "2"
 
 services:
     app:
-        image: dockerphp/nginx:7.1-stretch
+        image: dockerphp/nginx:7.2-stretch
         depends_on:
             - db
             - memcached_1
@@ -142,14 +169,10 @@ services:
 
     memcached_1:
         image: memcached:latest
-        ports:
-          - "11210:11211"
         mem_limit: 1g
 
     memcached_2:
         image: memcached:latest
-        ports:
-          - "11211:11211"
         mem_limit: 1g
 
     pma:
@@ -183,9 +206,9 @@ _ On déclare avec la variable d'environnement <code>MYSQL_ROOT_PASSWORD</code> 
 <li>le port 80 du container sera accessible sur le port 8081. (<a href="http://localhost:8081">http://localhost:8081</a>)</li>
 </ul><p>Nous allons maintenant créer un fichier <code>Makefile</code> à la racine du projet, celui-ci va nous simplifier la vie pour manipuler les containers.</p>
 <pre><code class="language-bash"># Do not change
-FIG=docker-compose
-RUN=$(FIG) run --rm app
-EXEC=$(FIG) exec app
+DC=docker-compose
+RUN=$(DC) run --rm app
+EXEC=$(DC) exec app
 CONSOLE=bin/console
 
 .DEFAULT_GOAL := help
@@ -212,7 +235,7 @@ start:          ## start the project
 start: up info
 
 stop:           ## Stop docker containers
-    $(FIG) kill
+    $(DC) kill
 
 restart:        ## Restart the whole project
 restart: stop start warmup
@@ -249,7 +272,7 @@ deps: vendor
 # Internal rules
 
 up:
-    $(FIG) up -d --remove-orphans
+    $(DC) up -d --remove-orphans
 
 warmup:
     -$(EXEC) rm -rf var/cache/*
@@ -276,8 +299,8 @@ yarn.lock: package.json
 
 %:
 @:</code></pre>
-<p>Vous remarquez qu'il est assez simple d'ajouter de nouvelles tâches.
-Vous pouvez maintenant consulter les tâches disponibles avec la commande:</p>
+<p>Vous remarquez qu'il est assez simple d'ajouter de nouvelles tâches.</p>
+<p>Vous pouvez maintenant consulter les tâches disponibles avec la commande:</p>
 <pre><code>$ make</code></pre>
 <p>Vous aurez pour résultat:</p>
 <pre><code class="language-bash"> Setup
@@ -307,19 +330,20 @@ Cloning into 'project_name'...
 remote: Counting objects: 22512, done.
 ....
 $ make install
-cd social_live/ && make install
+cd project_name/ && make install
 docker-compose up -d --remove-orphans
 Creating network "project_name_default" with the default driver
 Pulling memcached (memcached:latest)...
 latest: Pulling from library/memcached
 94ed0c431eb5: Pull complete
 ...
-7.1-stretch: Pulling from dockerphp/nginx
+7.2-stretch: Pulling from dockerphp/nginx
 ...</code></pre>
-<p>Une fois terminée l'application est disponible sur https::/my-app.domain-dev.fr:8080
-PhpMyAdmin sur <a href="http://my-app.domain-dev.fr:8081">http://my-app.domain-dev.fr:8081</a>
-Mysql tourne sur le port 3301 si vous utilisez MysqlWorkbench.</p>
-<p>Vous en pensez quoi ? Pas mal hein ? :)</p>
+<p>Une fois terminée vous pouvez acceder:</p>
+<ul><li>A votre application sur <a href="https://my-app.domain-dev.fr:8080">https://my-app.domain-dev.fr:8080</a></li>
+<li>PhpMyAdmin sur <a href="http://my-app.domain-dev.fr:8081">http://my-app.domain-dev.fr:8081</a></li>
+<li>Mysql sur le port 3301 si vous utilisez MysqlWorkbench.</li>
+</ul><p>Vous en pensez quoi ? Pas mal hein ? :)</p>
     </div>
 
           <hr>
