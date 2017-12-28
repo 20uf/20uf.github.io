@@ -10,8 +10,8 @@
 
         <title>Michael COULLERET aka 20uf Tester le client Guzzle dans les tests unitaires</title>
 
-        <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
-        <link href="/css/theme.css" rel="stylesheet">
+        <link href="css/bootstrap.mco.min.css" rel="stylesheet">
+        <link href="css/theme.css" rel="stylesheet">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href="//file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -57,10 +57,10 @@
                         <p>Symfony confirmé et Zend Certified PHP Engineer</p>
                         <ul class="list-inline">
                             <li>
-                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
+                                <a href="https://fr.linkedin.com/in/michael-coulleret/" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                             </li>
                             <li>
-                                <a href="https://fr.linkedin.com/in/michael-coulleret-250668b5" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
                             </li>
                             <li>
                                 <a href="https://twitter.com/Mike20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
@@ -86,9 +86,9 @@
 
     <div class="body">
       <h2 id="tester-le-client-guzzle-dans-les-tests-unitaires">Tester le client Guzzle dans les tests unitaires<a href="#tester-le-client-guzzle-dans-les-tests-unitaires" class="anchor">#</a></h2>
-<p>Guzzle est un client HTTP qui envoie des requêtes HTTP à un serveur et reçoit des réponses HTTP.</p>
-<p>Il est possible depuis la version 6 de mocker les réponses, prenons pour contexte un client facebook.</p>
-<p>J'utilise le framework <a href="http://phake.readthedocs.io/en/2.1/">Phake</a> en complément de <a href="https://phpunit.de/">PHPUnit</a>.</p>
+<p>Guzzle est un client HTTP qui envoie des requ&ecirc;tes HTTP &agrave; un serveur et re&ccedil;oit des r&eacute;ponses HTTP.</p>
+<p>Il est possible depuis la version 6 de mocker les r&eacute;ponses, prenons pour contexte un client facebook.</p>
+<p>J'utilise le framework <a href="http://phake.readthedocs.io/en/2.1/">Phake</a> en compl&eacute;ment de <a href="https://phpunit.de/">PHPUnit</a>.</p>
 <pre><code class="language-php">
     // App/Client/FacebookClient.php
     namespace App\Client;
@@ -98,7 +98,7 @@
     /**
      * Class FacebookClient
      *
-     * @author Michael COULLERET <michael@coulleret.pro>
+     * @author Michael COULLERET &lt;michael@coulleret.pro&gt;
      */
     class FacebookClient
     {
@@ -113,8 +113,8 @@
                 throw new \Exception('Invalid URL facebook');
             }
 
-            $facebookUser = $this->getUser($match[1]);
-            $posts = $this->getPosts($match[1]);
+            $facebookUser = $this-&gt;getUser($match[1]);
+            $posts = $this-&gt;getPosts($match[1]);
 
             $messageId = sprintf('%s_%s', $facebookUser['id'], $match[2]);
 
@@ -141,7 +141,7 @@
     /**
      * Class FacebookClientTest
      *
-     * @author Michael COULLERET <michael@coulleret.pro>
+     * @author Michael COULLERET &lt;michael@coulleret.pro&gt;
      */
     class FacebookClientTest extends \PHPUnit_Framework_TestCase
     {
@@ -151,33 +151,33 @@
         public function shouldGetMessageFromUrl()
         {
             $guzzleMock = new MockHandler([
-                new Response(200, [], $this->mockJsonOauth),
-                new Response(200, [], $this->mockJsonUser),
-                new Response(200, [], $this->mockJsonPosts),
+                new Response(200, [], $this-&gt;mockJsonOauth),
+                new Response(200, [], $this-&gt;mockJsonUser),
+                new Response(200, [], $this-&gt;mockJsonPosts),
             ]);
 
-            $guzzleClient = new Client(['handler' => HandlerStack::create($guzzleMock)]);
+            $guzzleClient = new Client(['handler' =&gt; HandlerStack::create($guzzleMock)]);
 
-            $clientFacebook = \Phake::partialMock(FacebookClient::class, $this->config, $guzzleClient, $this->logger);
+            $clientFacebook = \Phake::partialMock(FacebookClient::class, $this-&gt;config, $guzzleClient, $this-&gt;logger);
 
-            $result = $clientFacebook->getMessageFromUrl($this->mockUrl);
+            $result = $clientFacebook-&gt;getMessageFromUrl($this-&gt;mockUrl);
 
-            $mockToArray = json_decode($this->mockJsonPosts, true);
+            $mockToArray = json_decode($this-&gt;mockJsonPosts, true);
             $mockVerify = $mockToArray['data'][2];
             $mockVerify['name'] = 'Barack Obama';
             $mockVerify['avatar'] = 'http://graph.facebook.com/barackobama/picture';
 
-            $this->assertEquals($result, $mockVerify);
+            $this-&gt;assertEquals($result, $mockVerify);
         }
 
         ...
 
     }</code></pre>
-<p>La classe MockHandler() permet de créer une liste d'attente de réponse, dans notre contexte la première réponse se charge de renvoyer l'access token de facebook, la seconde l'entité utilisateur et la troisième une liste de posts de l'utilisateur.
-Nous passons notre file d'attente au client Guzzle qui se comportera dans de vrais conditions, efficace pour avoir des tests intègres.</p>
-<p>Le tour est joué !</p>
-<p>Le code exemple est disponible à cette adresse : <a href="https://github.com/20uf/php-good-practice/tree/master/tests/guzzle">https://github.com/20uf/php-good-practice/tree/master/tests/guzzle</a></p>
-<p>Documentation complète sur le site officiel: <a href="http://docs.guzzlephp.org/en/latest/testing.html">http://docs.guzzlephp.org/en/latest/testing.html</a></p>
+<p>La classe MockHandler() permet de cr&eacute;er une liste d'attente de r&eacute;ponse, dans notre contexte la premi&egrave;re r&eacute;ponse se charge de renvoyer l'access token de facebook, la seconde l'entit&eacute; utilisateur et la troisi&egrave;me une liste de posts de l'utilisateur.
+Nous passons notre file d'attente au client Guzzle qui se comportera dans de vrais conditions, efficace pour avoir des tests int&egrave;gres.</p>
+<p>Le tour est jou&eacute; !</p>
+<p>Le code exemple est disponible &agrave; cette adresse : <a href="https://github.com/20uf/php-good-practice/tree/master/tests/guzzle">https://github.com/20uf/php-good-practice/tree/master/tests/guzzle</a></p>
+<p>Documentation compl&egrave;te sur le site officiel: <a href="http://docs.guzzlephp.org/en/latest/testing.html">http://docs.guzzlephp.org/en/latest/testing.html</a></p>
     </div>
 
           <hr>
@@ -190,12 +190,8 @@ Nous passons notre file d'attente au client Guzzle qui se comportera dans de vra
       </article>
         </section>
         
-                            <footer class="container row footer-above text-center">
-                <div class="row footer-below">
-                    <div class="col-lg-12">
-                        Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
-                    </div>
-                </div>
+                            <footer class="container text-center">
+                <small>Copyright &copy; Michael COULLERET 2016 - 2018.</small>
             </footer>
         
 

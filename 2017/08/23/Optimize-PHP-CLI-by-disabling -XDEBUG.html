@@ -10,8 +10,8 @@
 
         <title>Michael COULLERET aka 20uf Optimiser son CLI PHP en désactivant XDEBUG</title>
 
-        <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
-        <link href="/css/theme.css" rel="stylesheet">
+        <link href="css/bootstrap.mco.min.css" rel="stylesheet">
+        <link href="css/theme.css" rel="stylesheet">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href="//file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -57,10 +57,10 @@
                         <p>Symfony confirmé et Zend Certified PHP Engineer</p>
                         <ul class="list-inline">
                             <li>
-                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
+                                <a href="https://fr.linkedin.com/in/michael-coulleret/" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                             </li>
                             <li>
-                                <a href="https://fr.linkedin.com/in/michael-coulleret-250668b5" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
                             </li>
                             <li>
                                 <a href="https://twitter.com/Mike20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
@@ -85,18 +85,18 @@
     </p>
 
     <div class="body">
-      <h2 id="optimiser-son-cli-php-en-desactivant-xdebug">Optimiser son CLI PHP en désactivant XDEBUG<a href="#optimiser-son-cli-php-en-desactivant-xdebug" class="anchor">#</a></h2>
-<p>Xdebug est un outil incontournable, mais il peut être pénalisant lorsqu'on lance un composer, ou quelconques taches en CLI.</p>
-<p>Jusqu'à aujourd'hui je le gardais activé n'ayant pas de solution lors de mes utilisations du coverage de PHPunit, celui-ci étant requis.</p>
-<p>Bon c'est vrai je n'avais pas spécialement creusé le sujet.. souvent pris par d'autres priorités. Mais maintenant c'est fini ! Je me suis décidé d'arrêter de négliger ce point, xdebug à des effets de ralentissement sur mes pipelines CI.</p>
+      <h2 id="optimiser-son-cli-php-en-desactivant-xdebug">Optimiser son CLI PHP en d&eacute;sactivant XDEBUG<a href="#optimiser-son-cli-php-en-desactivant-xdebug" class="anchor">#</a></h2>
+<p>Xdebug est un outil incontournable, mais il peut &ecirc;tre p&eacute;nalisant lorsqu'on lance un composer, ou quelconques taches en CLI.</p>
+<p>Jusqu'&agrave; aujourd'hui je le gardais activ&eacute; n'ayant pas de solution lors de mes utilisations du coverage de PHPunit, celui-ci &eacute;tant requis.</p>
+<p>Bon c'est vrai je n'avais pas sp&eacute;cialement creus&eacute; le sujet.. souvent pris par d'autres priorit&eacute;s. Mais maintenant c'est fini ! Je me suis d&eacute;cid&eacute; d'arr&ecirc;ter de n&eacute;gliger ce point, xdebug &agrave; des effets de ralentissement sur mes pipelines CI.</p>
 <p>Allez on attaque le sujet :)</p>
-<p>On commence par désactiver xdebug en mode CLI:</p>
+<p>On commence par d&eacute;sactiver xdebug en mode CLI:</p>
 <p>Pour PHP5:</p>
 <pre><code>$ php5dismod -s cli xdebug</code></pre>
 <p>Pour PHP7</p>
 <pre><code>$ phpdismod -s cli xdebug</code></pre>
-<p>Et hop déjà on souffle, maintenant il reste à lancer une commande en activant xdebug:</p>
-<pre><code>$ /usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1 <votre commande></code></pre>
+<p>Et hop d&eacute;j&agrave; on souffle, maintenant il reste &agrave; lancer une commande en activant xdebug:</p>
+<pre><code>$ /usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1 &lt;votre commande&gt;</code></pre>
 <p>On peut se simplifier la vie avec un alias:</p>
 <pre><code>$ alias php-xdebug='/usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1'</code></pre>
 <p>Je vous conseille d'ajouter directement la ligne ci-dessus dans le <code>.bashrc</code></p>
@@ -122,12 +122,8 @@ OK (110 tests, 162 assertions)</code></pre>
       </article>
         </section>
         
-                            <footer class="container row footer-above text-center">
-                <div class="row footer-below">
-                    <div class="col-lg-12">
-                        Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
-                    </div>
-                </div>
+                            <footer class="container text-center">
+                <small>Copyright &copy; Michael COULLERET 2016 - 2018.</small>
             </footer>
         
 

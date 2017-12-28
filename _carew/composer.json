@@ -1,15 +1,8 @@
 {
-    "name"        : "carew/boilerplate",
-    "description" : "Carew boilerplate",
+    "name"        : "20uf/blog",
+    "description" : "20uf Blog",
     "license"     : "MIT",
-    "homepage"    : "http://carew.github.com/",
-    "keywords"    : ["carew"],
-    "authors"     : [
-        {
-            "name"  : "Grégoire Pineau",
-            "email" : "lyrixx@lyrixx.info"
-        }
-    ],
+    "homepage"    : "http://20uf.github.io/",
     "require": {
         "carew/carew": "^2.2",
         "carew/theme-bootstrap": "^2.1"

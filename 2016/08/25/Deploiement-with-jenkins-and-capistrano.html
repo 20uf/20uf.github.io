@@ -10,8 +10,8 @@
 
         <title>Michael COULLERET aka 20uf Déployer Symfony avec jenkins et capifony 2</title>
 
-        <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
-        <link href="/css/theme.css" rel="stylesheet">
+        <link href="css/bootstrap.mco.min.css" rel="stylesheet">
+        <link href="css/theme.css" rel="stylesheet">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href="//file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -57,10 +57,10 @@
                         <p>Symfony confirmé et Zend Certified PHP Engineer</p>
                         <ul class="list-inline">
                             <li>
-                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
+                                <a href="https://fr.linkedin.com/in/michael-coulleret/" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                             </li>
                             <li>
-                                <a href="https://fr.linkedin.com/in/michael-coulleret-250668b5" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
                             </li>
                             <li>
                                 <a href="https://twitter.com/Mike20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
@@ -85,14 +85,14 @@
     </p>
 
     <div class="body">
-      <h2 id="deployer-symfony-avec-jenkins-et-capifony-2">Déployer Symfony avec jenkins et capifony 2<a href="#deployer-symfony-avec-jenkins-et-capifony-2" class="anchor">#</a></h2>
+      <h2 id="deployer-symfony-avec-jenkins-et-capifony-2">D&eacute;ployer Symfony avec jenkins et capifony 2<a href="#deployer-symfony-avec-jenkins-et-capifony-2" class="anchor">#</a></h2>
 <blockquote>
-<p>Ce guide n'explique pas comment installer Jenkins, vous devez disposer d'un serveur déjà installé et configuré.</p>
+<p>Ce guide n'explique pas comment installer Jenkins, vous devez disposer d'un serveur d&eacute;j&agrave; install&eacute; et configur&eacute;.</p>
 </blockquote>
 <h4 id="installer-capifony">Installer Capifony<a href="#installer-capifony" class="anchor">#</a></h4>
-<p>Connectez-vous en SSH sur votre serveur Jenkins et installez les dépendances suivantes:</p>
+<p>Connectez-vous en SSH sur votre serveur Jenkins et installez les d&eacute;pendances suivantes:</p>
 <blockquote>
-<p>Installons aussi sur notre machine afin de déboguer et tester nos scripts.</p>
+<p>Installons aussi sur notre machine afin de d&eacute;boguer et tester nos scripts.</p>
 </blockquote>
 <p>Ruby 2:</p>
 <pre><code>sudo apt-add-repository ppa:brightbox/ruby-ng
@@ -101,18 +101,18 @@ sudo apt-get install ruby2.2 ruby2.2-dev</code></pre>
 <p>Capifony</p>
 <pre><code>gem install capifony
 gem install capistrano-ext</code></pre>
-<p>Il peut être nécessaire d'effectuer des tâches sur le serveur Jenkins, comme par exemple les dépendances bowers.</p>
-<p>Pour cela j'utilise une dépendance capistrano pour effectuer des tâches avant la compression <a href="https://github.com/facile-it/capistrano-strategy-copy-with-triggers">Copy with triggers</a></p>
+<p>Il peut &ecirc;tre n&eacute;cessaire d'effectuer des t&acirc;ches sur le serveur Jenkins, comme par exemple les d&eacute;pendances bowers.</p>
+<p>Pour cela j'utilise une d&eacute;pendance capistrano pour effectuer des t&acirc;ches avant la compression <a href="https://github.com/facile-it/capistrano-strategy-copy-with-triggers">Copy with triggers</a></p>
 <pre><code>gem install 'capistrano-strategy-copy-with-triggers'</code></pre>
-<h4 id="script-de-deploiement">Script de déploiement<a href="#script-de-deploiement" class="anchor">#</a></h4>
+<h4 id="script-de-deploiement">Script de d&eacute;ploiement<a href="#script-de-deploiement" class="anchor">#</a></h4>
 <blockquote>
-<p>La bonne pratique est de créer un dépôt spécifique qui contient vos scripts.</p>
+<p>La bonne pratique est de cr&eacute;er un d&eacute;p&ocirc;t sp&eacute;cifique qui contient vos scripts.</p>
 </blockquote>
-<p>Nous allons ici nous concentrer sur l'environnement de production, vous pourrez reproduire la même procédure pour les autres stagings.
-Créons notre fichier Capfile où nous allons déclarer:</p>
+<p>Nous allons ici nous concentrer sur l'environnement de production, vous pourrez reproduire la m&ecirc;me proc&eacute;dure pour les autres stagings.
+Cr&eacute;ons notre fichier Capfile o&ugrave; nous allons d&eacute;clarer:</p>
 <ul><li>Le niveau de trace</li>
 <li>Le chemin binaire PHP</li>
-<li>nos différents environnements "staging"</li>
+<li>nos diff&eacute;rents environnements "staging"</li>
 </ul><p><a href="https://github.com/20uf/deployment-with-capifony/blob/master/Capfile">Fichier Capfile</a></p>
 <pre><code class="language-python">    load 'deploy' if respond_to?(:namespace)
 
@@ -129,8 +129,8 @@ Créons notre fichier Capfile où nous allons déclarer:</p>
     set :default_stage, "testing"
     set :stage_dir, "capifony/stages"
     require 'capistrano/ext/multistage'</code></pre>
-<p>Créons maintenant notre premier stage pour la production dans le dossier stages/
-Je ne vais pas ici vous détailler les configurations, je vous invite à consulter <a href="http://capifony.org/">le site officiel</a>.</p>
+<p>Cr&eacute;ons maintenant notre premier stage pour la production dans le dossier stages/
+Je ne vais pas ici vous d&eacute;tailler les configurations, je vous invite &agrave; consulter <a href="http://capifony.org/">le site officiel</a>.</p>
 <p><a href="https://github.com/20uf/deployment-with-capifony/blob/master/stages/production.rb">Fichier production.rb</a></p>
 <pre><code class="language-python">    set :deploy_to, "/path/project/"
 
@@ -145,7 +145,7 @@ Je ne vais pas ici vous détailler les configurations, je vous invite à consult
     set :keep_releases, 2
 
     role :web, domain
-    role :app, domain, :primary => true
+    role :app, domain, :primary =&gt; true
 
     # Repository
     set :repository, "ssh://git@your.gitlab.tdl/project/demo.git"
@@ -166,39 +166,39 @@ Je ne vais pas ici vous détailler les configurations, je vous invite à consult
     set :use_set_permissions, true
     set :dump_assetic_assets, false
     set :model_manager, "doctrine" # ORM</code></pre>
-<p>Il faut initialiser la structure/ l'arborescence côté serveur, pour cela à partir de la racine où se trouve le capfile:</p>
+<p>Il faut initialiser la structure/ l'arborescence c&ocirc;t&eacute; serveur, pour cela &agrave; partir de la racine o&ugrave; se trouve le capfile:</p>
 <pre><code>cap deploy:setup</code></pre>
-<p>Ajoutons maintenant le fichier de paramètre symfony sur le serveur:</p>
+<p>Ajoutons maintenant le fichier de param&egrave;tre symfony sur le serveur:</p>
 <pre><code>ssh your_deploy_server
 mkdir -p /path/project/shared/app/config
 vim /path/project/shared/app/config/parameters.yml</code></pre>
-<p>Parfait, vous pouvez maintenant tester en exécutant le déploiement avec la commande:</p>
+<p>Parfait, vous pouvez maintenant tester en ex&eacute;cutant le d&eacute;ploiement avec la commande:</p>
 <pre><code>cap production deploy</code></pre>
-<p>Ajoutez ces scripts dans un dépôt git, celui-ci sera utilisé dans la prochaine étape.</p>
-<h4 id="tache-jenkins">Tâche Jenkins<a href="#tache-jenkins" class="anchor">#</a></h4>
+<p>Ajoutez ces scripts dans un d&eacute;p&ocirc;t git, celui-ci sera utilis&eacute; dans la prochaine &eacute;tape.</p>
+<h4 id="tache-jenkins">T&acirc;che Jenkins<a href="#tache-jenkins" class="anchor">#</a></h4>
 <blockquote>
 <p>Les plugins Git plugin ou GitLab Plugin, Branch API Plugin, Git Parameter Plug-In, Active Choices Plug-in est requis sur votre serveur Jenkins.</p>
 </blockquote>
-<p>Nous avons mis en place les scripts, testé en local, tout ça c'est bien, mais allons plus loin en permettant à d'autre de déployer.</p>
-<p>Créons un nouveau Job jenkins free-style.</p>
+<p>Nous avons mis en place les scripts, test&eacute; en local, tout &ccedil;a c'est bien, mais allons plus loin en permettant &agrave; d'autre de d&eacute;ployer.</p>
+<p>Cr&eacute;ons un nouveau Job jenkins free-style.</p>
 <p>Cochez "Ce build a des parametres"
 Ajouter pour nom "stage" et comme description "Staging"
-Cochez "Types de paramètres de base" puis configurez en simple select avec un seul élément visible.
-Mettez comme valeur dans "Choisissez la source pour la valeur" vos environnement séparé d'une virgule, par exemple: testing,staging,production
-Mettez comme valeur dans "Choisissez Source pour la valeur par défaut" l'environnement par défaut, par exemple production.</p>
-<p><img src="https://raw.githubusercontent.com/20uf/deployment-with-capifony/master/assets/build_parameters.png" alt="paramètres"></p>
-<p>Dans la gestion de code source, sélectionnez Git et ajouter le dépôt contenant les scripts précédemment créer.
-Précisez la branche par défaut.</p>
-<p><img src="https://raw.githubusercontent.com/20uf/deployment-with-capifony/master/assets/build_gitlab.png" alt="paramètres"></p>
-<p>Il reste à ajouter le script shell qui va exécuter capifony, selon le paramètre qui sera sélectionné par l'utilisateur.</p>
+Cochez "Types de param&egrave;tres de base" puis configurez en simple select avec un seul &eacute;l&eacute;ment visible.
+Mettez comme valeur dans "Choisissez la source pour la valeur" vos environnement s&eacute;par&eacute; d'une virgule, par exemple: testing,staging,production
+Mettez comme valeur dans "Choisissez Source pour la valeur par d&eacute;faut" l'environnement par d&eacute;faut, par exemple production.</p>
+<p><img src="https://raw.githubusercontent.com/20uf/deployment-with-capifony/master/assets/build_parameters.png" alt="param&egrave;tres"></p>
+<p>Dans la gestion de code source, s&eacute;lectionnez Git et ajouter le d&eacute;p&ocirc;t contenant les scripts pr&eacute;c&eacute;demment cr&eacute;er.
+Pr&eacute;cisez la branche par d&eacute;faut.</p>
+<p><img src="https://raw.githubusercontent.com/20uf/deployment-with-capifony/master/assets/build_gitlab.png" alt="param&egrave;tres"></p>
+<p>Il reste &agrave; ajouter le script shell qui va ex&eacute;cuter capifony, selon le param&egrave;tre qui sera s&eacute;lectionn&eacute; par l'utilisateur.</p>
 <p><a href="https://github.com/20uf/deployment-with-capifony/blob/master/jenkins_build.sh">Build jenkins</a></p>
 <pre><code>    #!/bin/bash
     # Shell de deploiement
 
     # Close STDERR FD
-    exec 2<&-
+    exec 2&lt;&amp;-
     # Redirect STDERR to STDOUT
-    exec 2>&1
+    exec 2&gt;&amp;1
 
     MAGENTA="\033[0;35m"
     COLOREND="\e[0m"
@@ -206,7 +206,7 @@ Précisez la branche par défaut.</p>
     GREEN="\e[32m"
 
     echo "-------------------------------------------------------------------------------------------------------------------------------------------"
-    echo -e "$BLUE" ">>> Task execution ${JOB_NAME} stage: ${stage}" "$COLOREND"
+    echo -e "$BLUE" "&gt;&gt;&gt; Task execution ${JOB_NAME} stage: ${stage}" "$COLOREND"
     echo "-------------------------------------------------------------------------------------------------------------------------------------------"
 
     cap ${stage} deploy
@@ -214,8 +214,8 @@ Précisez la branche par défaut.</p>
     echo "-------------------------------------------------------------------------------------------------------------------------------------------"
     echo -e "$BLUE" "End of deployment ${JOB_NAME} `date`" "$COLOREND"
     echo "-------------------------------------------------------------------------------------------------------------------------------------------"</code></pre>
-<p>Sauvegardez et le tour est joué !</p>
-<h4 id="taches-utiles">Tâches utiles<a href="#taches-utiles" class="anchor">#</a></h4>
+<p>Sauvegardez et le tour est jou&eacute; !</p>
+<h4 id="taches-utiles">T&acirc;ches utiles<a href="#taches-utiles" class="anchor">#</a></h4>
 <h4 id="liens-externes">Liens externes:<a href="#liens-externes" class="anchor">#</a></h4>
 <p><a href="http://capifony.org/">Capifony</a>
 <a href="https://github.com/20uf/deployment-with-capifony">Scripts exemples</a>
@@ -231,12 +231,8 @@ Précisez la branche par défaut.</p>
       </article>
         </section>
         
-                            <footer class="container row footer-above text-center">
-                <div class="row footer-below">
-                    <div class="col-lg-12">
-                        Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
-                    </div>
-                </div>
+                            <footer class="container text-center">
+                <small>Copyright &copy; Michael COULLERET 2016 - 2018.</small>
             </footer>
         
 

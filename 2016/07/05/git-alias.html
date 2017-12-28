@@ -10,8 +10,8 @@
 
         <title>Michael COULLERET aka 20uf Git configuration et les alias</title>
 
-        <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
-        <link href="/css/theme.css" rel="stylesheet">
+        <link href="css/bootstrap.mco.min.css" rel="stylesheet">
+        <link href="css/theme.css" rel="stylesheet">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href="//file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -57,10 +57,10 @@
                         <p>Symfony confirmé et Zend Certified PHP Engineer</p>
                         <ul class="list-inline">
                             <li>
-                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
+                                <a href="https://fr.linkedin.com/in/michael-coulleret/" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                             </li>
                             <li>
-                                <a href="https://fr.linkedin.com/in/michael-coulleret-250668b5" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
                             </li>
                             <li>
                                 <a href="https://twitter.com/Mike20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
@@ -87,28 +87,28 @@
     <div class="body">
       <h2 id="git-configuration-et-les-alias">Git configuration et les alias<a href="#git-configuration-et-les-alias" class="anchor">#</a></h2>
 <h4 id="configuration-requise">Configuration requise<a href="#configuration-requise" class="anchor">#</a></h4>
-<p>Il existe deux paramètres de configuration qui sont nécessaires avant toute utilisation de Git.</p>
-<p>Configurer le nom de l’utilisateur</p>
-<pre><code>git config --global user.name "Prénom Nom"</code></pre>
-<p>Configurer l’e­mail de l’utilisateur</p>
+<p>Il existe deux param&egrave;tres de configuration qui sont n&eacute;cessaires avant toute utilisation de Git.</p>
+<p>Configurer le nom de l&rsquo;utilisateur</p>
+<pre><code>git config --global user.name "Pr&eacute;nom Nom"</code></pre>
+<p>Configurer l&rsquo;e&shy;mail de l&rsquo;utilisateur</p>
 <pre><code>git config --global user.email email@votre.domaine</code></pre>
-<h4 id="les-parametres-configurables">Les paramètres configurables<a href="#les-parametres-configurables" class="anchor">#</a></h4>
-<p>Définir un éditeur de texte par défaut, par exemple vim</p>
+<h4 id="les-parametres-configurables">Les param&egrave;tres configurables<a href="#les-parametres-configurables" class="anchor">#</a></h4>
+<p>D&eacute;finir un &eacute;diteur de texte par d&eacute;faut, par exemple vim</p>
 <pre><code>git config --global core.editor vim</code></pre>
-<p>Supprimer automatiquement en local les branches qui sont écrasées sur serveur le central:</p>
+<p>Supprimer automatiquement en local les branches qui sont &eacute;cras&eacute;es sur serveur le central:</p>
 <pre><code>git config --global fetch.prune true</code></pre>
-<h4 id="modele-de-commit">Modèle de commit<a href="#modele-de-commit" class="anchor">#</a></h4>
-<p>Ce paramètre permet de définir un fichier texte comme étant le modèle de vos commits. Ce texte sera
-alors prérempli dans l’éditeur de texte lorsque Git demandera le message de commit. Par exemple, cidessous
+<h4 id="modele-de-commit">Mod&egrave;le de commit<a href="#modele-de-commit" class="anchor">#</a></h4>
+<p>Ce param&egrave;tre permet de d&eacute;finir un fichier texte comme &eacute;tant le mod&egrave;le de vos commits. Ce texte sera
+alors pr&eacute;rempli dans l&rsquo;&eacute;diteur de texte lorsque Git demandera le message de commit. Par exemple, cidessous
 le contenu du fichier ~/gitRessources/templateCommit.txt :</p>
-<pre><code>[#FEATURE_ID] Titre du commit (49 caractères max)
-#Explications complémentaires</code></pre>
+<pre><code>[#FEATURE_ID] Titre du commit (49 caract&egrave;res max)
+#Explications compl&eacute;mentaires</code></pre>
 <p>Il faut ensuite ajouter le fichier dans la configuration (global dans cet exemple) :</p>
 <pre><code>git config --global commit.template ~/gitRessources/templateCommit.txt</code></pre>
-<p>Les lignes débutant par un dièse sont des commentaires, nous voila avec une bonne base commune à plusieurs développeurs.</p>
-<h4 id="hashs-abreges">Hashs abrégés<a href="#hashs-abreges" class="anchor">#</a></h4>
-<p>Chaque donnée utilisée par Git est identifiée par une chaîne hexadécimale de 40 caractères.
-Il est possible d’indiquer à Git de n’afficher que les sept premiers caractères de ces identifiants pour augmenter la lisibilité.</p>
+<p>Les lignes d&eacute;butant par un di&egrave;se sont des commentaires, nous voila avec une bonne base commune &agrave; plusieurs d&eacute;veloppeurs.</p>
+<h4 id="hashs-abreges">Hashs abr&eacute;g&eacute;s<a href="#hashs-abreges" class="anchor">#</a></h4>
+<p>Chaque donn&eacute;e utilis&eacute;e par Git est identifi&eacute;e par une cha&icirc;ne hexad&eacute;cimale de 40 caract&egrave;res.
+Il est possible d&rsquo;indiquer &agrave; Git de n&rsquo;afficher que les sept premiers caract&egrave;res de ces identifiants pour augmenter la lisibilit&eacute;.</p>
 <pre><code>git config --global log.abbrevCommit true</code></pre>
 <h4 id="les-alias">Les alias<a href="#les-alias" class="anchor">#</a></h4>
 <pre><code>git config --global alias.co checkout
@@ -117,16 +117,16 @@ git config --global alias.ci commit
 git config --global alias.st status
 git config --global alias.unstage 'reset HEAD --'</code></pre>
 <h4 id="ignore-global">Ignore global<a href="#ignore-global" class="anchor">#</a></h4>
-<p>L’option de configuration core.excludesfile permet de définir un fichier qui contiendra une liste des
-fichiers à ignorer.</p>
+<p>L&rsquo;option de configuration core.excludesfile permet de d&eacute;finir un fichier qui contiendra une liste des
+fichiers &agrave; ignorer.</p>
 <pre><code>git config --global core.excludesfile ~/.gitignore_global</code></pre>
-<p>Un exemple pragmatique pour exclure les dossiers générés par les IDE:</p>
+<p>Un exemple pragmatique pour exclure les dossiers g&eacute;n&eacute;r&eacute;s par les IDE:</p>
 <pre><code>/.idea
 .buildpath
 .project
 .settings/
 /nbproject</code></pre>
-<p>Vous trouverez des scripts et exemples sur le dépôt suivant :</p>
+<p>Vous trouverez des scripts et exemples sur le d&eacute;p&ocirc;t suivant :</p>
 <blockquote>
 <p><a href="https://github.com/20uf/Tools-sh">https://github.com/20uf/Tools-sh</a></p>
 </blockquote>
@@ -141,12 +141,8 @@ fichiers à ignorer.</p>
       </article>
         </section>
         
-                            <footer class="container row footer-above text-center">
-                <div class="row footer-below">
-                    <div class="col-lg-12">
-                        Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
-                    </div>
-                </div>
+                            <footer class="container text-center">
+                <small>Copyright &copy; Michael COULLERET 2016 - 2018.</small>
             </footer>
         
 

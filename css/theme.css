@@ -20,3 +20,7 @@ p.padt {
 section.cv {
     margin-top: 20px;
 }
+
+ul.unstyled h5 {
+    margin: 10px;
+}

@@ -10,8 +10,8 @@
 
         <title>Michael COULLERET aka 20uf Se simplifier la vie avec vos clefs ssh</title>
 
-        <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
-        <link href="/css/theme.css" rel="stylesheet">
+        <link href="css/bootstrap.mco.min.css" rel="stylesheet">
+        <link href="css/theme.css" rel="stylesheet">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href="//file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -57,10 +57,10 @@
                         <p>Symfony confirmé et Zend Certified PHP Engineer</p>
                         <ul class="list-inline">
                             <li>
-                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
+                                <a href="https://fr.linkedin.com/in/michael-coulleret/" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                             </li>
                             <li>
-                                <a href="https://fr.linkedin.com/in/michael-coulleret-250668b5" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
                             </li>
                             <li>
                                 <a href="https://twitter.com/Mike20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
@@ -86,14 +86,14 @@
 
     <div class="body">
       <h2 id="organisez-vos-clefs-ssh">Organisez vos clefs ssh<a href="#organisez-vos-clefs-ssh" class="anchor">#</a></h2>
-<h4 id="generer-une-cle-privee-et-une-cle-publique">Générer une clé privée et une clé publique<a href="#generer-une-cle-privee-et-une-cle-publique" class="anchor">#</a></h4>
-<p>Une clé SSH vous permet d'établir une connexion sécurisée entre votre ordinateur et un serveur.</p>
-<p>Pour générer une nouvelle clé SSH, utilisez la commande suivante:</p>
+<h4 id="generer-une-cle-privee-et-une-cle-publique">G&eacute;n&eacute;rer une cl&eacute; priv&eacute;e et une cl&eacute; publique<a href="#generer-une-cle-privee-et-une-cle-publique" class="anchor">#</a></h4>
+<p>Une cl&eacute; SSH vous permet d'&eacute;tablir une connexion s&eacute;curis&eacute;e entre votre ordinateur et un serveur.</p>
+<p>Pour g&eacute;n&eacute;rer une nouvelle cl&eacute; SSH, utilisez la commande suivante:</p>
 <pre><code>ssh-keygen -t rsa -C "votre@email.com"</code></pre>
-<p>Cette commande vous demandera un emplacement et un nom pour stocker la paire de clés et un mot de passe.
-Je conseille d'utiliser l'emplacement par defaut correspondant et de nommer votre clé selon son utilité, par exemple pour github </p>
+<p>Cette commande vous demandera un emplacement et un nom pour stocker la paire de cl&eacute;s et un mot de passe.
+Je conseille d'utiliser l'emplacement par defaut correspondant et de nommer votre cl&eacute; selon son utilit&eacute;, par exemple pour github </p>
 <pre><code>~/.ssh/id_github</code></pre>
-<p>Une seconde question vous demande un passphrase, il est fortement recommandé d'en utiliser un</p>
+<p>Une seconde question vous demande un passphrase, il est fortement recommand&eacute; d'en utiliser un</p>
 <pre><code>Enter passphrase (empty for no passphrase): **************</code></pre>
 <p>Vous devriez avoir un retour de ce type:</p>
 <pre><code>Your identification has been saved in /home/demo/.ssh/id_rsa.
@@ -112,15 +112,15 @@ The key's randomart image is:
 |           . o   |
 |                 |
 +-----------------+</code></pre>
-<p>Votre clé est maintenant générée et prête à defaut utilisée.</p>
-<p>Si vous souhaitez copier votre clé sur un serveur distant, vous pouvez procéder ainsi:</p>
-<pre><code>cat ~/.ssh/id_rsa.pub | ssh user@host "mkdir -p ~/.ssh && cat >>  ~/.ssh/authorized_keys"</code></pre>
-<p>Une fois que vous avez copié vos clés SSH vers votre serveur, vérifier que vous pouvez vous connecter avec les clés SSH:</p>
+<p>Votre cl&eacute; est maintenant g&eacute;n&eacute;r&eacute;e et pr&ecirc;te &agrave; defaut utilis&eacute;e.</p>
+<p>Si vous souhaitez copier votre cl&eacute; sur un serveur distant, vous pouvez proc&eacute;der ainsi:</p>
+<pre><code>cat ~/.ssh/id_rsa.pub | ssh user@host "mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt;  ~/.ssh/authorized_keys"</code></pre>
+<p>Une fois que vous avez copi&eacute; vos cl&eacute;s SSH vers votre serveur, v&eacute;rifier que vous pouvez vous connecter avec les cl&eacute;s SSH:</p>
 <pre><code>ssh user@host</code></pre>
-<h4 id="configurer-ses-cles">Configurer ses clés<a href="#configurer-ses-cles" class="anchor">#</a></h4>
+<h4 id="configurer-ses-cles">Configurer ses cl&eacute;s<a href="#configurer-ses-cles" class="anchor">#</a></h4>
 <p>Une astuce pour se simplifier la vie avec vos clefs ssh, creez un fichier dans la dossier .ssh :</p>
 <pre><code>vim ~/.ssh/config</code></pre>
-<p>Créez une configuration differentes pour chaque serveurs ssh:</p>
+<p>Cr&eacute;ez une configuration differentes pour chaque serveurs ssh:</p>
 <pre><code>Host github.com
     HostName github.com
     User git
@@ -130,20 +130,20 @@ Host gitlab.domain.fr
     HostName gitlab.domain.fr
     User git
     IdentityFile ~/.ssh/id_other_rsa</code></pre>
-<p>Et le tour est joué !</p>
+<p>Et le tour est jou&eacute; !</p>
 <h4 id="quelques-options">Quelques options:<a href="#quelques-options" class="anchor">#</a></h4>
 <table><thead><tr><th style="text-align: left;">Commande</th>
-<th style="text-align: center;">Paramètre</th>
+<th style="text-align: center;">Param&egrave;tre</th>
 <th style="text-align: right;">Description</th>
 </tr></thead><tbody><tr><td style="text-align: left;"><code>hote</code></td>
 <td style="text-align: center;">hostname/ip</td>
 <td style="text-align: right;">adresse de la machine</td>
 </tr><tr><td style="text-align: left;"><code>RSAAuthentication</code></td>
 <td style="text-align: center;">yes/no</td>
-<td style="text-align: right;">authentification RSA, clé publique/privé généré avec "ssh-keygen"</td>
+<td style="text-align: right;">authentification RSA, cl&eacute; publique/priv&eacute; g&eacute;n&eacute;r&eacute; avec "ssh-keygen"</td>
 </tr><tr><td style="text-align: left;"><code>PubKeyAuthentication</code></td>
 <td style="text-align: center;">yes/no</td>
-<td style="text-align: right;">s'authentifier avec une clé public</td>
+<td style="text-align: right;">s'authentifier avec une cl&eacute; public</td>
 </tr><tr><td style="text-align: left;"><code>PasswordAuthentication</code></td>
 <td style="text-align: center;">yes/no</td>
 <td style="text-align: right;">authentification avec mot de passe (a pas confondre avec passphrase)</td>
@@ -152,21 +152,21 @@ Host gitlab.domain.fr
 <td style="text-align: right;">Verifie l'IP host n'est pas une usurpation DNS</td>
 </tr><tr><td style="text-align: left;"><code>IdentityFile</code></td>
 <td style="text-align: center;">~/.ssh/id_dsa</td>
-<td style="text-align: right;">défini la clé privé a utiliser pour s'authentifier</td>
+<td style="text-align: right;">d&eacute;fini la cl&eacute; priv&eacute; a utiliser pour s'authentifier</td>
 </tr><tr><td style="text-align: left;"><code>User</code></td>
 <td style="text-align: center;">user</td>
-<td style="text-align: right;">compte à utiliser pour l'identification</td>
+<td style="text-align: right;">compte &agrave; utiliser pour l'identification</td>
 </tr><tr><td style="text-align: left;"><code>Port</code></td>
 <td style="text-align: center;">port</td>
-<td style="text-align: right;">numéro de port à utiliser</td>
+<td style="text-align: right;">num&eacute;ro de port &agrave; utiliser</td>
 </tr><tr><td style="text-align: left;"><code>HashKnownHosts</code></td>
 <td style="text-align: center;">yes/no</td>
 <td style="text-align: right;">Permet d'avoir un fichier known_hosts plus lisible</td>
-</tr></tbody></table><h4 id="securite-sur-votre-serveur-ssh">Sécurité sur votre serveur SSH<a href="#securite-sur-votre-serveur-ssh" class="anchor">#</a></h4>
-<p>Le login root ne doit pas être autorisée par l'intermédiaire des clés SSH.</p>
+</tr></tbody></table><h4 id="securite-sur-votre-serveur-ssh">S&eacute;curit&eacute; sur votre serveur SSH<a href="#securite-sur-votre-serveur-ssh" class="anchor">#</a></h4>
+<p>Le login root ne doit pas &ecirc;tre autoris&eacute;e par l'interm&eacute;diaire des cl&eacute;s SSH.</p>
 <p>Pour ce faire, ouvrez le fichier SSH config sur votre serveur distant:</p>
 <pre><code>vim /etc/ssh/sshd_config</code></pre>
-<p>Dans ce fichier, trouvez la ligne qui comprend PermitRootLogin et modifiez le pour garantir que seuls les utilisateurs peuvent se connecter avec leur clé SSH:
+<p>Dans ce fichier, trouvez la ligne qui comprend PermitRootLogin et modifiez le pour garantir que seuls les utilisateurs peuvent se connecter avec leur cl&eacute; SSH:
 PermitRootLogin sans mot de passe</p>
 <pre><code>PermitRootLogin without-password</code></pre>
 <p>Mettez les changements en vigueur:</p>
@@ -181,12 +181,8 @@ PermitRootLogin sans mot de passe</p>
       </article>
         </section>
         
-                            <footer class="container row footer-above text-center">
-                <div class="row footer-below">
-                    <div class="col-lg-12">
-                        Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
-                    </div>
-                </div>
+                            <footer class="container text-center">
+                <small>Copyright &copy; Michael COULLERET 2016 - 2018.</small>
             </footer>
         
 

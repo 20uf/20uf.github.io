@@ -10,8 +10,8 @@
 
         <title>Michael COULLERET aka 20uf Utilisez docker pour simplifier votre vie!</title>
 
-        <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
-        <link href="/css/theme.css" rel="stylesheet">
+        <link href="css/bootstrap.mco.min.css" rel="stylesheet">
+        <link href="css/theme.css" rel="stylesheet">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href="//file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -57,10 +57,10 @@
                         <p>Symfony confirmé et Zend Certified PHP Engineer</p>
                         <ul class="list-inline">
                             <li>
-                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
+                                <a href="https://fr.linkedin.com/in/michael-coulleret/" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                             </li>
                             <li>
-                                <a href="https://fr.linkedin.com/in/michael-coulleret-250668b5" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
                             </li>
                             <li>
                                 <a href="https://twitter.com/Mike20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
@@ -87,63 +87,55 @@
     <div class="body">
       <h2 id="utilisez-docker-pour-simplifier-votre-vie">Utilisez docker pour simplifier votre vie!<a href="#utilisez-docker-pour-simplifier-votre-vie" class="anchor">#</a></h2>
 <h4 id="pourquoi-s-orienter-sur-du-docker">Pourquoi s'orienter sur du docker.<a href="#pourquoi-s-orienter-sur-du-docker" class="anchor">#</a></h4>
-<p>Dans le cadre de mes projets j'ai été confronté à ce que chacun de mes développeurs se retrouvent avec des configurations différentes sur leur poste de travail. </p>
-<p>Selon les projets cette pratique peut être problématique, pour exemple nous avons application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du <a href="https://fr.wikipedia.org/wiki/Authentification_unique">SSO</a>.
-La contrainte principale est le partage de session, les vhosts doivent être identiques ainsi qu'une configuration applicative.</p>
-<p>A mon sens ça rend le projet complexe, il faut comprendre comment fonctionne le produit et les techniques utilisées, il faut appréhender et cela prend du temps.</p>
-<p>La mise en oeuvre de docker nous apporte les points suivants:</p>
-<ul><li>L'installation d'un ou plusieurs projets prennent seulement quelques minutes avec Docker, pret au developpement.</li>
-<li>La stack entre chaque développeurs sont ISO</li>
-</ul><p>L'utilisation de Docker peut être pénalisant sur des systèmes autres que Linux, sur Mac Os une VM est utilisée ce qui réduit les performances.</p>
-<p>Windows Pro propose maintenant <a href="https://fr.wikipedia.org/wiki/Hyper-V">Hyper V</a> qui semble avoir de bons retours.</p>
-<h4 id="quelle-approche-aborder">Quelle approche aborder ?<a href="#quelle-approche-aborder" class="anchor">#</a></h4>
-<p>La philosophie de <a href="https://www.docker.com/">Docker</a> est de lancer un processus par conteneur. </p>
-<p>En tant que développeur je préfère avoir une approche différente, par services.</p>
-<p>Je connais mon silo, à savoir:</p>
-<ul><li>Un clusteur Apache / Nginx et PHP-x installé dessus</li>
+<p>Dans le cadre de mes projets j'ai &eacute;t&eacute; confront&eacute; &agrave; ce que chacun de mes d&eacute;veloppeurs se retrouvent avec des configurations diff&eacute;rentes sur leur poste de travail. </p>
+<p>Selon les projets cette pratique peut &ecirc;tre probl&eacute;matique, par exemple nous avons application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du [SSO].
+La contrainte principale est le partage de session, les vhosts doivent &ecirc;tre identiques ainsi que la configuration applicative.</p>
+<p>A mon sens &ccedil;a rend le projet complexe, il faut comprendre comment fonctionne le produit et les techniques utilis&eacute;es, il faut appr&eacute;hender et cela prend du temps.</p>
+<p>La mise en oeuvre de [Docker] nous apporte les avantages suivants:</p>
+<ul><li>L'installation d'un projet ne prend que quelque minutes, pr&ecirc;t au developpement.</li>
+<li>La stack entre chaque d&eacute;veloppeurs est ISO</li>
+<li>Le poste du d&eacute;veloppeur n&eacute;ccessite que cinq outils:
+<ul><li>[Docker]</li>
+<li>[Docker-compose]</li>
+<li>[Git]</li>
+<li>[Make]</li>
+<li>Un IDE</li>
+</ul></li>
+</ul><h4 id="quelle-approche-aborder">Quelle approche aborder ?<a href="#quelle-approche-aborder" class="anchor">#</a></h4>
+<p>La philosophie de [Docker] est de lancer un processus par conteneur. </p>
+<p>En tant que d&eacute;veloppeur je pr&eacute;f&egrave;re avoir une approche diff&eacute;rente, par services.</p>
+<p>Je connais mon silo, &agrave; savoir:</p>
+<ul><li>Un clusteur Apache / Nginx et PHP-x</li>
 <li>Un clusteur Mysql / MariaDb / MongoDb..</li>
 <li>Un clusteur Memcache / Redis..</li>
 </ul><p>Mon objectif est de s'approcher au maximum de cet environnement.</p>
 <p><img src="/img/1_silo_docker.png" alt="Silo"></p>
-<p>Pour cela je vais utiliser <a href="https://docs.docker.com/compose/">Docker-compose</a> et <a href="https://www.gnu.org/software/make/">Make</a> pour simplifier la gestion:</p>
+<p>Pour cela je vais utiliser [Docker-compose] et [Make] pour simplifier la gestion:</p>
 <ul><li>Installer le projet</li>
 <li>Lancer les containers</li>
-<li>Arrêter les containers</li>
-<li>Manipuler un container (lancer des tâches par exemple)</li>
-</ul><p>Ma pratique est d'avoir un package <code>Docker</code> à la racine de mes projets, on peut y placer des <code>Dockerfile</code> qui peuvent être construites à la demande.</p>
-<p>Cependant je préfère construire mes images en amont afin d'économiser le temps de construction à chaque installation. </p>
-<p>Nous avons (mon équipe) créé un dépôt <a href="https://github.com/php-docker/nginx">PHPDocker</a> qui contient une série d'images, cela nous permet de pouvoir switcher facilement et simplement sur l'une d'elle.
-Ces images représentes la partie serveur web avec son langage (PHP) et des configurations adaptées à nos besoins.</p>
-<p>Voici la liste des images actuellement disponibles (Des Alpines seront prochainement ajoutées) :</p>
-<h1 id="supported-tags">Supported tags<a href="#supported-tags" class="anchor">#</a></h1>
-<table><thead><tr><th>Os</th>
-<th>PHP</th>
-<th>Image</th>
-</tr></thead><tbody><tr><td>Debian 9 (Stretch)</td>
-<td>7.2</td>
-<td>dockerphp/nginx:7.0-stretch</td>
-</tr><tr><td>Debian 8 (Jessie)</td>
-<td>7.2</td>
-<td>dockerphp/nginx:7.0-jessie</td>
-</tr><tr><td>Debian 9 (Stretch)</td>
-<td>7.1</td>
-<td>dockerphp/nginx:7.2-stretch</td>
-</tr><tr><td>Debian 8 (Jessie)</td>
-<td>7.1</td>
-<td>dockerphp/nginx:7.1-jessie</td>
-</tr><tr><td>Debian 9 (Stretch)</td>
-<td>7.0</td>
-<td>dockerphp/nginx:7.0-stretch</td>
-</tr><tr><td>Debian 8 (Jessie)</td>
-<td>7.0</td>
-<td>dockerphp/nginx:7.0-jessie</td>
-</tr><tr><td>Debian 8 (Jessie)</td>
-<td>5.6</td>
-<td>dockerphp/nginx:5.6-jessie</td>
-</tr></tbody></table><h4 id="mise-en-place-du-silo">Mise en place du Silo<a href="#mise-en-place-du-silo" class="anchor">#</a></h4>
-<p>Nos produits sont développés sous Symfony, nos exemples sont donc basés dessus, vous pouvez bien évidemment reproduire pour tout autre type de Framework ou pas.</p>
-<p>Notre fichier docker <code>docker-compose.yml</code> se trouvant à la racine du projet.</p>
-<p>Je vous invite à consulter la <a href="https://docs.docker.com/compose/compose-file/">documentation officielle</a> concernant l'utilisation et les références.</p>
+<li>Arr&ecirc;ter les containers</li>
+<li>Manipuler un container (lancer des t&acirc;ches par exemple)</li>
+</ul><p>Ma pratique est d'avoir un package <code>Docker</code> &agrave; la racine de mes projets, on peut y placer des <code>Dockerfile</code> qui peuvent &ecirc;tre construites &agrave; la demande.</p>
+<p>Cependant je pr&eacute;f&egrave;re construire mes images en amont afin d'&eacute;conomiser le temps de construction &agrave; chaque installation. </p>
+<p>Nous avons (mon &eacute;quipe) cr&eacute;&eacute; un d&eacute;p&ocirc;t [PHPDocker] qui contient une s&eacute;rie d'images, cela nous permet de pouvoir switcher facilement et simplement sur l'une d'elle.
+Ces images repr&eacute;sentes la partie serveur web avec son langage (PHP) et des configurations adapt&eacute;es &agrave; nos besoins.</p>
+<p>D&eacute;pot officiel: <a href="https://github.com/OsLab/docker-php-nginx">https://github.com/OsLab/docker-php-nginx</a></p>
+<p>Voici la liste des images actuellement disponibles sous Debian Stetch (9):</p>
+<p>PHP 7.2:</p>
+<ul><li>dockerphp/nginx:7.2-stretch </li>
+</ul><p>PHP 7.1:</p>
+<pre><code class="language-yaml">* dockerphp/nginx:7.1-stretch</code></pre>
+<p>PHP 7.0:</p>
+<pre><code class="language-yaml">* dockerphp/nginx:7.0-stretch</code></pre>
+<p>Il existe une version PHP 5.6 sous debian Jessie (8):</p>
+<pre><code class="language-yaml">* dockerphp/nginx:5.6-jessie</code></pre>
+<blockquote>
+<p>Des Alpines seront prochainement ajout&eacute;es.</p>
+</blockquote>
+<h4 id="mise-en-place-du-silo">Mise en place du Silo<a href="#mise-en-place-du-silo" class="anchor">#</a></h4>
+<p>Nos produits sont d&eacute;velopp&eacute;s sous Symfony, nos exemples sont donc bas&eacute;s dessus, vous pouvez bien &eacute;videmment reproduire pour tout autre type de Framework ou pas.</p>
+<p>Notre fichier docker <code>docker-compose.yml</code> se trouvant &agrave; la racine du projet.</p>
+<p>Je vous invite &agrave; consulter la [documentation officielle][docker-compose-refs] concernant l'utilisation et les r&eacute;f&eacute;rences.</p>
 <pre><code class="language-yaml">version: "2"
 
 services:
@@ -185,26 +177,26 @@ services:
             PMA_PASSWORD: root
         ports:
             - "127.0.0.1:8081:80"</code></pre>
-<p>Détaillons un peu cette configuration:</p>
+<p>D&eacute;taillons un peu cette configuration:</p>
 <p><code>app</code>: </p>
 <ul><li>Nous chargeons l'image avec Nginx et PHP 7.1.</li>
-<li>Nous avons trois liens, un sur la base de données et deux sur memcached.</li>
+<li>Nous avons trois liens, un sur la base de donn&eacute;es et deux sur memcached.</li>
 <li>le port 80 du container sera accessible sur le port 8080. (<a href="https://localhost:8080">https://localhost:8080</a>)</li>
 <li>Nous ajoutons dans le <code>/etc/hosts</code> le domaine <code>sso.domain-dev.fr</code> sur l'ip du docker engine.</li>
 </ul><p><code>db</code>: </p>
 <ul><li>Nous chargeons l'image officielle de mariadb sur la version 10.3.
-_ On déclare avec la variable d'environnement <code>MYSQL_ROOT_PASSWORD</code> le mot de passe <code>root</code>.</li>
+_ On d&eacute;clare avec la variable d'environnement <code>MYSQL_ROOT_PASSWORD</code> le mot de passe <code>root</code>.</li>
 <li>le port 3306 du container sera accessible sur le port 3301.</li>
 </ul><p><code>memcached_1</code> et <code>memcached_2</code>: </p>
-<ul><li>Nous chargeons l'image officielle de memcached sur sa dernière version.</li>
-<li>On assigne 1g de mémoire à memcached .</li>
+<ul><li>Nous chargeons l'image officielle de memcached sur sa derni&egrave;re version.</li>
+<li>On assigne 1g de m&eacute;moire &agrave; memcached .</li>
 <li>le port 11211 du container sera accessible sur le port 11210 et 11211.</li>
 </ul><p><code>pma</code>: </p>
-<ul><li>Nous chargeons l'image officielle de phpmyadmin sur sa dernière version.</li>
-<li>Nous avons un lien avec la base de données.</li>
-<li>On déclare avec les variables d'environnements pour que phpmyadmin se connecte à la base de données.</li>
+<ul><li>Nous chargeons l'image officielle de phpmyadmin sur sa derni&egrave;re version.</li>
+<li>Nous avons un lien avec la base de donn&eacute;es.</li>
+<li>On d&eacute;clare avec les variables d'environnements pour que phpmyadmin se connecte &agrave; la base de donn&eacute;es.</li>
 <li>le port 80 du container sera accessible sur le port 8081. (<a href="http://localhost:8081">http://localhost:8081</a>)</li>
-</ul><p>Nous allons maintenant créer un fichier <code>Makefile</code> à la racine du projet, celui-ci va nous simplifier la vie pour manipuler les containers.</p>
+</ul><p>Nous allons maintenant cr&eacute;er un fichier <code>Makefile</code> &agrave; la racine du projet, celui-ci va nous simplifier la vie pour manipuler les containers.</p>
 <pre><code class="language-bash"># Do not change
 DC=docker-compose
 RUN=$(DC) run --rm app
@@ -226,7 +218,7 @@ install: up vendor app/config/parameters.yml yarn info
 
 host:           ## Add the application host to your configuration
     @echo 'Adding the local domain to /etc/hosts'
-    sudo sh -c  'echo "127.0.0.1       my-app.domain-dev.fr" >> /etc/hosts'
+    sudo sh -c  'echo "127.0.0.1       my-app.domain-dev.fr" &gt;&gt; /etc/hosts'
 
 ##
 ## Provisioning
@@ -299,10 +291,10 @@ yarn.lock: package.json
 
 %:
 @:</code></pre>
-<p>Vous remarquez qu'il est assez simple d'ajouter de nouvelles tâches.</p>
-<p>Vous pouvez maintenant consulter les tâches disponibles avec la commande:</p>
+<p>Vous remarquez qu'il est assez simple d'ajouter de nouvelles t&acirc;ches.</p>
+<p>Vous pouvez maintenant consulter les t&acirc;ches disponibles avec la commande:</p>
 <pre><code>$ make</code></pre>
-<p>Vous aurez pour résultat:</p>
+<p>Vous aurez pour r&eacute;sultat:</p>
 <pre><code class="language-bash"> Setup
 ---------------------------------------------------------------------------
 install:         Install and start the project
@@ -324,13 +316,13 @@ clean:           Clean package nodejs
  Dependencies
 ---------------------------------------------------------------------------
 deps:            Install the project PHP and JS dependencies</code></pre>
-<p>Vous l'aurez compris, maintenant l'installation d'un projet semble simple et rapide, voici en quelques lignes ce que représentent l'installation d'un projet:</p>
+<p>Vous l'aurez compris, maintenant l'installation d'un projet semble simple et rapide, voici en quelques lignes ce que repr&eacute;sentent l'installation d'un projet:</p>
 <pre><code>$ git clone git@gitlab.entreprise.com:namespace/project_name.git
 Cloning into 'project_name'...
 remote: Counting objects: 22512, done.
 ....
 $ make install
-cd project_name/ && make install
+cd project_name/ &amp;&amp; make install
 docker-compose up -d --remove-orphans
 Creating network "project_name_default" with the default driver
 Pulling memcached (memcached:latest)...
@@ -339,11 +331,126 @@ latest: Pulling from library/memcached
 ...
 7.2-stretch: Pulling from dockerphp/nginx
 ...</code></pre>
-<p>Une fois terminée vous pouvez acceder:</p>
+<p>Une fois termin&eacute;e vous pouvez acceder:</p>
 <ul><li>A votre application sur <a href="https://my-app.domain-dev.fr:8080">https://my-app.domain-dev.fr:8080</a></li>
 <li>PhpMyAdmin sur <a href="http://my-app.domain-dev.fr:8081">http://my-app.domain-dev.fr:8081</a></li>
 <li>Mysql sur le port 3301 si vous utilisez MysqlWorkbench.</li>
-</ul><p>Vous en pensez quoi ? Pas mal hein ? :)</p>
+</ul><h4 id="la-surcharge-des-configurations">La surcharge des configurations<a href="#la-surcharge-des-configurations" class="anchor">#</a></h4>
+<p>Jusqu'ici nous avons mis en place notre stack, cependant nous avons besoin de surcharger la configuration de PHP, ou encore celle de Nginx.</p>
+<p>Rien de plus simple! Il suffit de monter le ou les fichiers de configuration dans nos volumes !</p>
+<pre><code class="language-yaml">services:
+    app:
+        image: dockerphp/nginx:7.2-stretch
+        volumes:
+            - .:/app
+            - ./docker/nginx.conf:/etc/nginx/nginx.conf
+            - ./docker/php.ini:/etc/php5/fpm/php.ini
+```yaml
+
+Rappelez-vous nous avions d&eacute;cid&eacute; en d&eacute;but de cet article cr&eacute;er un package `docker` &agrave; la racine de notre projet, nous allons y placer deux fichiers:
+* php.ini
+* nginx.conf
+
+&gt; Vous pouvez trouver les configurations de base sur le [d&eacute;p&ocirc;t officiel](https://github.com/OsLab/docker-php-nginx/tree/master/image/config), les exemples ci-dessous sont d&eacute;monstratifs.
+
+Surcharger `php.ini` pour ajouter l'&eacute;criture des sessions dans memcached.</code></pre>
+<p>; Add here the parameters that you want to override</p>
+<p>short_open_tag = Off
+date.timezone = Europe/Paris
+error_log = /proc/self/fd/2
+upload_max_filesize = 10M
+post_max_size = 10M
+memory_limit=1024M</p>
+<p>; <a href="https://symfony.com/doc/3.4/performance.html">https://symfony.com/doc/3.4/performance.html</a>
+opcache.max_accelerated_files = 20000
+realpath_cache_size=4096K
+realpath_cache_ttl=600</p>
+<p>; xdebug
+xdebug.remote_enable=on
+xdebug.remote_autostart=off
+xdebug.remote_port=9000
+xdebug.remote_handler=dbgp
+xdebug.remote_connect_back=0</p>
+<p>;session.save_handler=memcached
+memcached session.save_path = 'tcp://memcached_1:11211,tcp://memcached_2:11211'</p>
+<pre><code>
+Surcharger `nginx.conf` pour changer le dossier public ou le vhost par exemple.</code></pre>
+<p>daemon off;
+user www-data;
+worker_processes 5;
+pid /run/nginx.pid;</p>
+<p>error_log /dev/stdout info;</p>
+<p>events {
+worker_connections 1024;</p>
+<h1 id="multi-accept-on">multi_accept on;<a href="#multi-accept-on" class="anchor">#</a></h1>
+<p>}</p>
+<p>http {
+access_log /dev/stdout;</p>
+<pre><code>##
+# Basic Settings
+##
+
+sendfile on;
+tcp_nopush on;
+tcp_nodelay on;
+keepalive_timeout 65;
+types_hash_max_size 2048;
+include /etc/nginx/mime.types;
+default_type application/octet-stream;
+types {
+    font/woff2 woff2;
+}
+client_max_body_size 10M;
+
+##
+# Virtual Host Configs
+##
+
+server {
+    listen 443 ssl;
+    server_name oslab.demo.net;
+
+    ssl on;
+    ssl_certificate /etc/ssl/nginx/nginx.crt;
+    ssl_certificate_key /etc/ssl/nginx/nginx.key;
+
+    root /app/public;
+    index index.php;
+
+    location / {
+        try_files $uri /index.php$is_args$args;
+    }
+
+    location ~ \.php(/|$) {
+        internal;
+
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param SYMFONY_ENV dev;
+        fastcgi_param HTTPS on;
+
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
+    }
+}</code></pre>
+<p>}</p>
+<pre><code>
+
+Pensez a relancer vos conteneurs pour que les modifications prennent effets.
+
+Vous en pensez quoi ? Pas mal hein ? :)
+
+[SSO]: https://fr.wikipedia.org/wiki/Authentification_unique
+[Docker]: https://www.docker.com/
+[Docker-compose]: https://docs.docker.com/compose/
+[Make]: https://www.gnu.org/software/make/
+[PHPDocker]: https://github.com/php-docker/nginx
+[Hyper V]: https://fr.wikipedia.org/wiki/Hyper-V
+[docker-compose-refs]: https://docs.docker.com/compose/compose-file/
+[Git]: https://git-scm.com/
+[Make]: https://www.gnu.org/software/make/</code></pre>
     </div>
 
           <hr>
@@ -355,12 +462,8 @@ latest: Pulling from library/memcached
       </article>
         </section>
         
-                            <footer class="container row footer-above text-center">
-                <div class="row footer-below">
-                    <div class="col-lg-12">
-                        Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
-                    </div>
-                </div>
+                            <footer class="container text-center">
+                <small>Copyright &copy; Michael COULLERET 2016 - 2018.</small>
             </footer>
         
 
