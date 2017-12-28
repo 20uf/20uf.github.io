@@ -5,8 +5,458 @@
     <link href="https://20uf.github.io/feed/index.atom" rel="self" />
     <link href="https://20uf.github.io/" />
         <id>https://20uf.github.io/</id>
-            <updated>2016-07-18T00:00:00+02:00</updated>
+            <updated>2017-12-28T00:00:00+01:00</updated>
             <entry>
+        <title>Utilisez docker pour simplifier votre vie!</title>
+                <id>https://20uf.github.io/2017/12/28/Use-docker-to-simplify-your-life.html</id>
+                <updated>2017-12-28T00:00:00+01:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2017/12/28/Use-docker-to-simplify-your-life.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="utilisez-docker-pour-simplifier-votre-vie">Utilisez docker pour simplifier votre vie!<a href="#utilisez-docker-pour-simplifier-votre-vie" class="anchor">#</a></h2>
+<h4 id="pourquoi-s-orienter-sur-du-docker">Pourquoi s'orienter sur du docker.<a href="#pourquoi-s-orienter-sur-du-docker" class="anchor">#</a></h4>
+<p>Dans le cadre de mes projets j'ai été confronté à ce que chacun de mes développeurs se retrouvent avec des configurations différentes sur leur poste de travail. </p>
+<p>Selon les projets cette pratique peut être problématique, pour exemple nous avons application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du <a href="https://fr.wikipedia.org/wiki/Authentification_unique">SSO</a>.
+La contrainte principale est le partage de session, les vhosts doivent être identiques ainsi qu'une configuration applicative.</p>
+<p>A mon sens ça rend le projet complexe, il faut comprendre comment fonctionne le produit et les techniques utilisées, il faut appréhender et cela prend du temps.</p>
+<p>La mise en oeuvre de docker nous apporte les points suivants:</p>
+<ul><li>L'installation d'un ou plusieurs projets prennent seulement quelques minutes avec Docker, pret au developpement.</li>
+<li>La stack entre chaque développeurs sont ISO</li>
+</ul><p>L'utilisation de Docker peut être pénalisant sur des systèmes autres que Linux, sur Mac Os une VM est utilisée ce qui réduit les performances.</p>
+<p>Windows Pro propose maintenant <a href="https://fr.wikipedia.org/wiki/Hyper-V">Hyper V</a> qui semble avoir de bons retours.</p>
+<h4 id="quelle-approche-aborder">Quelle approche aborder ?<a href="#quelle-approche-aborder" class="anchor">#</a></h4>
+<p>La philosophie de <a href="https://www.docker.com/">Docker</a> est de lancer un processus par conteneur. </p>
+<p>En tant que développeur je préfère avoir une approche différente, par services.</p>
+<p>Je connais mon silo, à savoir:</p>
+<ul><li>Un clusteur Apache / Nginx et PHP-x installé dessus</li>
+<li>Un clusteur Mysql / MariaDb / MongoDb..</li>
+<li>Un clusteur Memcache / Redis..</li>
+</ul><p>Mon objectif est de s'approcher au maximum de cet environnement.</p>
+<p><img src="/img/1_silo_docker.png" alt="Silo"></p>
+<p>Pour cela je vais utiliser <a href="https://docs.docker.com/compose/">Docker-compose</a> et <a href="https://www.gnu.org/software/make/">Make</a> pour simplifier la gestion:</p>
+<ul><li>Installer le projet</li>
+<li>Lancer les containers</li>
+<li>Arrêter les containers</li>
+<li>Manipuler un container (lancer des tâches par exemple)</li>
+</ul><p>Ma pratique est d'avoir un package <code>Docker</code> à la racine de mes projets, on peut y placer des <code>Dockerfile</code> qui peuvent être construites à la demande.</p>
+<p>Cependant je préfère construire mes images en amont afin d'économiser le temps de construction à chaque installation. </p>
+<p>Nous avons (mon équipe) créé un dépôt <a href="https://github.com/php-docker/nginx">PHPDocker</a> qui contient une série d'images, cela nous permet de pouvoir switcher facilement et simplement sur l'une d'elle.
+Ces images représentes la partie serveur web avec son langage (PHP) et des configurations adaptées à nos besoins.</p>
+<p>Voici la liste des images actuellement disponibles (Des Alpines seront prochainement ajoutées) :</p>
+<h1 id="supported-tags">Supported tags<a href="#supported-tags" class="anchor">#</a></h1>
+<table><thead><tr><th>Os</th>
+<th>PHP</th>
+<th>Image</th>
+</tr></thead><tbody><tr><td>Debian 9 (Stretch)</td>
+<td>7.2</td>
+<td>dockerphp/nginx:7.0-stretch</td>
+</tr><tr><td>Debian 8 (Jessie)</td>
+<td>7.2</td>
+<td>dockerphp/nginx:7.0-jessie</td>
+</tr><tr><td>Debian 9 (Stretch)</td>
+<td>7.1</td>
+<td>dockerphp/nginx:7.2-stretch</td>
+</tr><tr><td>Debian 8 (Jessie)</td>
+<td>7.1</td>
+<td>dockerphp/nginx:7.1-jessie</td>
+</tr><tr><td>Debian 9 (Stretch)</td>
+<td>7.0</td>
+<td>dockerphp/nginx:7.0-stretch</td>
+</tr><tr><td>Debian 8 (Jessie)</td>
+<td>7.0</td>
+<td>dockerphp/nginx:7.0-jessie</td>
+</tr><tr><td>Debian 8 (Jessie)</td>
+<td>5.6</td>
+<td>dockerphp/nginx:5.6-jessie</td>
+</tr></tbody></table><h4 id="mise-en-place-du-silo">Mise en place du Silo<a href="#mise-en-place-du-silo" class="anchor">#</a></h4>
+<p>Nos produits sont développés sous Symfony, nos exemples sont donc basés dessus, vous pouvez bien évidemment reproduire pour tout autre type de Framework ou pas.</p>
+<p>Notre fichier docker <code>docker-compose.yml</code> se trouvant à la racine du projet.</p>
+<p>Je vous invite à consulter la <a href="https://docs.docker.com/compose/compose-file/">documentation officielle</a> concernant l'utilisation et les références.</p>
+<pre><code class="language-yaml">version: "2"
+
+services:
+    app:
+        image: dockerphp/nginx:7.2-stretch
+        depends_on:
+            - db
+            - memcached_1
+            - memcached_2
+        volumes:
+            - .:/app
+        ports:
+            - "8080:443"
+        extra_hosts:
+         - "sso.domain-dev.fr:172.17.0.1" # L'ip du docker engine
+
+    db:
+        image: mariadb:10.3
+        environment:
+            v: root
+        ports:
+            - "3301:3306"
+
+    memcached_1:
+        image: memcached:latest
+        mem_limit: 1g
+
+    memcached_2:
+        image: memcached:latest
+        mem_limit: 1g
+
+    pma:
+        image: phpmyadmin/phpmyadmin
+        depends_on:
+            - db
+        environment:
+            PMA_HOST: db
+            PMA_USER: root
+            PMA_PASSWORD: root
+        ports:
+            - "127.0.0.1:8081:80"</code></pre>
+<p>Détaillons un peu cette configuration:</p>
+<p><code>app</code>: </p>
+<ul><li>Nous chargeons l'image avec Nginx et PHP 7.1.</li>
+<li>Nous avons trois liens, un sur la base de données et deux sur memcached.</li>
+<li>le port 80 du container sera accessible sur le port 8080. (<a href="https://localhost:8080">https://localhost:8080</a>)</li>
+<li>Nous ajoutons dans le <code>/etc/hosts</code> le domaine <code>sso.domain-dev.fr</code> sur l'ip du docker engine.</li>
+</ul><p><code>db</code>: </p>
+<ul><li>Nous chargeons l'image officielle de mariadb sur la version 10.3.
+_ On déclare avec la variable d'environnement <code>MYSQL_ROOT_PASSWORD</code> le mot de passe <code>root</code>.</li>
+<li>le port 3306 du container sera accessible sur le port 3301.</li>
+</ul><p><code>memcached_1</code> et <code>memcached_2</code>: </p>
+<ul><li>Nous chargeons l'image officielle de memcached sur sa dernière version.</li>
+<li>On assigne 1g de mémoire à memcached .</li>
+<li>le port 11211 du container sera accessible sur le port 11210 et 11211.</li>
+</ul><p><code>pma</code>: </p>
+<ul><li>Nous chargeons l'image officielle de phpmyadmin sur sa dernière version.</li>
+<li>Nous avons un lien avec la base de données.</li>
+<li>On déclare avec les variables d'environnements pour que phpmyadmin se connecte à la base de données.</li>
+<li>le port 80 du container sera accessible sur le port 8081. (<a href="http://localhost:8081">http://localhost:8081</a>)</li>
+</ul><p>Nous allons maintenant créer un fichier <code>Makefile</code> à la racine du projet, celui-ci va nous simplifier la vie pour manipuler les containers.</p>
+<pre><code class="language-bash"># Do not change
+DC=docker-compose
+RUN=$(DC) run --rm app
+EXEC=$(DC) exec app
+CONSOLE=bin/console
+
+.DEFAULT_GOAL := help
+.PHONY: help start stop restart clear cc bash host deps
+
+help:
+    @echo ''
+    @fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+    @echo ''
+
+## Setup
+##---------------------------------------------------------------------------
+install:        ## Install and start the project
+install: up vendor app/config/parameters.yml yarn info
+
+host:           ## Add the application host to your configuration
+    @echo 'Adding the local domain to /etc/hosts'
+    sudo sh -c  'echo "127.0.0.1       my-app.domain-dev.fr" >> /etc/hosts'
+
+##
+## Provisioning
+##---------------------------------------------------------------------------
+start:          ## start the project
+start: up info
+
+stop:           ## Stop docker containers
+    $(DC) kill
+
+restart:        ## Restart the whole project
+restart: stop start warmup
+
+bash:           ## Switch to the bash container of the application
+    @$(RUN) bash
+
+##
+## Symfony
+##---------------------------------------------------------------------------
+clear:          ## Remove all the cache, the logs, the sessions and the built assets
+clear: warmup
+
+cc:             ## Clear the cache in dev env
+cc:
+    $(RUN) $(CONSOLE) cache:clear --no-warmup
+
+clean:          ## Clean package nodejs
+clean: clean_project
+
+console:        ## Launch Console
+    $(CONSOLE) $(filter-out $@,$(MAKECMDGOALS))
+
+composer:       ## Launch Composer
+    $(APP) composer $(filter-out $@,$(MAKECMDGOALS))
+
+##
+## Dependencies
+##---------------------------------------------------------------------------
+
+deps:           ## Install the project PHP and JS dependencies
+deps: vendor
+
+# Internal rules
+
+up:
+    $(DC) up -d --remove-orphans
+
+warmup:
+    -$(EXEC) rm -rf var/cache/*
+    -$(EXEC) rm -rf var/sessions/*
+    -$(EXEC) rm -rf var/logs/*
+
+vendor: composer.lock
+    @$(RUN) composer install
+
+composer.lock: composer.json
+    @echo compose.lock is not up to date.
+
+app/config/parameters.yml: app/config/parameters.yml.dist
+    @$(RUN) composer run-script post-install-cmd --no-interaction
+
+node_modules: yarn.lock
+    @$(RUN) yarn run assets
+
+yarn:
+    -$(EXEC) npm run yarn:assets
+
+yarn.lock: package.json
+    @echo yarn.lock is not up to date.
+
+%:
+@:</code></pre>
+<p>Vous remarquez qu'il est assez simple d'ajouter de nouvelles tâches.</p>
+<p>Vous pouvez maintenant consulter les tâches disponibles avec la commande:</p>
+<pre><code>$ make</code></pre>
+<p>Vous aurez pour résultat:</p>
+<pre><code class="language-bash"> Setup
+---------------------------------------------------------------------------
+install:         Install and start the project
+host:            Add the application host to your configuration
+
+ Provisioning
+---------------------------------------------------------------------------
+start:           start the project
+stop:            Stop docker containers
+restart:         Restart the whole project
+bash:            Switch to the bash App container of the application
+
+ Cache
+---------------------------------------------------------------------------
+clear:           Remove all the cache, the logs, the sessions and the built assets
+cc:              Clear the cache in dev env
+clean:           Clean package nodejs
+
+ Dependencies
+---------------------------------------------------------------------------
+deps:            Install the project PHP and JS dependencies</code></pre>
+<p>Vous l'aurez compris, maintenant l'installation d'un projet semble simple et rapide, voici en quelques lignes ce que représentent l'installation d'un projet:</p>
+<pre><code>$ git clone git@gitlab.entreprise.com:namespace/project_name.git
+Cloning into 'project_name'...
+remote: Counting objects: 22512, done.
+....
+$ make install
+cd project_name/ && make install
+docker-compose up -d --remove-orphans
+Creating network "project_name_default" with the default driver
+Pulling memcached (memcached:latest)...
+latest: Pulling from library/memcached
+94ed0c431eb5: Pull complete
+...
+7.2-stretch: Pulling from dockerphp/nginx
+...</code></pre>
+<p>Une fois terminée vous pouvez acceder:</p>
+<ul><li>A votre application sur <a href="https://my-app.domain-dev.fr:8080">https://my-app.domain-dev.fr:8080</a></li>
+<li>PhpMyAdmin sur <a href="http://my-app.domain-dev.fr:8081">http://my-app.domain-dev.fr:8081</a></li>
+<li>Mysql sur le port 3301 si vous utilisez MysqlWorkbench.</li>
+</ul><p>Vous en pensez quoi ? Pas mal hein ? :)</p>]]></content>
+    </entry>
+        <entry>
+        <title>Optimiser son CLI PHP en désactivant XDEBUG</title>
+                <id>https://20uf.github.io/2017/08/23/Optimize-PHP-CLI-by-disabling -XDEBUG.html</id>
+                <updated>2017-08-23T00:00:00+02:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2017/08/23/Optimize-PHP-CLI-by-disabling -XDEBUG.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="optimiser-son-cli-php-en-desactivant-xdebug">Optimiser son CLI PHP en désactivant XDEBUG<a href="#optimiser-son-cli-php-en-desactivant-xdebug" class="anchor">#</a></h2>
+<p>Xdebug est un outil incontournable, mais il peut être pénalisant lorsqu'on lance un composer, ou quelconques taches en CLI.</p>
+<p>Jusqu'à aujourd'hui je le gardais activé n'ayant pas de solution lors de mes utilisations du coverage de PHPunit, celui-ci étant requis.</p>
+<p>Bon c'est vrai je n'avais pas spécialement creusé le sujet.. souvent pris par d'autres priorités. Mais maintenant c'est fini ! Je me suis décidé d'arrêter de négliger ce point, xdebug à des effets de ralentissement sur mes pipelines CI.</p>
+<p>Allez on attaque le sujet :)</p>
+<p>On commence par désactiver xdebug en mode CLI:</p>
+<p>Pour PHP5:</p>
+<pre><code>$ php5dismod -s cli xdebug</code></pre>
+<p>Pour PHP7</p>
+<pre><code>$ phpdismod -s cli xdebug</code></pre>
+<p>Et hop déjà on souffle, maintenant il reste à lancer une commande en activant xdebug:</p>
+<pre><code>$ /usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1 <votre commande></code></pre>
+<p>On peut se simplifier la vie avec un alias:</p>
+<pre><code>$ alias php-xdebug='/usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1'</code></pre>
+<p>Je vous conseille d'ajouter directement la ligne ci-dessus dans le <code>.bashrc</code></p>
+<pre><code>$ vim ~/.bashrc</code></pre>
+<p>C'est parfois si simple.. la preuve !</p>
+<pre><code>$ php-xdebug vendor/bin/phpunit --coverage-html build/
+PHPUnit 5.7.21 by Sebastian Bergmann and contributors.
+
+...............................................................  63 / 110 ( 57%)
+...............................................                 110 / 110 (100%)
+
+Time: 7.79 seconds, Memory: 35.75MB
+
+OK (110 tests, 162 assertions)</code></pre>]]></content>
+    </entry>
+        <entry>
+        <title>Déployer Symfony avec jenkins et capifony 2</title>
+                <id>https://20uf.github.io/2016/08/25/Deploiement-with-jenkins-and-capistrano.html</id>
+                <updated>2016-08-25T00:00:00+02:00</updated>
+        <author>
+            <name>Michael COULLERET aka 20uf</name>
+            <email>michael@coulleret.pro</email>
+        </author>
+        <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/08/25/Deploiement-with-jenkins-and-capistrano.html"/>
+        <content type="html" xml:lang="en"><![CDATA[<h2 id="deployer-symfony-avec-jenkins-et-capifony-2">Déployer Symfony avec jenkins et capifony 2<a href="#deployer-symfony-avec-jenkins-et-capifony-2" class="anchor">#</a></h2>
+<blockquote>
+<p>Ce guide n'explique pas comment installer Jenkins, vous devez disposer d'un serveur déjà installé et configuré.</p>
+</blockquote>
+<h4 id="installer-capifony">Installer Capifony<a href="#installer-capifony" class="anchor">#</a></h4>
+<p>Connectez-vous en SSH sur votre serveur Jenkins et installez les dépendances suivantes:</p>
+<blockquote>
+<p>Installons aussi sur notre machine afin de déboguer et tester nos scripts.</p>
+</blockquote>
+<p>Ruby 2:</p>
+<pre><code>sudo apt-add-repository ppa:brightbox/ruby-ng
+sudo apt-get update
+sudo apt-get install ruby2.2 ruby2.2-dev</code></pre>
+<p>Capifony</p>
+<pre><code>gem install capifony
+gem install capistrano-ext</code></pre>
+<p>Il peut être nécessaire d'effectuer des tâches sur le serveur Jenkins, comme par exemple les dépendances bowers.</p>
+<p>Pour cela j'utilise une dépendance capistrano pour effectuer des tâches avant la compression <a href="https://github.com/facile-it/capistrano-strategy-copy-with-triggers">Copy with triggers</a></p>
+<pre><code>gem install 'capistrano-strategy-copy-with-triggers'</code></pre>
+<h4 id="script-de-deploiement">Script de déploiement<a href="#script-de-deploiement" class="anchor">#</a></h4>
+<blockquote>
+<p>La bonne pratique est de créer un dépôt spécifique qui contient vos scripts.</p>
+</blockquote>
+<p>Nous allons ici nous concentrer sur l'environnement de production, vous pourrez reproduire la même procédure pour les autres stagings.
+Créons notre fichier Capfile où nous allons déclarer:</p>
+<ul><li>Le niveau de trace</li>
+<li>Le chemin binaire PHP</li>
+<li>nos différents environnements "staging"</li>
+</ul><p><a href="https://github.com/20uf/deployment-with-capifony/blob/master/Capfile">Fichier Capfile</a></p>
+<pre><code class="language-python">    load 'deploy' if respond_to?(:namespace)
+
+    require 'capifony_symfony2'
+    require 'capistrano-strategy-copy-with-triggers'
+
+    logger.level = Logger::MAX_LEVEL
+
+    # PHP binary path
+    set :php_bin, "/usr/local/php5.6/bin/php"
+
+    # Staging
+    set :stages, %w(production staging testing)
+    set :default_stage, "testing"
+    set :stage_dir, "capifony/stages"
+    require 'capistrano/ext/multistage'</code></pre>
+<p>Créons maintenant notre premier stage pour la production dans le dossier stages/
+Je ne vais pas ici vous détailler les configurations, je vous invite à consulter <a href="http://capifony.org/">le site officiel</a>.</p>
+<p><a href="https://github.com/20uf/deployment-with-capifony/blob/master/stages/production.rb">Fichier production.rb</a></p>
+<pre><code class="language-python">    set :deploy_to, "/path/project/"
+
+    set :branch, "master"
+    set :symfony_env_prod, "prod"
+
+    set :application, "demo-20uf"
+    set :domain, "ssh.cluster.production.tld"
+    set :user, "user-auth"
+
+    set :use_sudo, false
+    set :keep_releases, 2
+
+    role :web, domain
+    role :app, domain, :primary => true
+
+    # Repository
+    set :repository, "ssh://git@your.gitlab.tdl/project/demo.git"
+    set :scm, :git
+    set :deploy_via, :copy_with_triggers
+
+    ## Symfony3 structure
+    set :symfony_console, "bin/console"
+    set :controllers_to_clear, ["app_*.php"]
+    set :shared_files, ["app/config/parameters.yml"]
+    set :use_composer, true
+    set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autoloader'
+    set :composer_dump_autoload_flags, '--optimize'
+    set :update_vendors, false
+    set :copy_vendors, false
+    set :writable_dirs, ["var/cache", "var/logs"]
+    set :webserver_user, "www-data"
+    set :use_set_permissions, true
+    set :dump_assetic_assets, false
+    set :model_manager, "doctrine" # ORM</code></pre>
+<p>Il faut initialiser la structure/ l'arborescence côté serveur, pour cela à partir de la racine où se trouve le capfile:</p>
+<pre><code>cap deploy:setup</code></pre>
+<p>Ajoutons maintenant le fichier de paramètre symfony sur le serveur:</p>
+<pre><code>ssh your_deploy_server
+mkdir -p /path/project/shared/app/config
+vim /path/project/shared/app/config/parameters.yml</code></pre>
+<p>Parfait, vous pouvez maintenant tester en exécutant le déploiement avec la commande:</p>
+<pre><code>cap production deploy</code></pre>
+<p>Ajoutez ces scripts dans un dépôt git, celui-ci sera utilisé dans la prochaine étape.</p>
+<h4 id="tache-jenkins">Tâche Jenkins<a href="#tache-jenkins" class="anchor">#</a></h4>
+<blockquote>
+<p>Les plugins Git plugin ou GitLab Plugin, Branch API Plugin, Git Parameter Plug-In, Active Choices Plug-in est requis sur votre serveur Jenkins.</p>
+</blockquote>
+<p>Nous avons mis en place les scripts, testé en local, tout ça c'est bien, mais allons plus loin en permettant à d'autre de déployer.</p>
+<p>Créons un nouveau Job jenkins free-style.</p>
+<p>Cochez "Ce build a des parametres"
+Ajouter pour nom "stage" et comme description "Staging"
+Cochez "Types de paramètres de base" puis configurez en simple select avec un seul élément visible.
+Mettez comme valeur dans "Choisissez la source pour la valeur" vos environnement séparé d'une virgule, par exemple: testing,staging,production
+Mettez comme valeur dans "Choisissez Source pour la valeur par défaut" l'environnement par défaut, par exemple production.</p>
+<p><img src="https://raw.githubusercontent.com/20uf/deployment-with-capifony/master/assets/build_parameters.png" alt="paramètres"></p>
+<p>Dans la gestion de code source, sélectionnez Git et ajouter le dépôt contenant les scripts précédemment créer.
+Précisez la branche par défaut.</p>
+<p><img src="https://raw.githubusercontent.com/20uf/deployment-with-capifony/master/assets/build_gitlab.png" alt="paramètres"></p>
+<p>Il reste à ajouter le script shell qui va exécuter capifony, selon le paramètre qui sera sélectionné par l'utilisateur.</p>
+<p><a href="https://github.com/20uf/deployment-with-capifony/blob/master/jenkins_build.sh">Build jenkins</a></p>
+<pre><code>    #!/bin/bash
+    # Shell de deploiement
+
+    # Close STDERR FD
+    exec 2<&-
+    # Redirect STDERR to STDOUT
+    exec 2>&1
+
+    MAGENTA="\033[0;35m"
+    COLOREND="\e[0m"
+    BLUE="\e[34m"
+    GREEN="\e[32m"
+
+    echo "-------------------------------------------------------------------------------------------------------------------------------------------"
+    echo -e "$BLUE" ">>> Task execution ${JOB_NAME} stage: ${stage}" "$COLOREND"
+    echo "-------------------------------------------------------------------------------------------------------------------------------------------"
+
+    cap ${stage} deploy
+
+    echo "-------------------------------------------------------------------------------------------------------------------------------------------"
+    echo -e "$BLUE" "End of deployment ${JOB_NAME} `date`" "$COLOREND"
+    echo "-------------------------------------------------------------------------------------------------------------------------------------------"</code></pre>
+<p>Sauvegardez et le tour est joué !</p>
+<h4 id="taches-utiles">Tâches utiles<a href="#taches-utiles" class="anchor">#</a></h4>
+<h4 id="liens-externes">Liens externes:<a href="#liens-externes" class="anchor">#</a></h4>
+<p><a href="http://capifony.org/">Capifony</a>
+<a href="https://github.com/20uf/deployment-with-capifony">Scripts exemples</a>
+<a href="https://jenkins.io/">Jenkins</a></p>]]></content>
+    </entry>
+        <entry>
         <title>Tester le client Guzzle dans les tests unitaires</title>
                 <id>https://20uf.github.io/2016/07/18/Testing-Guzzle-client.html</id>
                 <updated>2016-07-18T00:00:00+02:00</updated>
@@ -122,12 +572,14 @@ Nous passons notre file d'attente au client Guzzle qui se comportera dans de vra
 <h4 id="configuration-requise">Configuration requise<a href="#configuration-requise" class="anchor">#</a></h4>
 <p>Il existe deux paramètres de configuration qui sont nécessaires avant toute utilisation de Git.</p>
 <p>Configurer le nom de l’utilisateur</p>
-<pre><code>git config --global user.name "Michael COULLERET"</code></pre>
+<pre><code>git config --global user.name "Prénom Nom"</code></pre>
 <p>Configurer l’e­mail de l’utilisateur</p>
-<pre><code>git config --global user.email michael@coulleret.pro</code></pre>
+<pre><code>git config --global user.email email@votre.domaine</code></pre>
 <h4 id="les-parametres-configurables">Les paramètres configurables<a href="#les-parametres-configurables" class="anchor">#</a></h4>
 <p>Définir un éditeur de texte par défaut, par exemple vim</p>
 <pre><code>git config --global core.editor vim</code></pre>
+<p>Supprimer automatiquement en local les branches qui sont écrasées sur serveur le central:</p>
+<pre><code>git config --global fetch.prune true</code></pre>
 <h4 id="modele-de-commit">Modèle de commit<a href="#modele-de-commit" class="anchor">#</a></h4>
 <p>Ce paramètre permet de définir un fichier texte comme étant le modèle de vos commits. Ce texte sera
 alors prérempli dans l’éditeur de texte lorsque Git demandera le message de commit. Par exemple, cidessous
@@ -365,17 +817,17 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <ul><li>
 <p>PHP</p>
 <ul><li><a href="https://getcomposer.org/">Composer</a> pour gérer les dépendances</li>
-<li><a href="http://www.phpunit.de">PHPUnit</a> pour écrire mes tests unitaires</li>
-<li><a href="http://www.behat.org">Behat</a> pour écrire mes tests fonctionnels</li>
-<li><a href="http://www.phpmetrics.org">PhpMetrics</a> pour vérifier la qualité de mon code</li>
-<li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP Code Sniffer</a> pour regarder si je respecte bien les conventions de code</li>
+<li><a href="http://www.phpunit.de">PHPUnit</a> pour écrire des tests unitaires</li>
+<li><a href="http://phake.readthedocs.io/en/latest/">Phake</a> un framework complémentaire pour mocker simplement et facilement</li>
+<li><a href="http://www.behat.org">Behat</a> pour écrire des tests fonctionnels</li>
+<li><a href="http://www.phpmetrics.org">PhpMetrics</a> pour vérifier la qualité du code</li>
+<li><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP Code Sniffer</a> pour regarder le respect des conventions de code</li>
 </ul></li>
 <li>
 <p>JavaScript</p>
-<ul><li><a href="http://jasmine.github.io">Jasmine</a></li>
-<li><a href="http://jasmine.github.io">Jasmine Species</a> et <a href="http://www.behat.org">Behat</a> pour écrire mes tests fonctionnels</li>
-<li><a href="https://github.com/es-analysis/plato">Plato</a> pour vérifier la qualité de mon code</li>
-<li><a href="http://www.jslint.com/">JSLint</a> pour regarder si je respecte bien les conventions de code</li>
+<ul><li><a href="http://jasmine.github.io">Jasmine</a> pour écrire mes tests fonctionnels en JS</li>
+<li><a href="https://github.com/es-analysis/plato">Plato</a> pour vérifier la qualité du code</li>
+<li><a href="http://www.jslint.com/">JSLint</a> pour regarder le respect des conventions de code</li>
 <li><a href="https://nodejs.org/">NodeJs</a> est une plateforme de développement Javascript</li>
 <li><a href="http://bower.io/">Bower</a> pour gérer les librairies</li>
 <li><a href="http://gruntjs.com/">GruntJs</a> est un gestionnaire de tâches (automatisation)</li>
@@ -384,7 +836,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <ul><li><a href="http://sass-lang.com/">Sass</a> est un préprocesseur css</li>
 <li><a href="http://compass-style.org/">Compass</a> est un framework css</li>
 </ul></li>
-</ul><p>Les projects incontournables:</p>
+</ul><p>Les incontournables:</p>
 <ul><li><a href="https://symfony.com/">Symfony</a> est un ensemble de composant formant un framework PHP</li>
 <li><a href="http://yeoman.io/">Yeoman</a> est un composant qui va exécuter des générateurs</li>
 </ul>]]></content>
@@ -402,6 +854,8 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <p>Ajouter les dépots dotdeb:</p>
 <pre><code> echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
  wget https://www.dotdeb.org/dotdeb.gpg && apt-key add dotdeb.gpg</code></pre>
+<p>Ou </p>
+<pre><code>apt-get install python-software-properties && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php</code></pre>
 <p>Mettre à jour les dépots</p>
 <pre><code> apt-get update && apt-get upgrade</code></pre>
 <p>Vérification de la présence de php7: </p>
@@ -438,7 +892,7 @@ File > Settings > Editor > Code Style > Inspections > PHP > PHP Code Sniffer val
 <p>par:</p>
 <pre><code>listen = 127.0.0.1:9000</code></pre>
 <p>On installe les modules supplémentaire:</p>
-<pre><code>apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-memcached php7.0-readline php7.0-tidy</code></pre>
+<pre><code>apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-readline php7.0-tidy</code></pre>
 <p>On relance les services:</p>
 <pre><code>service apache2 restart && service php7.0-fpm restart</code></pre>]]></content>
     </entry>

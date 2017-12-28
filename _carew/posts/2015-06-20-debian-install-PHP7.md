@@ -15,6 +15,10 @@ Ajouter les dépots dotdeb:
      echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
      wget https://www.dotdeb.org/dotdeb.gpg && apt-key add dotdeb.gpg
 
+Ou 
+
+    apt-get install python-software-properties && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+
 Mettre à jour les dépots
 
      apt-get update && apt-get upgrade
@@ -81,7 +85,7 @@ par:
 
 On installe les modules supplémentaire:
 
-    apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-memcached php7.0-readline php7.0-tidy
+    apt-get install php7.0-cli php7.0-mysql php7.0-common php7.0-curl php7.0-opcache php7.0-json php-xml php-xdebug php7.0-mbstring libapache2-mod-php7.0 php7.0-dev php7.0-mcrypt php7.0-memcache php7.0-readline php7.0-tidy
 
 On relance les services:
 

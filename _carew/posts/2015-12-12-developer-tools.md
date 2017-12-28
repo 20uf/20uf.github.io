@@ -13,16 +13,16 @@ En tant que développeur, on doit s'assurer de disposer sur son poste de travail
 
 + PHP
     + [Composer](https://getcomposer.org/) pour gérer les dépendances
-    + [PHPUnit](http://www.phpunit.de) pour écrire mes tests unitaires
-    + [Behat](http://www.behat.org) pour écrire mes tests fonctionnels
-    + [PhpMetrics](http://www.phpmetrics.org) pour vérifier la qualité de mon code
-    + [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) pour regarder si je respecte bien les conventions de code
+    + [PHPUnit](http://www.phpunit.de) pour écrire des tests unitaires
+    + [Phake](http://phake.readthedocs.io/en/latest/) un framework complémentaire pour mocker simplement et facilement
+    + [Behat](http://www.behat.org) pour écrire des tests fonctionnels
+    + [PhpMetrics](http://www.phpmetrics.org) pour vérifier la qualité du code
+    + [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) pour regarder le respect des conventions de code
 
 + JavaScript
-    + [Jasmine](http://jasmine.github.io)
-    + [Jasmine Species](http://jasmine.github.io) et [Behat](http://www.behat.org) pour écrire mes tests fonctionnels
-    + [Plato](https://github.com/es-analysis/plato) pour vérifier la qualité de mon code
-    + [JSLint](http://www.jslint.com/) pour regarder si je respecte bien les conventions de code
+    + [Jasmine](http://jasmine.github.io) pour écrire mes tests fonctionnels en JS
+    + [Plato](https://github.com/es-analysis/plato) pour vérifier la qualité du code
+    + [JSLint](http://www.jslint.com/) pour regarder le respect des conventions de code
     + [NodeJs](https://nodejs.org/) est une plateforme de développement Javascript
     + [Bower](http://bower.io/) pour gérer les librairies
     + [GruntJs](http://gruntjs.com/) est un gestionnaire de tâches (automatisation)
@@ -32,7 +32,7 @@ En tant que développeur, on doit s'assurer de disposer sur son poste de travail
     + [Compass](http://compass-style.org/) est un framework css
 
 
-Les projects incontournables:
+Les incontournables:
 
 + [Symfony](https://symfony.com/) est un ensemble de composant formant un framework PHP
 + [Yeoman](http://yeoman.io/) est un composant qui va exécuter des générateurs

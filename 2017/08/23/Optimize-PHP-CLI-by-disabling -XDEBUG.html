@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Michael COULLERET aka 20uf">
+        <meta name="robots" content="noindex">
+
+        <title>Michael COULLERET aka 20uf Optimiser son CLI PHP en désactivant XDEBUG</title>
+
+        <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
+        <link href="/css/theme.css" rel="stylesheet">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link href="//file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+    
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="https://www.coulleret.pro">Michael COULLERET aka 20uf</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="https://www.coulleret.pro">Qui suis-je ?</a>
+                        </li>
+                                                                                                                        <li>
+                                        <a href="../../../index.html">
+                                            Blog
+                                        </a>
+                                    </li>
+                                                                                                        </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header>
+            <div class="container">
+                <div class="row">
+                    <img class="img-responsive img-circle photo col-lg-2" src="https://20uf.github.io/img/mc.png" alt="">
+                    <div class="col-lg-10 intro-text">
+                        <p class="skills">Architecte PHP</p>
+                        <p>Symfony confirmé et Zend Certified PHP Engineer</p>
+                        <ul class="list-inline">
+                            <li>
+                                <a href="http://fr.viadeo.com/fr/profile/michael.coulleret" class="btn-social btn-outline" target="_blank"><i class="fa fa-viadeo" aria-hidden="true"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://fr.linkedin.com/in/michael-coulleret-250668b5" class="btn-social btn-outline" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/Mike20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/20uf" class="btn-social btn-outline" target="_blank"><i class="fa fa-github-alt" aria-hidden="true"></i></a>
+                            </li>
+                        </ul>
+                        <hr class="star-light">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+                <section class="container content">
+                                                <h1></h1>
+                            
+              <article>
+    <p class="text-muted">
+      <span class="glyphicon glyphicon-calendar"></span>
+      23 Aug 2017
+    </p>
+
+    <div class="body">
+      <h2 id="optimiser-son-cli-php-en-desactivant-xdebug">Optimiser son CLI PHP en désactivant XDEBUG<a href="#optimiser-son-cli-php-en-desactivant-xdebug" class="anchor">#</a></h2>
+<p>Xdebug est un outil incontournable, mais il peut être pénalisant lorsqu'on lance un composer, ou quelconques taches en CLI.</p>
+<p>Jusqu'à aujourd'hui je le gardais activé n'ayant pas de solution lors de mes utilisations du coverage de PHPunit, celui-ci étant requis.</p>
+<p>Bon c'est vrai je n'avais pas spécialement creusé le sujet.. souvent pris par d'autres priorités. Mais maintenant c'est fini ! Je me suis décidé d'arrêter de négliger ce point, xdebug à des effets de ralentissement sur mes pipelines CI.</p>
+<p>Allez on attaque le sujet :)</p>
+<p>On commence par désactiver xdebug en mode CLI:</p>
+<p>Pour PHP5:</p>
+<pre><code>$ php5dismod -s cli xdebug</code></pre>
+<p>Pour PHP7</p>
+<pre><code>$ phpdismod -s cli xdebug</code></pre>
+<p>Et hop déjà on souffle, maintenant il reste à lancer une commande en activant xdebug:</p>
+<pre><code>$ /usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1 <votre commande></code></pre>
+<p>On peut se simplifier la vie avec un alias:</p>
+<pre><code>$ alias php-xdebug='/usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1'</code></pre>
+<p>Je vous conseille d'ajouter directement la ligne ci-dessus dans le <code>.bashrc</code></p>
+<pre><code>$ vim ~/.bashrc</code></pre>
+<p>C'est parfois si simple.. la preuve !</p>
+<pre><code>$ php-xdebug vendor/bin/phpunit --coverage-html build/
+PHPUnit 5.7.21 by Sebastian Bergmann and contributors.
+
+...............................................................  63 / 110 ( 57%)
+...............................................                 110 / 110 (100%)
+
+Time: 7.79 seconds, Memory: 35.75MB
+
+OK (110 tests, 162 assertions)</code></pre>
+    </div>
+
+          <hr>
+      <h4><span class="glyphicon glyphicon-tags"></span>&nbsp;
+                    <a href="../../../tags/php-cli.html"><span class="label label-primary">Php Cli</span></a>
+                    <a href="../../../tags/xdebug.html"><span class="label label-primary">Xdebug</span></a>
+                    <a href="../../../tags/performance.html"><span class="label label-primary">Performance</span></a>
+              </h4>
+      </article>
+        </section>
+        
+                            <footer class="container row footer-above text-center">
+                <div class="row footer-below">
+                    <div class="col-lg-12">
+                        Copyright &copy; COULLERET Michael 2016. <small>Theme by Start Bootstrap & propulsé par <a href="http://carew.github.com/" target="_blank">Carew</a></small>
+                    </div>
+                </div>
+            </footer>
+        
+
+        <script src="https://use.fontawesome.com/1cb4261d3b.js"></script>
+    </body>
+</html>
