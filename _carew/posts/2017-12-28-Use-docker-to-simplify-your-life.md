@@ -14,24 +14,24 @@ Utilisez docker pour simplifier votre vie!
 
 Dans le cadre de mes projets j'ai été confronté à ce que chacun de mes développeurs se retrouvent avec des configurations différentes sur leur poste de travail. 
 
-Selon les projets cette pratique peut être problématique, par exemple nous avons application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du [SSO].
+Selon les projets cette pratique peut être problématique, par exemple nous avons application centrale qui permet l'authentification entre plusieurs produits et qui exploitent du [SSO](https://fr.wikipedia.org/wiki/Authentification_unique).
 La contrainte principale est le partage de session, les vhosts doivent être identiques ainsi que la configuration applicative.
 
 A mon sens ça rend le projet complexe, il faut comprendre comment fonctionne le produit et les techniques utilisées, il faut appréhender et cela prend du temps.
 
-La mise en oeuvre de [Docker] nous apporte les avantages suivants:
+La mise en oeuvre de [Docker](https://www.docker.com/) nous apporte les avantages suivants:
 * L'installation d'un projet ne prend que quelque minutes, prêt au developpement.
 * La stack entre chaque développeurs est ISO
 * Le poste du développeur néccessite que cinq outils:
-    * [Docker]
-    * [Docker-compose]
-    * [Git]
-    * [Make]
-    * Un IDE
+    * [Docker](https://www.docker.com/)
+    * [Docker-compose](https://docs.docker.com/compose/)
+    * [Git](https://git-scm.com/)
+    * [Make](https://www.gnu.org/software/make/)
+    * [Un IDE](https://www.jetbrains.com/phpstorm/)
 
 #### Quelle approche aborder ?
 
-La philosophie de [Docker] est de lancer un processus par conteneur. 
+La philosophie de [Docker](https://www.docker.com/) est de lancer un processus par conteneur. 
 
 En tant que développeur je préfère avoir une approche différente, par services.
 
@@ -44,7 +44,7 @@ Mon objectif est de s'approcher au maximum de cet environnement.
 
 ![Silo](/img/1_silo_docker.png)
 
-Pour cela je vais utiliser [Docker-compose] et [Make] pour simplifier la gestion:
+Pour cela je vais utiliser [Docker-compose](https://docs.docker.com/compose/) et [Make](https://www.gnu.org/software/make/) pour simplifier la gestion:
 - Installer le projet
 - Lancer les containers
 - Arrêter les containers
@@ -54,31 +54,31 @@ Ma pratique est d'avoir un package `Docker` à la racine de mes projets, on peut
  
 Cependant je préfère construire mes images en amont afin d'économiser le temps de construction à chaque installation. 
 
-Nous avons (mon équipe) créé un dépôt [PHPDocker] qui contient une série d'images, cela nous permet de pouvoir switcher facilement et simplement sur l'une d'elle.
+Nous avons (mon équipe) créé un dépôt [docker-php-nginx](https://github.com/OsLab/docker-php-nginx) qui contient une série d'images, cela nous permet de pouvoir switcher facilement et simplement sur l'une d'elle.
 Ces images représentes la partie serveur web avec son langage (PHP) et des configurations adaptées à nos besoins.
-
-Dépot officiel: https://github.com/OsLab/docker-php-nginx
 
 Voici la liste des images actuellement disponibles sous Debian Stetch (9):
 
 PHP 7.2:
-* dockerphp/nginx:7.2-stretch 
+```yaml
+  dockerphp/nginx:7.2-stretch 
+```
 
 PHP 7.1:
 ```yaml
-* dockerphp/nginx:7.1-stretch
+  dockerphp/nginx:7.1-stretch
 ```
 PHP 7.0:
 ```yaml
-* dockerphp/nginx:7.0-stretch
+  dockerphp/nginx:7.0-stretch
 ```
 
 Il existe une version PHP 5.6 sous debian Jessie (8):
 ```yaml
-* dockerphp/nginx:5.6-jessie
+  dockerphp/nginx:5.6-jessie
 ```
 
-> Des Alpines seront prochainement ajoutées.
+> Des images Alpines seront prochainement ajoutées.
  
 #### Mise en place du Silo
 
@@ -86,7 +86,7 @@ Nos produits sont développés sous Symfony, nos exemples sont donc basés dessu
 
 Notre fichier docker `docker-compose.yml` se trouvant à la racine du projet.
 
-Je vous invite à consulter la [documentation officielle][docker-compose-refs] concernant l'utilisation et les références.
+Je vous invite à consulter la [documentation officielle](https://docs.docker.com/compose/compose-file/) concernant l'utilisation et les références.
 
 ```yaml
 version: "2"
@@ -325,7 +325,7 @@ services:
             - .:/app
             - ./docker/nginx.conf:/etc/nginx/nginx.conf
             - ./docker/php.ini:/etc/php5/fpm/php.ini
-```yaml
+```
 
 Rappelez-vous nous avions décidé en début de cet article créer un package `docker` à la racine de notre projet, nous allons y placer deux fichiers:
 * php.ini
@@ -371,15 +371,10 @@ error_log /dev/stdout info;
 
 events {
     worker_connections 1024;
-    # multi_accept on;
 }
 
 http {
     access_log /dev/stdout;
-
-    ##
-    # Basic Settings
-    ##
 
     sendfile on;
     tcp_nopush on;
@@ -431,14 +426,6 @@ http {
 
 Pensez a relancer vos conteneurs pour que les modifications prennent effets.
 
-Vous en pensez quoi ? Pas mal hein ? :)
 
-[SSO]: https://fr.wikipedia.org/wiki/Authentification_unique
-[Docker]: https://www.docker.com/
-[Docker-compose]: https://docs.docker.com/compose/
-[Make]: https://www.gnu.org/software/make/
-[PHPDocker]: https://github.com/php-docker/nginx
-[Hyper V]: https://fr.wikipedia.org/wiki/Hyper-V
-[docker-compose-refs]: https://docs.docker.com/compose/compose-file/
-[Git]: https://git-scm.com/
-[Make]: https://www.gnu.org/software/make/
+
+Vous en pensez quoi ? Pas mal hein ? :)

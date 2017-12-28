@@ -10,11 +10,13 @@ tags:
 Optimiser son CLI PHP en désactivant XDEBUG
 -------------------------------------------
 
-Xdebug est un outil incontournable, mais il peut être pénalisant lorsqu'on lance un composer, ou quelconques taches en CLI.
+[Xdebug](https://xdebug.org/) est un outil incontournable, mais il peut être pénalisant lorsqu'on lance un composer, ou quelconques taches en CLI.
 
 Jusqu'à aujourd'hui je le gardais activé n'ayant pas de solution lors de mes utilisations du coverage de PHPunit, celui-ci étant requis.
 
-Bon c'est vrai je n'avais pas spécialement creusé le sujet.. souvent pris par d'autres priorités. Mais maintenant c'est fini ! Je me suis décidé d'arrêter de négliger ce point, xdebug à des effets de ralentissement sur mes pipelines CI.
+Bon c'est vrai je n'avais pas spécialement creusé le sujet.. souvent pris par d'autres priorités. 
+
+Mais maintenant c'est fini ! Je me suis décidé d'arrêter de négliger ce point, xdebug à des effets de ralentissement sur mes pipelines CI.
 
 Allez on attaque le sujet :)
 

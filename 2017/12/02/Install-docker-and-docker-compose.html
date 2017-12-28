@@ -8,7 +8,7 @@
         <meta name="author" content="Michael COULLERET aka 20uf">
         <meta name="robots" content="noindex">
 
-        <title>Michael COULLERET aka 20uf Optimiser son CLI PHP en désactivant XDEBUG</title>
+        <title>Michael COULLERET aka 20uf Installer Docker et Docker-Compose</title>
 
         <link href="/css/bootstrap.mco.min.css" rel="stylesheet">
         <link href="/css/theme.css" rel="stylesheet">
@@ -81,44 +81,64 @@
               <article>
     <p class="text-muted">
       <span class="glyphicon glyphicon-calendar"></span>
-      23 Aug 2017
+      02 Dec 2017
     </p>
 
     <div class="body">
-      <h2 id="optimiser-son-cli-php-en-desactivant-xdebug">Optimiser son CLI PHP en d&eacute;sactivant XDEBUG<a href="#optimiser-son-cli-php-en-desactivant-xdebug" class="anchor">#</a></h2>
-<p><a href="https://xdebug.org/">Xdebug</a> est un outil incontournable, mais il peut &ecirc;tre p&eacute;nalisant lorsqu'on lance un composer, ou quelconques taches en CLI.</p>
-<p>Jusqu'&agrave; aujourd'hui je le gardais activ&eacute; n'ayant pas de solution lors de mes utilisations du coverage de PHPunit, celui-ci &eacute;tant requis.</p>
-<p>Bon c'est vrai je n'avais pas sp&eacute;cialement creus&eacute; le sujet.. souvent pris par d'autres priorit&eacute;s. </p>
-<p>Mais maintenant c'est fini ! Je me suis d&eacute;cid&eacute; d'arr&ecirc;ter de n&eacute;gliger ce point, xdebug &agrave; des effets de ralentissement sur mes pipelines CI.</p>
-<p>Allez on attaque le sujet :)</p>
-<p>On commence par d&eacute;sactiver xdebug en mode CLI:</p>
-<p>Pour PHP5:</p>
-<pre><code>$ php5dismod -s cli xdebug</code></pre>
-<p>Pour PHP7</p>
-<pre><code>$ phpdismod -s cli xdebug</code></pre>
-<p>Et hop d&eacute;j&agrave; on souffle, maintenant il reste &agrave; lancer une commande en activant xdebug:</p>
-<pre><code>$ /usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1 &lt;votre commande&gt;</code></pre>
-<p>On peut se simplifier la vie avec un alias:</p>
-<pre><code>$ alias php-xdebug='/usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1'</code></pre>
-<p>Je vous conseille d'ajouter directement la ligne ci-dessus dans le <code>.bashrc</code></p>
-<pre><code>$ vim ~/.bashrc</code></pre>
-<p>C'est parfois si simple.. la preuve !</p>
-<pre><code>$ php-xdebug vendor/bin/phpunit --coverage-html build/
-PHPUnit 5.7.21 by Sebastian Bergmann and contributors.
+      <h2 id="installation-de-docker-et-docker-compose">Installation de docker et docker-compose<a href="#installation-de-docker-et-docker-compose" class="anchor">#</a></h2>
+<p>Petit cheatsheet pour l'installation de Docker sur Mint ou Ubuntu xenial.</p>
+<p>On ajoute la clef et le d&eacute;p&ocirc;t:</p>
+<pre><code>$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+$ sudo su
+* apt-key fingerprint 0EBFCD88
+$ add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"</code></pre>
+<p>On met &agrave; jour.</p>
+<pre><code>$ apt update</code></pre>
+<p>On recherche le paquets <code>docker-ce</code>.</p>
+<pre><code>$ apt-cache madison docker-ce</code></pre>
+<pre><code class="language-bash">    docker-ce | 17.12.0~ce-0~ubuntu | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages
+    docker-ce | 17.09.1~ce-0~ubuntu | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages
+    docker-ce | 17.09.0~ce-0~ubuntu | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages
+    docker-ce | 17.06.2~ce-0~ubuntu | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages
+    docker-ce | 17.06.1~ce-0~ubuntu | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages
+    docker-ce | 17.06.0~ce-0~ubuntu | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages
+    docker-ce | 17.03.2~ce-0~ubuntu-xenial | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages
+    docker-ce | 17.03.1~ce-0~ubuntu-xenial | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages
+    docker-ce | 17.03.0~ce-0~ubuntu-xenial | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages</code></pre>
+<p>On installe la derni&egrave;re version.</p>
+<pre><code>$ apt-get update docker-ce=17.12.0~ce-0~ubuntu</code></pre>
+<p>On v&eacute;rifie que l'installation est correcte.</p>
+<pre><code>$ docker version</code></pre>
+<pre><code class="language-bash">Client:
+ Version:   17.12.0-ce
+ API version:   1.35
+ Go version:    go1.9.2
+ Git commit:    c97c6d6
+ Built: Wed Dec 27 20:11:19 2017
+ OS/Arch:   linux/amd64
 
-...............................................................  63 / 110 ( 57%)
-...............................................                 110 / 110 (100%)
-
-Time: 7.79 seconds, Memory: 35.75MB
-
-OK (110 tests, 162 assertions)</code></pre>
+Server:
+ Engine:
+  Version:  17.12.0-ce
+  API version:  1.35 (minimum version 1.12)
+  Go version:   go1.9.2
+  Git commit:   c97c6d6
+  Built:    Wed Dec 27 20:09:53 2017
+  OS/Arch:  linux/amd64
+  Experimental: false</code></pre>
+<p>On installe Docker-compose</p>
+<pre><code>$ apt install docker-compose</code></pre>
+<pre><code class="language-bash">    docker-compose version 1.8.0, build unknown
+    docker-py version: 1.9.0
+    CPython version: 2.7.12
+    OpenSSL version: OpenSSL 1.0.2k  26 Jan 2017</code></pre>
     </div>
 
           <hr>
       <h4><span class="glyphicon glyphicon-tags"></span>&nbsp;
-                    <a href="../../../tags/php-cli.html"><span class="label label-primary">Php Cli</span></a>
-                    <a href="../../../tags/xdebug.html"><span class="label label-primary">Xdebug</span></a>
-                    <a href="../../../tags/performance.html"><span class="label label-primary">Performance</span></a>
+                    <a href="../../../tags/docker.html"><span class="label label-primary">Docker</span></a>
+                    <a href="../../../tags/docker-compose.html"><span class="label label-primary">Docker-Compose</span></a>
+                    <a href="../../../tags/installation.html"><span class="label label-primary">Installation</span></a>
               </h4>
       </article>
         </section>
