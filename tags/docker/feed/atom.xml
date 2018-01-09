@@ -128,7 +128,6 @@ _ On d&eacute;clare avec la variable d'environnement <code>MYSQL_ROOT_PASSWORD</
 </ul><p>Nous allons maintenant cr&eacute;er un fichier <code>Makefile</code> &agrave; la racine du projet, celui-ci va nous simplifier la vie pour manipuler les containers.</p>
 <pre><code class="language-bash"># Do not change
 DC=docker-compose
-RUN=$(DC) run --rm app
 EXEC=$(DC) exec app
 CONSOLE=bin/console
 
@@ -162,7 +161,7 @@ restart:        ## Restart the whole project
 restart: stop start warmup
 
 bash:           ## Switch to the bash container of the application
-    @$(RUN) bash
+    @$(EXEC) bash
 
 ##
 ## Symfony
@@ -172,7 +171,7 @@ clear: warmup
 
 cc:             ## Clear the cache in dev env
 cc:
-    $(RUN) $(CONSOLE) cache:clear --no-warmup
+    $(EXEC) $(CONSOLE) cache:clear --no-warmup
 
 clean:          ## Clean package nodejs
 clean: clean_project
@@ -181,7 +180,7 @@ console:        ## Launch Console
     $(CONSOLE) $(filter-out $@,$(MAKECMDGOALS))
 
 composer:       ## Launch Composer
-    $(APP) composer $(filter-out $@,$(MAKECMDGOALS))
+    $(EXEC) composer $(filter-out $@,$(MAKECMDGOALS))
 
 ##
 ## Dependencies
@@ -195,19 +194,14 @@ deps: vendor
 up:
     $(DC) up -d --remove-orphans
 
-warmup:
-    -$(EXEC) rm -rf var/cache/*
-    -$(EXEC) rm -rf var/sessions/*
-    -$(EXEC) rm -rf var/logs/*
-
 vendor: composer.lock
-    @$(RUN) composer install
+    @$(EXEC) composer install
 
 composer.lock: composer.json
     @echo compose.lock is not up to date.
 
 app/config/parameters.yml: app/config/parameters.yml.dist
-    @$(RUN) composer run-script post-install-cmd --no-interaction
+    @$(EXEC) composer run-script post-install-cmd --no-interaction
 
 node_modules: yarn.lock
     @$(RUN) yarn run assets
@@ -788,44 +782,6 @@ Le principe YAGNI est de d&eacute;velopper uniquement la fonctionnalit&eacute; d
 <h3 id="kiss-keep-it-simple-stupid">KISS (Keep it simple, stupid)<a href="#kiss-keep-it-simple-stupid" class="anchor">#</a></h3>
 <p>Ne complique pas les choses. Ou garde &ccedil;a simple, idiot.
 Ce principe est tr&egrave;s proche de celui de YAGNI, une fonctionnalit&eacute; ne n&eacute;cessite pas forcement une complexit&eacute; &eacute;lev&eacute;e, si par exemple l'utilisation d'un design pattern n'est pas requis pour le besoin, le principe KISS incite &agrave; &eacute;crire un code simple et stupide.</p>]]></content>
-    </entry>
-        <entry>
-        <title>Optimisez votre front avec Symfony</title>
-                <id>https://20uf.github.io/2016/05/09/optimize-front-with-symfony-(in-progress).html</id>
-                <updated>2016-05-09T00:00:00+02:00</updated>
-        <author>
-            <name>Michael COULLERET aka 20uf</name>
-            <email>michael@coulleret.pro</email>
-        </author>
-        <link rel="alternate" type="text/html" href="https://20uf.github.io/2016/05/09/optimize-front-with-symfony-(in-progress).html"/>
-        <content type="html" xml:lang="en"><![CDATA[<h2 id="optimisez-votre-front-avec-symfony">Optimisez votre front avec Symfony<a href="#optimisez-votre-front-avec-symfony" class="anchor">#</a></h2>
-<p>Il faut installer uglify-js</p>
-<pre><code>npm install uglify-js -g</code></pre>
-<p>Ainsi que uglifycss:</p>
-<pre><code>npm install uglifycss -g</code></pre>
-<p>Dans votre fichier de configuration config.yml</p>
-<pre><code>assetic:
-    debug:          "%kernel.debug%"
-    use_controller: '%kernel.debug%'
-    bundles:        [ AppBundle ]
-    ruby: /usr/local/bin/ruby
-    filters:
-        cssrewrite: ~
-        sass:
-            bin: /usr/local/bin/sass
-        compass:
-            bin: /usr/local/bin/compass
-            cache_location: '%kernel.cache_dir%'
-        uglifyjs:
-            bin: /usr/bin/uglifyjs
-        uglifycss:
-            bin: /usr/bin/uglifycss</code></pre>
-<ul><li>Documentations:
-<ul><li><a href="http://symfony.com/doc/current/best_practices/web-assets.html">http://symfony.com/doc/current/best_practices/web-assets.html</a></li>
-<li><a href="http://symfony.com/doc/current/cookbook/assetic/uglifyjs.html">http://symfony.com/doc/current/cookbook/assetic/uglifyjs.html</a></li>
-<li><a href="http://symfony.com/doc/current/cookbook/assetic/uglifyjs.html">http://symfony.com/doc/current/cookbook/assetic/uglifyjs.html</a></li>
-</ul></li>
-</ul>]]></content>
     </entry>
         <entry>
         <title>Se simplifier la vie avec vos clefs ssh</title>

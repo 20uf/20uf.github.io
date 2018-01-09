@@ -161,7 +161,6 @@ Nous allons maintenant créer un fichier `Makefile` à la racine du projet, celu
 ```bash
 # Do not change
 DC=docker-compose
-RUN=$(DC) run --rm app
 EXEC=$(DC) exec app
 CONSOLE=bin/console
 
@@ -195,7 +194,7 @@ restart:        ## Restart the whole project
 restart: stop start warmup
 
 bash:           ## Switch to the bash container of the application
-	@$(RUN) bash
+	@$(EXEC) bash
 
 ##
 ## Symfony
@@ -205,7 +204,7 @@ clear: warmup
 
 cc:             ## Clear the cache in dev env
 cc:
-	$(RUN) $(CONSOLE) cache:clear --no-warmup
+	$(EXEC) $(CONSOLE) cache:clear --no-warmup
 
 clean:          ## Clean package nodejs
 clean: clean_project
@@ -214,7 +213,7 @@ console:        ## Launch Console
 	$(CONSOLE) $(filter-out $@,$(MAKECMDGOALS))
 
 composer:       ## Launch Composer
-	$(APP) composer $(filter-out $@,$(MAKECMDGOALS))
+	$(EXEC) composer $(filter-out $@,$(MAKECMDGOALS))
 
 ##
 ## Dependencies
@@ -228,19 +227,14 @@ deps: vendor
 up:
 	$(DC) up -d --remove-orphans
 
-warmup:
-	-$(EXEC) rm -rf var/cache/*
-	-$(EXEC) rm -rf var/sessions/*
-	-$(EXEC) rm -rf var/logs/*
-
 vendor: composer.lock
-	@$(RUN) composer install
+	@$(EXEC) composer install
 
 composer.lock: composer.json
 	@echo compose.lock is not up to date.
 
 app/config/parameters.yml: app/config/parameters.yml.dist
-	@$(RUN) composer run-script post-install-cmd --no-interaction
+	@$(EXEC) composer run-script post-install-cmd --no-interaction
 
 node_modules: yarn.lock
 	@$(RUN) yarn run assets
